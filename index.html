@@ -2,15 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
 <meta name="theme-color" content="#0f1720">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Bill Ledger">
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Bill Ledger"
+>
 
 <title>Bill Ledger</title>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
@@ -18,8 +36,10 @@
   --panel:#161f29;
   --panel-2:#1c2733;
   --hairline:rgba(232,230,223,0.09);
+
   --text:#e8e6df;
   --text-dim:#8fa0ab;
+
   --brass:#c9a15f;
   --teal:#5fa88f;
   --amber:#e0a458;
@@ -33,24 +53,41 @@
 
 body{
   margin:0;
+
   background:var(--ink);
   color:var(--text);
-  font-family:'IBM Plex Sans',sans-serif;
+
+  font-family:
+    'IBM Plex Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
   padding:
     calc(20px + env(safe-area-inset-top))
     16px
     calc(60px + env(safe-area-inset-bottom));
+
   min-height:100vh;
 }
 
 .mono{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
 }
 
-h1,h2{
-  font-family:'Fraunces',serif;
+h1{
   margin:0;
+
+  font-family:
+    'Fraunces',
+    serif;
+
+  font-size:26px;
   font-weight:600;
+
+  letter-spacing:-0.01em;
 }
 
 header{
@@ -58,125 +95,216 @@ header{
 }
 
 .eyebrow{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--brass);
-  margin-bottom:6px;
-}
+  font-family:
+    'IBM Plex Mono',
+    monospace;
 
-h1{
-  font-size:26px;
-  letter-spacing:-.01em;
+  font-size:11px;
+
+  letter-spacing:0.14em;
+
+  text-transform:uppercase;
+
+  color:var(--brass);
+
+  margin-bottom:6px;
 }
 
 .date-line{
   color:var(--text-dim);
+
   font-size:13px;
+
   margin-top:4px;
 }
 
+
+
+/* ================================
+   COUNTDOWN
+   ================================ */
+
 .countdown-card{
   background:var(--panel);
-  border:1px solid var(--hairline);
+
+  border:
+    1px solid
+    var(--hairline);
+
   border-radius:12px;
-  padding:16px 15px;
-  margin:14px 0 20px;
+
+  padding:
+    16px 15px;
+
+  margin:
+    14px 0 20px;
 }
 
 .countdown-label{
   font-size:11px;
-  letter-spacing:.10em;
+
+  letter-spacing:0.10em;
+
   text-transform:uppercase;
+
   color:var(--text-dim);
 }
 
 .countdown-main{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   color:var(--brass);
+
   font-size:25px;
+
   font-weight:600;
+
   margin-top:6px;
 }
 
 .countdown-sub{
   color:var(--text-dim);
+
   font-size:12.5px;
+
   margin-top:6px;
+
   line-height:1.5;
 }
 
+
+
+/* ================================
+   NEXT PAYMENT TICKET
+   ================================ */
+
 .stub{
   position:relative;
+
   background:var(--panel-2);
+
   border-radius:14px;
-  padding:20px 18px 22px;
-  margin:20px 0 24px;
-  border:1px solid var(--hairline);
+
+  padding:
+    20px 18px 22px;
+
+  margin:
+    20px 0 24px;
+
+  border:
+    1px solid
+    var(--hairline);
 }
 
 .stub::after{
   content:"";
+
   position:absolute;
+
   left:0;
   right:0;
+
   bottom:-9px;
+
   height:18px;
+
   background-image:
     radial-gradient(
       circle 9px,
       var(--ink) 9px,
       transparent 10px
     );
-  background-size:22px 18px;
-  background-position:-4px 0;
-  background-repeat:repeat-x;
+
+  background-size:
+    22px 18px;
+
+  background-position:
+    -4px 0;
+
+  background-repeat:
+    repeat-x;
 }
 
 .stub-label{
   font-size:11px;
-  letter-spacing:.12em;
+
+  letter-spacing:0.12em;
+
   text-transform:uppercase;
+
   color:var(--text-dim);
+
   margin-bottom:10px;
 }
 
 .stub-title{
+  font-family:
+    'Fraunces',
+    serif;
+
   font-size:20px;
-  font-family:'Fraunces',serif;
+
   font-weight:600;
 }
 
 .stub-row{
   display:flex;
-  justify-content:space-between;
-  align-items:baseline;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    baseline;
+
   gap:10px;
+
   flex-wrap:wrap;
+
   margin-top:14px;
 }
 
 .stub-amount{
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:28px;
-  font-family:'IBM Plex Mono',monospace;
+
   color:var(--brass);
+
   font-weight:600;
 }
 
 .stub-days{
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:13px;
-  padding:4px 10px;
+
+  padding:
+    4px 10px;
+
   border-radius:20px;
-  font-family:'IBM Plex Mono',monospace;
 }
 
 .stub-note{
   color:var(--text-dim);
+
   font-size:12.5px;
+
   margin-top:10px;
+
   line-height:1.5;
 }
+
+
+
+/* ================================
+   SECTIONS
+   ================================ */
 
 section{
   margin-bottom:28px;
@@ -184,203 +312,367 @@ section{
 
 .section-title{
   font-size:13px;
-  letter-spacing:.08em;
+
+  letter-spacing:0.08em;
+
   text-transform:uppercase;
+
   color:var(--text-dim);
+
   margin-bottom:10px;
+
   font-weight:600;
 }
 
-.bill{
-  display:flex;
-  align-items:center;
-  gap:12px;
+
+
+/* ================================
+   PAYMENT CARDS
+   ================================ */
+
+.payment-group{
   background:var(--panel);
+
   border-radius:10px;
-  padding:13px 14px;
-  margin-bottom:8px;
-  border-left:3px solid var(--hairline);
+
+  margin-bottom:10px;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    var(--hairline);
 }
 
-.bill.due-soon{
-  border-left-color:var(--amber);
-}
-
-.bill.urgent{
-  border-left-color:var(--rust);
-}
-
-.bill.paid{
-  opacity:.45;
-}
-
-.bill-check{
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  border:1.5px solid var(--text-dim);
-  flex-shrink:0;
+.payment-group-head{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
+
+  justify-content:
+    space-between;
+
+  gap:10px;
+
+  padding:
+    12px 14px;
+
+  background:
+    var(--panel-2);
+
+  border-bottom:
+    1px solid
+    var(--hairline);
 }
 
-.bill.paid .bill-check{
-  background:var(--teal);
-  border-color:var(--teal);
-  color:var(--ink);
-}
+.payment-group-date{
+  font-family:
+    'IBM Plex Mono',
+    monospace;
 
-.bill-info{
-  flex:1;
-  min-width:0;
-}
+  font-size:13px;
 
-.bill-name{
-  font-size:14.5px;
-  font-weight:500;
-}
-
-.bill-meta{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:2px;
-}
-
-.bill-right{
-  text-align:right;
-  flex-shrink:0;
-}
-
-.bill-amount{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:15px;
   color:var(--brass);
 }
 
-.bill-when{
-  font-size:11px;
+.payment-group-income{
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
+  font-size:13px;
+}
+
+.payment-source{
+  padding:
+    7px 14px 9px;
+
   color:var(--text-dim);
+
+  font-size:11.5px;
+
+  background:
+    var(--panel-2);
+}
+
+.payment-row{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  padding:
+    12px 14px;
+
+  border-bottom:
+    1px solid
+    var(--hairline);
+}
+
+.payment-row:last-child{
+  border-bottom:0;
+}
+
+.payment-check{
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  border:
+    1.5px solid
+    var(--text-dim);
+
+  flex-shrink:0;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:12px;
+}
+
+.payment-row.paid{
+  opacity:0.42;
+}
+
+.payment-row.paid
+.payment-check{
+  background:
+    var(--teal);
+
+  border-color:
+    var(--teal);
+
+  color:
+    var(--ink);
+}
+
+.payment-info{
+  flex:1;
+
+  min-width:0;
+}
+
+.payment-name{
+  font-size:14.5px;
+
+  font-weight:500;
+}
+
+.payment-meta{
+  font-size:11.5px;
+
+  color:var(--text-dim);
+
   margin-top:2px;
 }
 
+.payment-amount{
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
+  font-size:15px;
+
+  color:var(--brass);
+}
+
+
+
+/* ================================
+   PAYDAY CARDS
+   ================================ */
+
 .paycheck-card{
   background:var(--panel);
+
   border-radius:10px;
+
   padding:14px;
+
   margin-bottom:8px;
-  border:1px solid var(--hairline);
+
+  border:
+    1px solid
+    var(--hairline);
 }
 
 .paycheck-head{
   display:flex;
-  justify-content:space-between;
+
+  justify-content:
+    space-between;
+
   align-items:baseline;
+
   gap:10px;
 }
 
 .paycheck-date{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:13px;
+
   color:var(--brass);
 }
 
 .paycheck-amt{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:15px;
 }
 
 .paycheck-source{
   font-size:12px;
+
   color:var(--text-dim);
+
   margin-top:3px;
 }
 
 .paycheck-note{
   font-size:12.5px;
+
   color:var(--text-dim);
+
   margin-top:8px;
+
   line-height:1.5;
-  border-top:1px solid var(--hairline);
+
+  border-top:
+    1px solid
+    var(--hairline);
+
   padding-top:8px;
 }
 
+
+
+/* ================================
+   BALANCES
+   ================================ */
+
 .stat-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:8px;
 }
 
 .stat{
   background:var(--panel);
+
   border-radius:10px;
-  padding:13px 14px;
+
+  padding:
+    13px 14px;
 }
 
 .stat-label{
   font-size:11px;
+
   color:var(--text-dim);
+
   text-transform:uppercase;
-  letter-spacing:.06em;
+
+  letter-spacing:0.06em;
 }
 
 .stat-val{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:17px;
+
   margin-top:4px;
 }
 
 .progress-wrap{
   background:var(--panel);
+
   border-radius:10px;
-  padding:16px 14px;
+
+  padding:
+    16px 14px;
 }
 
 .progress-top{
   display:flex;
-  justify-content:space-between;
+
+  justify-content:
+    space-between;
+
   font-size:12.5px;
+
   color:var(--text-dim);
+
   margin-bottom:8px;
 }
 
 .progress-track{
   height:8px;
-  background:var(--panel-2);
+
+  background:
+    var(--panel-2);
+
   border-radius:6px;
+
   overflow:hidden;
 }
 
 .progress-fill{
   height:100%;
-  background:linear-gradient(
-    90deg,
-    var(--brass),
-    var(--teal)
-  );
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--brass),
+      var(--teal)
+    );
+
   border-radius:6px;
 }
 
 .progress-goal{
-  font-family:'IBM Plex Mono',monospace;
+  font-family:
+    'IBM Plex Mono',
+    monospace;
+
   font-size:12px;
+
   color:var(--text-dim);
+
   margin-top:8px;
 }
 
 .footnote{
   font-size:11.5px;
+
   color:var(--text-dim);
+
   text-align:center;
+
   margin-top:30px;
+
   line-height:1.6;
-  padding:0 10px;
+
+  padding:
+    0 10px;
 }
 
 .footnote b{
   color:var(--teal);
 }
+
 </style>
 </head>
 
@@ -427,17 +719,17 @@ section{
 
 <div
   class="stub"
-  id="nextDueStub"
+  id="nextPaymentStub"
 ></div>
 
 
 <section>
 
   <div class="section-title">
-    Upcoming Bills
+    Upcoming Payments
   </div>
 
-  <div id="billsList"></div>
+  <div id="paymentsList"></div>
 
 </section>
 
@@ -448,7 +740,7 @@ section{
     Payday Plan
   </div>
 
-  <div id="paychecksList"></div>
+  <div id="paydayList"></div>
 
 </section>
 
@@ -556,27 +848,24 @@ section{
 
 <div class="footnote">
 
-  Tap a bill to mark it paid
-  &mdash;
-  saved on this device.
+  Tap an individual payment
+  to mark it paid.
 
   <br>
 
   <b>
-    Countdown updates every minute and payday events post at 5:00 PM.
+    Countdown ends at 12:00 AM
+    at the start of each money day.
   </b>
 
-  <br>
-
-  Built from your Real Estate Money Command Center.
 </div>
 
 
 <script>
 
-/* =============================
-   ACTUAL PAYDAY PLAN FROM SHEET
-   ============================= */
+/* ==================================
+   REAL PAYDAY PLAN
+   ================================== */
 
 const PLAN = [
 
@@ -584,376 +873,622 @@ const PLAN = [
     date:"2026-08-16",
     income:0,
     source:"Starting Balance",
+
     mortgage:384634,
     equity:15366,
-    usaa:6200,
-    car:29200,
+    usaaBalance:6200,
+    carBalance:29200,
+
+    payments:[],
+
     note:
-      "Starting point after first regular mortgage payment. Strategy: USAA first, then maximize Pearl; car stays at minimum."
+      "Starting point after first regular mortgage payment."
   },
+
 
   {
     date:"2026-08-18",
     income:4000,
     source:"Paycheck",
+
     mortgage:384634,
     equity:15366,
-    usaa:2200,
-    car:29200,
+    usaaBalance:2200,
+    carBalance:29200,
+
+    payments:[
+      {
+        name:"USAA",
+        amount:4000
+      }
+    ],
+
     note:
       "Send $4,000 to USAA. No Pearl extra principal yet."
   },
+
 
   {
     date:"2026-09-01",
     income:6730,
     source:"Paycheck + Rent + VA",
+
     mortgage:384370.96,
     equity:15629.04,
-    usaa:0,
-    car:28748.23,
+    usaaBalance:0,
+    carBalance:28748.23,
+
+    payments:[
+
+      {
+        name:"USAA",
+        amount:2200
+      },
+
+      {
+        name:"Next Mortgage",
+        amount:3622.96
+      },
+
+      {
+        name:"Car",
+        amount:644
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:263.04
+      }
+
+    ],
+
     note:
-      "Finish USAA (~$2,200), fully prepay October mortgage $3,622.96, pay the $644 September car payment, then send the remaining $263.04 to Pearl."
+      "Finish USAA, fully prepay October mortgage, pay September car, then send $263.04 to Pearl."
   },
+
 
   {
     date:"2026-09-15",
     income:3000,
     source:"Paycheck",
+
     mortgage:381845.96,
     equity:18154.04,
-    usaa:0,
-    car:28748.23,
+    usaaBalance:0,
+    carBalance:28748.23,
+
+    payments:[
+
+      {
+        name:"Pearl Principal",
+        amount:2525
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Pay half of September insurance/water/food/gas. Everything else ($2,525) goes to Pearl."
+      "Half of September living bills. Everything else goes to Pearl."
   },
+
 
   {
     date:"2026-09-29",
     income:3000,
     source:"Paycheck",
+
     mortgage:380073.12,
     equity:19926.88,
-    usaa:0,
-    car:28748.23,
+    usaaBalance:0,
+    carBalance:28748.23,
+
+    payments:[
+
+      {
+        name:"Pearl Principal",
+        amount:1772.84
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
+    spending:752.16,
+
     note:
-      "Finish September living bills. Send $1,772.84 to Pearl. September Pearl extra totals $4,560.88; $752.16 is true spending money."
+      "$752.16 remains as true spending money."
   },
+
 
   {
     date:"2026-10-01",
     income:3030,
     source:"Rent + VA",
+
     mortgage:376832.16,
     equity:23167.84,
-    usaa:0,
-    car:28748.23,
+    usaaBalance:0,
+    carBalance:28748.23,
+
+    payments:[
+
+      {
+        name:"Pearl Principal",
+        amount:2850
+      },
+
+      {
+        name:"Car",
+        amount:180
+      }
+
+    ],
+
     note:
-      "October mortgage posts. All $2,850 rent goes to Pearl. The $180 VA goes toward October car."
+      "All $2,850 rent goes to Pearl. $180 VA goes toward the car."
   },
+
 
   {
     date:"2026-10-13",
     income:3000,
     source:"Paycheck",
+
     mortgage:376350.64,
     equity:23649.36,
-    usaa:0,
-    car:28748.23,
+    usaaBalance:0,
+    carBalance:28748.23,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Half November mortgage, $232 toward October car, half October living bills, and $481.52 to Pearl."
+      "Fund half of November mortgage and half the regular monthly obligations."
   },
+
 
   {
     date:"2026-10-27",
     income:3000,
     source:"Paycheck",
+
     mortgage:375869.12,
     equity:24130.88,
-    usaa:0,
-    car:28293.49,
+    usaaBalance:0,
+    carBalance:28293.49,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Finish November mortgage, October car and living bills. $481.52 to Pearl. October Pearl extra totals $3,813.04."
+      "Finish November mortgage and October obligations."
   },
+
 
   {
     date:"2026-11-01",
     income:3030,
     source:"Rent + VA",
+
     mortgage:372606.26,
     equity:27393.74,
-    usaa:0,
-    car:28293.49,
+    usaaBalance:0,
+    carBalance:28293.49,
+
+    payments:[
+
+      {
+        name:"Pearl Principal",
+        amount:2850
+      },
+
+      {
+        name:"Car",
+        amount:180
+      }
+
+    ],
+
     note:
-      "November mortgage posts. All $2,850 rent goes to Pearl. The $180 VA goes toward November car."
+      "All rent goes to Pearl. VA goes toward car."
   },
+
 
   {
     date:"2026-11-10",
     income:3000,
     source:"Paycheck",
+
     mortgage:372124.74,
     equity:27875.26,
-    usaa:0,
-    car:28293.49,
+    usaaBalance:0,
+    carBalance:28293.49,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Half December mortgage, $232 toward November car, half living bills, and $481.52 to Pearl."
+      "Fund half December mortgage and regular obligations."
   },
+
 
   {
     date:"2026-11-24",
     income:3000,
     source:"Paycheck",
+
     mortgage:371643.22,
     equity:28356.78,
-    usaa:0,
-    car:27835.76,
+    usaaBalance:0,
+    carBalance:27835.76,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Finish December mortgage, November car and living bills. $481.52 to Pearl. November Pearl extra totals $3,813.04."
+      "Finish December mortgage and November obligations."
   },
+
 
   {
     date:"2026-12-01",
     income:3030,
     source:"Rent + VA",
+
     mortgage:368358.35,
     equity:31641.65,
-    usaa:0,
-    car:27835.76,
+    usaaBalance:0,
+    carBalance:27835.76,
+
+    payments:[
+
+      {
+        name:"Pearl Principal",
+        amount:2850
+      },
+
+      {
+        name:"Car",
+        amount:180
+      }
+
+    ],
+
     note:
-      "December mortgage posts. All $2,850 rent goes to Pearl. The $180 VA goes toward December car."
+      "All rent goes to Pearl. VA goes toward car."
   },
+
 
   {
     date:"2026-12-08",
     income:3000,
     source:"Paycheck",
+
     mortgage:367876.83,
     equity:32123.17,
-    usaa:0,
-    car:27835.76,
+    usaaBalance:0,
+    carBalance:27835.76,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Half January mortgage, $232 toward December car, half living bills, and $481.52 to Pearl."
+      "Fund half January mortgage and regular obligations."
   },
+
 
   {
     date:"2026-12-22",
     income:3000,
     source:"Paycheck",
+
     mortgage:367395.31,
     equity:32604.69,
-    usaa:0,
-    car:27375.01,
+    usaaBalance:0,
+    carBalance:27375.01,
+
+    payments:[
+
+      {
+        name:"Next Mortgage",
+        amount:1811.48
+      },
+
+      {
+        name:"Pearl Principal",
+        amount:481.52
+      },
+
+      {
+        name:"Car",
+        amount:232
+      },
+
+      {
+        name:"Insurance",
+        amount:150
+      },
+
+      {
+        name:"Water",
+        amount:100
+      },
+
+      {
+        name:"Food",
+        amount:175
+      },
+
+      {
+        name:"Gas",
+        amount:50
+      }
+
+    ],
+
     note:
-      "Finish January mortgage, December car and living bills. $481.52 to Pearl. December Pearl extra totals $3,813.04."
+      "Finish January mortgage and December obligations."
   }
 
 ];
 
 
-/* =============================
-   ACTUAL BILL SCHEDULE
-   ============================= */
 
-const BILLS = [
-
-  {
-    date:"2026-09-01",
-    name:"Car payment",
-    amount:644,
-    paidFrom:"Bill Reserve",
-    note:"September mortgage already paid."
-  },
-
-  {
-    date:"2026-09-01",
-    name:"Water",
-    amount:200,
-    paidFrom:"Bill Reserve",
-    note:"Monthly estimate."
-  },
-
-  {
-    date:"2026-09-01",
-    name:"Food",
-    amount:350,
-    paidFrom:"Bill Reserve",
-    note:"Monthly spending budget."
-  },
-
-  {
-    date:"2026-09-01",
-    name:"Gas",
-    amount:100,
-    paidFrom:"Bill Reserve",
-    note:"Monthly spending budget."
-  },
-
-  {
-    date:"2026-09-05",
-    name:"USAA minimum",
-    amount:200,
-    paidFrom:"Bill Reserve",
-    note:"27% APR; minimum only in this plan."
-  },
-
-  {
-    date:"2026-09-18",
-    name:"Car insurance",
-    amount:300,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-10-01",
-    name:"Mortgage PITI",
-    amount:3622,
-    paidFrom:"Bill Reserve",
-    note:"Regular principal tracked separately in Payday Plan."
-  },
-
-  {
-    date:"2026-10-01",
-    name:"Car payment",
-    amount:644,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-10-01",
-    name:"Water + food + gas",
-    amount:650,
-    paidFrom:"Bill Reserve",
-    note:"$200 + $350 + $100."
-  },
-
-  {
-    date:"2026-10-05",
-    name:"USAA minimum",
-    amount:200,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-10-18",
-    name:"Car insurance",
-    amount:300,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-11-01",
-    name:"Mortgage + car + living",
-    amount:4916,
-    paidFrom:"Bill Reserve",
-    note:"$3,622 + $644 + $650."
-  },
-
-  {
-    date:"2026-11-05",
-    name:"USAA minimum",
-    amount:200,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-11-18",
-    name:"Car insurance",
-    amount:300,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-12-01",
-    name:"Mortgage + car + living",
-    amount:4916,
-    paidFrom:"Bill Reserve",
-    note:"$3,622 + $644 + $650."
-  },
-
-  {
-    date:"2026-12-05",
-    name:"USAA minimum",
-    amount:200,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2026-12-18",
-    name:"Car insurance",
-    amount:300,
-    paidFrom:"Bill Reserve",
-    note:"Monthly."
-  },
-
-  {
-    date:"2027-01-01",
-    name:"Mortgage + car + living",
-    amount:4916,
-    paidFrom:"Bill Reserve",
-    note:"Through Jan 1."
-  },
-
-  {
-    date:"2027-01-05",
-    name:"USAA minimum",
-    amount:200,
-    paidFrom:"Next Jan 5 income",
-    note:"Shown for awareness."
-  }
-
-];
-
-
-const fmt0 = n =>
-  "$" +
-  Number(n).toLocaleString(
-    "en-US",
-    {
-      maximumFractionDigits:0
-    }
-  );
-
+/* ==================================
+   HELPERS
+   ================================== */
 
 let now =
   new Date();
 
 
-function eventDate(
-  string,
-  hour = 17
+const fmtMoney =
+  value =>
+    "$" +
+    Number(value)
+      .toLocaleString(
+        "en-US",
+        {
+          minimumFractionDigits:
+            Number(value) % 1 === 0
+              ? 0
+              : 2,
+
+          maximumFractionDigits:2
+        }
+      );
+
+
+function midnightDate(
+  string
 ){
 
-  const [year,month,day] =
-    string
-      .split("-")
-      .map(Number);
-
-  return new Date(
+  const [
     year,
-    month - 1,
-    day,
-    hour,
-    0,
-    0,
-    0
-  );
-}
-
-
-function billDate(string){
-
-  const [year,month,day] =
+    month,
+    day
+  ] =
     string
       .split("-")
       .map(Number);
+
 
   return new Date(
     year,
@@ -967,29 +1502,54 @@ function billDate(string){
 }
 
 
-function fmtDate(date){
+function endOfDay(
+  string
+){
 
-  return date.toLocaleDateString(
-    "en-US",
-    {
-      month:"short",
-      day:"numeric",
-      year:"numeric"
-    }
+  const d =
+    midnightDate(
+      string
+    );
+
+  d.setHours(
+    23,
+    59,
+    59,
+    999
   );
+
+  return d;
 }
 
 
-function refreshNow(){
+function formattedDate(
+  date
+){
+
+  return date
+    .toLocaleDateString(
+      "en-US",
+      {
+        weekday:"short",
+        month:"short",
+        day:"numeric"
+      }
+    );
+}
+
+
+function refreshClock(){
 
   now =
     new Date();
+
 
   document
     .getElementById(
       "todayLine"
     )
     .textContent =
+
       now.toLocaleDateString(
         "en-US",
         {
@@ -999,313 +1559,464 @@ function refreshNow(){
           year:"numeric"
         }
       );
+
 }
 
 
-function countdown(target){
+function countdown(
+  target
+){
 
-  const difference =
+  let milliseconds =
     target - now;
 
+
   if(
-    difference <= 0
+    milliseconds <= 0
   ){
 
-    return "Now";
+    return "Today";
 
   }
 
+
   let seconds =
     Math.floor(
-      difference / 1000
+      milliseconds
+      /
+      1000
     );
+
 
   const days =
     Math.floor(
-      seconds / 86400
+      seconds
+      /
+      86400
     );
+
 
   seconds %=
     86400;
 
+
   const hours =
     Math.floor(
-      seconds / 3600
+      seconds
+      /
+      3600
     );
+
 
   seconds %=
     3600;
 
+
   const minutes =
     Math.floor(
-      seconds / 60
+      seconds
+      /
+      60
     );
+
+
+  const secs =
+    seconds
+    %
+    60;
+
 
   if(
     days > 0
   ){
 
     return (
-      days +
-      "d " +
-      hours +
-      "h " +
-      minutes +
-      "m"
+      days
+      +
+      "d "
+      +
+      hours
+      +
+      "h "
+      +
+      minutes
+      +
+      "m "
+      +
+      secs
+      +
+      "s"
     );
 
   }
 
-  if(
-    hours > 0
-  ){
-
-    return (
-      hours +
-      "h " +
-      minutes +
-      "m"
-    );
-
-  }
 
   return (
-    minutes +
-    "m"
+    hours
+    +
+    "h "
+    +
+    minutes
+    +
+    "m "
+    +
+    secs
+    +
+    "s"
   );
+
 }
 
 
-function getPlanEvents(){
 
-  return PLAN
-    .filter(
-      item =>
-        item.income > 0
-    )
-    .map(
-      item => ({
-        ...item,
-        actualDate:
-          eventDate(
-            item.date,
-            17
-          )
-      })
-    );
+/* ==================================
+   PLAN ROWS
+   ================================== */
+
+function rowsWithDates(){
+
+  return PLAN.map(
+    item => ({
+      ...item,
+
+      actualDate:
+        midnightDate(
+          item.date
+        )
+    })
+  );
+
 }
 
 
-function getUpcomingPlan(){
+function upcomingMoneyRows(){
 
-  return getPlanEvents()
+  return rowsWithDates()
+
     .filter(
-      item =>
-        item.actualDate > now
+      row =>
+        row.income > 0
+        &&
+        row.actualDate > now
     )
+
     .sort(
       (a,b) =>
         a.actualDate
         -
         b.actualDate
     );
+
 }
 
 
-function getCurrentPlanRow(){
+function paymentRowsToShow(){
 
-  const rows =
-    PLAN.map(
-      item => ({
-        ...item,
-        actualDate:
-          item.date === "2026-08-16"
-            ? eventDate(
-                item.date,
-                0
-              )
-            : eventDate(
-                item.date,
-                17
-              )
-      })
-    )
+  return rowsWithDates()
+
     .filter(
-      item =>
-        item.actualDate <= now
+      row =>
+        row.income > 0
+
+        &&
+
+        row.payments
+          .length > 0
+
+        &&
+
+        endOfDay(
+          row.date
+        )
+        >=
+        now
     )
+
     .sort(
       (a,b) =>
-        b.actualDate
-        -
         a.actualDate
+        -
+        b.actualDate
     );
 
-  return (
-    rows[0]
-    ||
-    PLAN[0]
-  );
 }
 
+
+
+/* ==================================
+   COUNTDOWN
+   ================================== */
 
 function renderCountdown(){
 
-  refreshNow();
+  refreshClock();
+
 
   const upcoming =
-    getUpcomingPlan();
+    upcomingMoneyRows();
+
 
   const main =
-    document.getElementById(
-      "countdownMain"
-    );
+    document
+      .getElementById(
+        "countdownMain"
+      );
+
 
   const sub =
-    document.getElementById(
-      "countdownSub"
-    );
+    document
+      .getElementById(
+        "countdownSub"
+      );
+
 
   if(
-    upcoming.length === 0
+    upcoming.length
+    ===
+    0
   ){
 
     main.textContent =
       "Plan complete";
 
+
     sub.textContent =
-      "No future income rows loaded.";
+      "No future money-in dates loaded.";
+
 
     return;
   }
 
+
   const next =
     upcoming[0];
+
 
   main.textContent =
     countdown(
       next.actualDate
     );
 
+
   sub.textContent =
-    fmt0(
+
+    fmtMoney(
       next.income
     )
+
     +
+
     " · "
+
     +
+
     next.source
+
     +
+
     " · "
+
     +
-    fmtDate(
+
+    formattedDate(
       next.actualDate
     )
+
     +
-    " at 5:00 PM";
+
+    " at 12:00 AM";
+
 }
 
 
-function paidKey(bill){
+
+/* ==================================
+   PAYMENT STORAGE
+   ================================== */
+
+function paymentKey(
+  row,
+  paymentIndex
+){
 
   return (
-    "paid:"
+
+    "payment:"
+
     +
-    bill.date
+
+    row.date
+
     +
+
     ":"
+
     +
-    bill.name
+
+    paymentIndex
+
   );
+
 }
 
 
-function isPaid(bill){
+function paymentIsPaid(
+  row,
+  paymentIndex
+){
 
   try{
 
     return (
-      localStorage.getItem(
-        paidKey(bill)
-      )
+
+      localStorage
+        .getItem(
+          paymentKey(
+            row,
+            paymentIndex
+          )
+        )
+
       ===
+
       "true"
+
     );
 
   }
   catch(e){
 
     return false;
+
   }
+
 }
 
 
-function savePaid(
-  bill,
+function savePaymentPaid(
+  row,
+  paymentIndex,
   value
 ){
 
   try{
 
-    localStorage.setItem(
-      paidKey(bill),
-      value
-        ? "true"
-        : "false"
-    );
+    localStorage
+      .setItem(
+
+        paymentKey(
+          row,
+          paymentIndex
+        ),
+
+        value
+          ? "true"
+          : "false"
+
+      );
 
   }
   catch(e){}
+
 }
 
 
-function getUpcomingBills(){
 
-  return BILLS
-    .map(
-      bill => ({
-        ...bill,
-        actualDate:
-          billDate(
-            bill.date
-          )
-      })
-    )
-    .filter(
-      bill => {
+/* ==================================
+   NEXT PAYMENT STUB
+   ================================== */
 
-        const endOfDay =
-          new Date(
-            bill.actualDate
-          );
+function getFirstUnpaidPayment(){
 
-        endOfDay.setHours(
-          23,
-          59,
-          59,
-          999
-        );
+  const rows =
+    paymentRowsToShow();
 
-        return (
-          endOfDay >= now
-          &&
-          !isPaid(bill)
-        );
+
+  for(
+    const row
+    of
+    rows
+  ){
+
+    for(
+      let i = 0;
+      i < row.payments.length;
+      i++
+    ){
+
+      if(
+        !paymentIsPaid(
+          row,
+          i
+        )
+      ){
+
+        return {
+
+          row:row,
+
+          payment:
+            row.payments[i],
+
+          index:i
+
+        };
+
       }
-    )
-    .sort(
-      (a,b) =>
-        a.actualDate
-        -
-        b.actualDate
-    );
+
+    }
+
+  }
+
+
+  return null;
+
 }
 
 
-function dayDifference(date){
+function renderStub(){
+
+  const stub =
+    document
+      .getElementById(
+        "nextPaymentStub"
+      );
+
+
+  const item =
+    getFirstUnpaidPayment();
+
+
+  if(
+    !item
+  ){
+
+    stub.innerHTML = `
+
+      <div class="stub-label">
+        Next Payment
+      </div>
+
+      <div class="stub-title">
+        Nothing scheduled
+      </div>
+
+    `;
+
+
+    return;
+  }
+
+
+  const date =
+    midnightDate(
+      item.row.date
+    );
+
 
   const today =
     new Date(now);
+
 
   today.setHours(
     0,
@@ -1314,145 +2025,84 @@ function dayDifference(date){
     0
   );
 
-  const target =
-    new Date(date);
 
-  target.setHours(
-    0,
-    0,
-    0,
-    0
-  );
-
-  return Math.round(
-    (
-      target
-      -
-      today
-    )
-    /
-    86400000
-  );
-}
+  const difference =
+    Math.round(
+      (
+        date
+        -
+        today
+      )
+      /
+      86400000
+    );
 
 
-function dayLabel(date){
-
-  const days =
-    dayDifference(
+  let label =
+    formattedDate(
       date
     );
 
+
   if(
-    days === 0
+    difference === 0
   ){
 
-    return "Today";
+    label =
+      "Today";
 
   }
 
-  if(
-    days === 1
+
+  else if(
+    difference === 1
   ){
 
-    return "Tomorrow";
+    label =
+      "Tomorrow";
 
   }
 
-  if(
-    days < 7
-  ){
-
-    return (
-      "In "
-      +
-      days
-      +
-      " days"
-    );
-
-  }
-
-  return date.toLocaleDateString(
-    "en-US",
-    {
-      month:"short",
-      day:"numeric"
-    }
-  );
-}
-
-
-function renderBills(){
-
-  refreshNow();
-
-  const upcoming =
-    getUpcomingBills();
-
-  const stub =
-    document.getElementById(
-      "nextDueStub"
-    );
-
-  const list =
-    document.getElementById(
-      "billsList"
-    );
-
-
-  if(
-    upcoming.length === 0
-  ){
-
-    stub.innerHTML = `
-      <div class="stub-label">
-        Next Due
-      </div>
-
-      <div class="stub-title">
-        No upcoming bills
-      </div>
-    `;
-
-    list.innerHTML =
-      "";
-
-    return;
-  }
-
-
-  const next =
-    upcoming[0];
-
-  const difference =
-    dayDifference(
-      next.actualDate
-    );
 
   const color =
+
     difference <= 1
-      ? "var(--rust)"
-      : difference <= 4
-        ? "var(--amber)"
-        : "var(--teal)";
+
+    ? "var(--rust)"
+
+    : difference <= 4
+
+      ? "var(--amber)"
+
+      : "var(--teal)";
 
 
   stub.innerHTML = `
 
     <div class="stub-label">
-      Next Due
+      Next Payment
     </div>
 
     <div class="stub-title">
-      ${next.name}
+
+      ${item.payment.name}
+
     </div>
+
 
     <div class="stub-row">
 
+
       <span class="stub-amount">
-        ${fmt0(next.amount)}
+
+        ${
+          fmtMoney(
+            item.payment.amount
+          )
+        }
+
       </span>
+
 
       <span
         class="stub-days mono"
@@ -1461,211 +2111,496 @@ function renderBills(){
           color:${color};
         "
       >
-        ${dayLabel(next.actualDate)}
-        ·
-        ${
-          next.actualDate
-            .toLocaleDateString(
-              "en-US",
-              {
-                month:"short",
-                day:"numeric"
-              }
-            )
-        }
+
+        ${label}
+
       </span>
+
 
     </div>
 
+
     <div class="stub-note">
-      Paid from:
-      ${next.paidFrom}.
-      ${next.note}
+
+      From
+      ${
+        fmtMoney(
+          item.row.income
+        )
+      }
+
+      ${item.row.source}.
+
     </div>
 
   `;
 
+}
 
-  list.innerHTML =
+
+
+/* ==================================
+   UPCOMING PAYMENTS
+   ================================== */
+
+function renderPayments(){
+
+  refreshClock();
+
+
+  const container =
+    document
+      .getElementById(
+        "paymentsList"
+      );
+
+
+  const rows =
+    paymentRowsToShow();
+
+
+  container.innerHTML =
     "";
 
 
-  upcoming
+  rows
     .slice(
       0,
-      8
+      5
     )
     .forEach(
-      bill => {
+      row => {
 
-        const days =
-          dayDifference(
-            bill.actualDate
-          );
 
-        const row =
-          document.createElement(
-            "div"
-          );
+        const group =
+          document
+            .createElement(
+              "div"
+            );
 
-        row.className =
-          "bill "
-          +
-          (
-            days <= 1
-              ? "urgent"
-              : days <= 4
-                ? "due-soon"
-                : ""
-          );
 
-        row.innerHTML = `
+        group.className =
+          "payment-group";
 
-          <div class="bill-check"></div>
 
-          <div class="bill-info">
+        const head =
+          document
+            .createElement(
+              "div"
+            );
 
-            <div class="bill-name">
-              ${bill.name}
-            </div>
 
-            <div class="bill-meta">
-              ${bill.paidFrom}
-            </div>
+        head.className =
+          "payment-group-head";
+
+
+        head.innerHTML = `
+
+          <div class="payment-group-date">
+
+            ${
+              formattedDate(
+                row.actualDate
+              )
+            }
 
           </div>
 
-          <div class="bill-right">
 
-            <div class="bill-amount">
-              ${fmt0(bill.amount)}
-            </div>
+          <div class="payment-group-income">
 
-            <div class="bill-when">
-              ${dayLabel(bill.actualDate)}
-            </div>
+            ${
+              fmtMoney(
+                row.income
+              )
+            }
 
           </div>
 
         `;
 
-        row.addEventListener(
-          "click",
-          () => {
 
-            savePaid(
-              bill,
-              true
+        group
+          .appendChild(
+            head
+          );
+
+
+        const source =
+          document
+            .createElement(
+              "div"
             );
 
-            renderBills();
-          }
-        );
 
-        list.appendChild(
-          row
-        );
+        source.className =
+          "payment-source";
+
+
+        source.textContent =
+          row.source;
+
+
+        group
+          .appendChild(
+            source
+          );
+
+
+        row.payments
+          .forEach(
+            (
+              payment,
+              index
+            ) => {
+
+
+              const paid =
+                paymentIsPaid(
+                  row,
+                  index
+                );
+
+
+              const paymentRow =
+                document
+                  .createElement(
+                    "div"
+                  );
+
+
+              paymentRow.className =
+                "payment-row"
+                +
+                (
+                  paid
+                    ? " paid"
+                    : ""
+                );
+
+
+              paymentRow.innerHTML = `
+
+                <div class="payment-check">
+
+                  ${
+                    paid
+                      ? "✓"
+                      : ""
+                  }
+
+                </div>
+
+
+                <div class="payment-info">
+
+                  <div class="payment-name">
+
+                    ${
+                      payment.name
+                    }
+
+                  </div>
+
+
+                  <div class="payment-meta">
+
+                    ${
+                      row.note
+                    }
+
+                  </div>
+
+                </div>
+
+
+                <div class="payment-amount">
+
+                  ${
+                    fmtMoney(
+                      payment.amount
+                    )
+                  }
+
+                </div>
+
+              `;
+
+
+              paymentRow
+                .addEventListener(
+                  "click",
+                  () => {
+
+
+                    savePaymentPaid(
+
+                      row,
+
+                      index,
+
+                      !paymentIsPaid(
+                        row,
+                        index
+                      )
+
+                    );
+
+
+                    renderPayments();
+
+                    renderStub();
+
+                  }
+                );
+
+
+              group
+                .appendChild(
+                  paymentRow
+                );
+
+            }
+          );
+
+
+        if(
+          row.spending
+          &&
+          row.spending > 0
+        ){
+
+          const spending =
+            document
+              .createElement(
+                "div"
+              );
+
+
+          spending.className =
+            "payment-row";
+
+
+          spending.innerHTML = `
+
+            <div
+              class="payment-check"
+              style="
+                border-color:transparent;
+              "
+            ></div>
+
+
+            <div class="payment-info">
+
+              <div class="payment-name">
+                Spending Money
+              </div>
+
+              <div class="payment-meta">
+                Money left for you.
+              </div>
+
+            </div>
+
+
+            <div class="payment-amount">
+
+              ${
+                fmtMoney(
+                  row.spending
+                )
+              }
+
+            </div>
+
+          `;
+
+
+          group
+            .appendChild(
+              spending
+            );
+
+        }
+
+
+        container
+          .appendChild(
+            group
+          );
+
       }
     );
+
 }
 
 
+
+/* ==================================
+   PAYDAY PLAN
+   ================================== */
+
 function renderPaydayPlan(){
 
-  refreshNow();
+  const container =
+    document
+      .getElementById(
+        "paydayList"
+      );
 
-  const upcoming =
-    getUpcomingPlan();
 
-  const list =
-    document.getElementById(
-      "paychecksList"
-    );
+  const rows =
+    paymentRowsToShow();
 
-  list.innerHTML =
+
+  container.innerHTML =
     "";
 
 
-  upcoming
+  rows
     .slice(
       0,
       6
     )
     .forEach(
-      item => {
+      row => {
+
 
         const card =
-          document.createElement(
-            "div"
-          );
+          document
+            .createElement(
+              "div"
+            );
+
 
         card.className =
           "paycheck-card";
+
+
+        const totalPayments =
+          row.payments
+            .reduce(
+              (
+                sum,
+                payment
+              ) =>
+                sum
+                +
+                payment.amount,
+              0
+            );
+
 
         card.innerHTML = `
 
           <div class="paycheck-head">
 
             <span class="paycheck-date">
-              ${fmtDate(item.actualDate)}
+
+              ${
+                formattedDate(
+                  row.actualDate
+                )
+              }
+
             </span>
+
 
             <span class="paycheck-amt mono">
-              ${fmt0(item.income)}
+
+              ${
+                fmtMoney(
+                  row.income
+                )
+              }
+
             </span>
 
           </div>
 
+
           <div class="paycheck-source">
-            ${item.source}
-            ·
-            ${countdown(item.actualDate)}
-            until 5:00 PM
+
+            ${row.source}
+
           </div>
 
+
           <div class="paycheck-note">
-            ${item.note}
+
+            Scheduled out:
+            ${
+              fmtMoney(
+                totalPayments
+              )
+            }.
+
+            ${row.note}
+
           </div>
 
         `;
 
-        list.appendChild(
-          card
-        );
+
+        container
+          .appendChild(
+            card
+          );
+
       }
     );
 
+}
 
-  if(
-    upcoming.length === 0
-  ){
 
-    list.innerHTML = `
 
-      <div class="paycheck-card">
+/* ==================================
+   CURRENT BALANCES
+   ================================== */
 
-        <div class="paycheck-source">
-          No future plan rows loaded.
-        </div>
+function currentPlanRow(){
 
-      </div>
+  const rows =
+    rowsWithDates()
 
-    `;
-  }
+      .filter(
+        row =>
+          row.actualDate
+          <=
+          now
+      )
+
+      .sort(
+        (a,b) =>
+          b.actualDate
+          -
+          a.actualDate
+      );
+
+
+  return (
+    rows[0]
+    ||
+    PLAN[0]
+  );
+
 }
 
 
 function renderBalances(){
 
   const current =
-    getCurrentPlanRow();
+    currentPlanRow();
+
 
   document
     .getElementById(
       "statMortgage"
     )
     .textContent =
-      fmt0(
+
+      fmtMoney(
         current.mortgage
       );
 
@@ -1675,8 +2610,9 @@ function renderBalances(){
       "statUsaa"
     )
     .textContent =
-      fmt0(
-        current.usaa
+
+      fmtMoney(
+        current.usaaBalance
       );
 
 
@@ -1685,8 +2621,9 @@ function renderBalances(){
       "statCar"
     )
     .textContent =
-      fmt0(
-        current.car
+
+      fmtMoney(
+        current.carBalance
       );
 
 
@@ -1695,14 +2632,17 @@ function renderBalances(){
       "statEquity"
     )
     .textContent =
-      fmt0(
+
+      fmtMoney(
         current.equity
       );
 
 
   const percentage =
+
     Math.min(
       100,
+
       (
         current.equity
         /
@@ -1718,8 +2658,14 @@ function renderBalances(){
       "progressPct"
     )
     .textContent =
-      percentage.toFixed(1)
+
+      percentage
+        .toFixed(
+          1
+        )
+
       +
+
       "%";
 
 
@@ -1728,30 +2674,46 @@ function renderBalances(){
       "progressFill"
     )
     .style.width =
+
       percentage
+
       +
+
       "%";
+
 }
 
 
+
+/* ==================================
+   REFRESH
+   ================================== */
+
 function refreshEverything(){
+
+  refreshClock();
 
   renderCountdown();
 
-  renderBills();
+  renderStub();
+
+  renderPayments();
 
   renderPaydayPlan();
 
   renderBalances();
+
 }
 
 
 refreshEverything();
 
 
+/* Countdown updates every second */
+
 setInterval(
   refreshEverything,
-  60000
+  1000
 );
 
 </script>
