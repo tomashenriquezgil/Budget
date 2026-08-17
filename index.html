@@ -279,7 +279,7 @@ section{margin-bottom:25px}
 <div class="hero">
   <div class="hero-top">
     <div>
-      <div class="hero-label">Next money in</div>
+      <div class="hero-label">Next money in · 12 PM Eastern</div>
       <div class="hero-count" id="countdownMain">Loading…</div>
     </div>
     <div class="hero-amount" id="nextIncomeAmount"></div>
@@ -299,9 +299,9 @@ section{margin-bottom:25px}
     <div class="priority-note" id="priorityPearlNote"></div>
   </div>
   <div class="priority-card">
-    <div class="priority-label">Paycheck relief</div>
+    <div class="priority-label">Next paycheck relief</div>
     <div class="priority-value good" id="priorityRelief"></div>
-    <div class="priority-note">What your $3,000 baseline check gets to keep after the plan.</div>
+    <div class="priority-note">Shows the next relief-bearing paycheck, even when the amount stays the same.</div>
   </div>
   <div class="priority-card">
     <div class="priority-label">Next 3-check month</div>
@@ -367,12 +367,12 @@ section{margin-bottom:25px}
 <div class="legend">
   <span class="chip">$3,000 = minimum paycheck assumption</span>
   <span class="chip">$4,000/mo = average Pearl target</span>
-  <span class="chip">$4,000 rent begins Jul 2027</span>
+  <span class="chip">$4,000 rent begins Jul 2027 · paid on the 5th</span>
 </div>
 
 <div class="footnote">
   Tap an individual money move to mark it complete on this device.
-  <br><b>Countdown ends at 12:00 AM at the start of each money-in date.</b>
+  <br><b>Money-in countdowns point to 12:00 PM Eastern on each payday/rent date.</b>
 </div>
 
 </div>
@@ -384,60 +384,7 @@ section{margin-bottom:25px}
   water, sewer, naturalGas, food, gas, relief, mortgageBalance,
   equity, usaaBalance, carBalance, note
 */
-const PLAN_RAW = [
-["2026-08-16",0,"Starting Balance",0,0,0,0,0,0,0,0,0,0,0,384634,15366,6200,29200,"Starting point after first regular mortgage payment. Strategy: USAA first, then maximize Pearl; car stays at minimum."],
-["2026-08-18",4000,"Paycheck",3620,0,0,0,0,200,150,30,0,0,0,384634,15366,2580,29200,"First set aside August water $200, sewer $150, and natural gas $30. Send the remaining $3,620 to USAA."],
-["2026-09-01",6730,"Paycheck + Rent + VA",2463.04,3622.96,0,644,0,0,0,0,0,0,0,384634,15366,116.96,28748.23,"Fully fund the October mortgage and pay the $644 car payment, then send the rest to USAA. $116.96 carries to Sept. 15."],
-["2026-09-15",3000,"Paycheck",116.96,0,2318.04,0,150,100,75,15,175,50,0,382315.96,17684.04,0,28748.23,"Finish USAA, set aside half of September recurring costs, then send $2,318.04 to Pearl."],
-["2026-09-29",3000,"Paycheck",0,0,2435,0,150,100,75,15,175,50,0,379880.96,20119.04,0,28748.23,"Finish September recurring costs. September Pearl principal totals $4,753.04, putting the plan $753.04 ahead of the $4,000 monthly target."],
-["2026-10-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,376639,23361,0,28748.23,"All $2,850 rent goes to Pearl. $180 VA goes toward the $644 car payment; the remaining $464 is split $232 + $232 across the two regular checks."],
-["2026-10-13",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,376376.75,23623.25,0,28748.23,"Half November mortgage, half monthly bills, and $262.25 to Pearl."],
-["2026-10-27",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,376114.50,23885.50,0,28293.49,"Finish November mortgage and October obligations. The lower Pearl amount is intentional because September is ahead."],
-["2026-11-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,372852.92,27147.08,0,28293.49,"All rent goes to Pearl; VA goes toward the car."],
-["2026-11-10",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,372590.67,27409.33,0,28293.49,"Half December mortgage and regular obligations."],
-["2026-11-24",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,372328.42,27671.58,0,27835.76,"Finish December mortgage and November obligations."],
-["2026-12-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,369047.12,30952.88,0,27835.76,"All rent goes to Pearl; VA goes toward the car."],
-["2026-12-08",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,368784.87,31215.13,0,27835.76,"Half January mortgage and regular obligations."],
-["2026-12-22",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,368522.62,31477.38,0,27375.01,"Finish January mortgage and December obligations."],
-["2027-01-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,365221.50,34778.50,0,27375.01,"Rent goes to Pearl; VA goes toward the car."],
-["2027-01-05",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,364959.25,35040.75,0,27375.01,"Regular check under the averaged $4,000/month plan."],
-["2027-01-19",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,364697,35303,0,26911.23,"Regular check under the averaged $4,000/month plan."],
-["2027-02-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,361375.95,38624.05,0,26911.23,"Rent goes to Pearl; VA goes toward the car."],
-["2027-02-02",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,361113.70,38886.30,0,26911.23,"Regular check under the averaged $4,000/month plan."],
-["2027-02-16",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,360851.45,39148.55,0,26444.39,"Regular check under the averaged $4,000/month plan."],
-["2027-03-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,357510.37,42489.63,0,26444.39,"Rent goes to Pearl; VA goes toward the car."],
-["2027-03-02",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,357248.12,42751.88,0,26444.39,"Regular check under the averaged $4,000/month plan."],
-["2027-03-16",3000,"Paycheck",0,1811.48,262.21,232,150,100,75,15,175,50,129.31,356985.91,43014.09,0,25974.49,"$262.21 to Pearl on this check so the cumulative $4,000/month average lands exactly."],
-["2027-03-30",3000,"Paycheck · 3rd check month",0,0,3000,0,0,0,0,0,0,0,0,353985.91,46014.09,0,25974.49,"Send the full third paycheck to Pearl. This creates the credit that eases the following regular checks."],
-["2027-04-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,350609.08,49390.92,0,25974.49,"Rent goes to Pearl; VA goes toward the car."],
-["2027-04-13",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,350564.08,49435.92,0,25974.49,"Third-paycheck credit reduces the regular Pearl contribution to $45."],
-["2027-04-27",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,350519.08,49480.92,0,25501.49,"Third-paycheck credit reduces the regular Pearl contribution to $45."],
-["2027-05-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,347124.19,52875.81,0,25501.49,"Rent goes to Pearl; VA goes toward the car."],
-["2027-05-11",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,347079.19,52920.81,0,25501.49,"Reduced Pearl contribution under the averaged plan."],
-["2027-05-25",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,347034.19,52965.81,0,25025.37,"Reduced Pearl contribution under the averaged plan."],
-["2027-06-01",3030,"Rent + VA",0,0,2850,180,0,0,0,0,0,0,0,343621.15,56378.85,0,25025.37,"Rent goes to Pearl; VA goes toward the car."],
-["2027-06-08",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,343576.15,56423.85,0,25025.37,"Reduced Pearl contribution under the averaged plan."],
-["2027-06-22",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,343531.15,56468.85,0,24546.12,"Reduced Pearl contribution under the averaged plan."],
-["2027-07-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,338949.86,61050.14,0,24546.12,"Rent is now $4,000 and by itself covers the monthly Pearl target."],
-["2027-07-06",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,338904.86,61095.14,0,24546.12,"Only $45 to Pearl because prior overage is still being averaged forward."],
-["2027-07-20",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,338859.86,61140.14,0,24063.72,"Only $45 to Pearl because prior overage is still being averaged forward."],
-["2027-08-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,334254.25,65745.75,0,24063.72,"$4,000 rent covers the monthly Pearl target."],
-["2027-08-03",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,334209.25,65790.75,0,24063.72,"Reduced Pearl contribution under the averaged plan."],
-["2027-08-17",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,334164.25,65835.75,0,23578.14,"Reduced Pearl contribution under the averaged plan."],
-["2027-08-31",3000,"Paycheck · 3rd check month",0,0,3000,0,0,0,0,0,0,0,0,331164.25,68835.75,0,23578.14,"Send the full third paycheck to Pearl."],
-["2027-09-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,326518.55,73481.45,0,23578.14,"$4,000 rent covers the monthly Pearl target."],
-["2027-09-14",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,326518.55,73481.45,0,23578.14,"No paycheck principal needed; rent already covers the monthly $4,000 target."],
-["2027-09-28",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,326518.55,73481.45,0,23089.36,"No paycheck principal needed; rent already covers the monthly $4,000 target."],
-["2027-10-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,321848.66,78151.34,0,23089.36,"$4,000 rent covers the monthly Pearl target."],
-["2027-10-12",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,321848.66,78151.34,0,23089.36,"No paycheck principal needed."],
-["2027-10-26",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,321848.66,78151.34,0,22597.36,"No paycheck principal needed."],
-["2027-11-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,317154.45,82845.55,0,22597.36,"$4,000 rent covers the monthly Pearl target."],
-["2027-11-09",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,317154.45,82845.55,0,22597.36,"No paycheck principal needed."],
-["2027-11-23",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,317154.45,82845.55,0,22102.13,"No paycheck principal needed."],
-["2027-12-01",4180,"Rent + VA",0,0,4000,180,0,0,0,0,0,0,0,312435.78,87564.22,0,22102.13,"$4,000 rent covers the monthly Pearl target."],
-["2027-12-07",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,312435.78,87564.22,0,22102.13,"No paycheck principal needed."],
-["2027-12-21",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,312435.78,87564.22,0,21603.63,"No paycheck principal needed."]
-];
+const PLAN_RAW = [["2026-08-16",0,"Starting Balance",0,0,0,0,0,0,0,0,0,0,0,384634,15366,6200,29200,"Starting point after first regular mortgage payment. Strategy: USAA first, then maximize Pearl; car stays at minimum."],["2026-08-18",4000,"Paycheck",3620,0,0,0,0,200,150,30,0,0,0,384634,15366,2580,29200,"First set aside August water $200, sewer $150, and natural gas $30. Send the remaining $3,620 to USAA."],["2026-09-01",3880,"Paycheck + VA",0,3236,0,644,0,0,0,0,0,0,0,384634,15366,2580,28748.23,"Pay the $644 car payment and put the remaining $3,236 toward the October mortgage. Rent arrives Sept. 5."],["2026-09-05",2850,"Rent",2463.04,386.96,0,0,0,0,0,0,0,0,0,384634,15366,116.96,28748.23,"Rent arrives on the 5th. Finish the last $386.96 of the October mortgage funding, then send $2,463.04 to USAA."],["2026-09-15",3000,"Paycheck",116.96,0,2318.04,0,150,100,75,15,175,50,0,382315.96,17684.04,0,28748.23,"Finish USAA, set aside half of September recurring costs, then send $2,318.04 to Pearl."],["2026-09-29",3000,"Paycheck",0,0,2435,0,150,100,75,15,175,50,0,379880.96,20119.04,0,28748.23,"Finish September recurring costs. September Pearl principal totals $4,753.04, putting the plan $753.04 ahead of the $4,000 monthly target."],["2026-10-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,379489,20511,0,28748.23,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2026-10-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,376639,23361,0,28748.23,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2026-10-13",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,376376.75,23623.25,0,28748.23,"Half November mortgage, half monthly bills, and $262.25 to Pearl."],["2026-10-27",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,376114.5,23885.5,0,28293.49,"Finish November mortgage and October obligations. The lower Pearl amount is intentional because September is ahead."],["2026-11-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,375702.92,24297.08,0,28293.49,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2026-11-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,372852.92,27147.08,0,28293.49,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2026-11-10",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,372590.67,27409.33,0,28293.49,"Half December mortgage and regular obligations."],["2026-11-24",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,372328.42,27671.58,0,27835.76,"Finish December mortgage and November obligations."],["2026-12-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,371897.12,28102.88,0,27835.76,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2026-12-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,369047.12,30952.88,0,27835.76,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2026-12-08",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,368784.87,31215.13,0,27835.76,"Half January mortgage and regular obligations."],["2026-12-22",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,368522.62,31477.38,0,27375.01,"Finish January mortgage and December obligations."],["2027-01-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,368071.5,31928.5,0,27375.01,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-01-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,365221.5,34778.5,0,27375.01,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-01-05",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,364959.25,35040.75,0,27375.01,"Regular check under the averaged $4,000/month plan."],["2027-01-19",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,364697,35303,0,26911.23,"Regular check under the averaged $4,000/month plan."],["2027-02-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,364225.95,35774.05,0,26911.23,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-02-02",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,363963.7,36036.3,0,26911.23,"Regular check under the averaged $4,000/month plan. Rent for this month arrives on the 5th, so the displayed mortgage balance has not yet received that rent-to-Pearl payment."],["2027-02-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,361375.95,38624.05,0,26911.23,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-02-16",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,360851.45,39148.55,0,26444.39,"Regular check under the averaged $4,000/month plan."],["2027-03-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,360360.37,39639.63,0,26444.39,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-03-02",3000,"Paycheck",0,1811.48,262.25,232,150,100,75,15,175,50,129.27,360098.12,39901.88,0,26444.39,"Regular check under the averaged $4,000/month plan. Rent for this month arrives on the 5th, so the displayed mortgage balance has not yet received that rent-to-Pearl payment."],["2027-03-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,357510.37,42489.63,0,26444.39,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-03-16",3000,"Paycheck",0,1811.48,262.21,232,150,100,75,15,175,50,129.31,356985.91,43014.09,0,25974.49,"$262.21 to Pearl on this check so the cumulative $4,000/month average lands exactly."],["2027-03-30",3000,"Paycheck · 3rd check month",0,0,3000,0,0,0,0,0,0,0,0,353985.91,46014.09,0,25974.49,"Send the full third paycheck to Pearl. This creates the credit that eases the following regular checks."],["2027-04-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,353459.08,46540.92,0,25974.49,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-04-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,350609.08,49390.92,0,25974.49,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-04-13",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,350564.08,49435.92,0,25974.49,"Third-paycheck credit reduces the regular Pearl contribution to $45."],["2027-04-27",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,350519.08,49480.92,0,25501.49,"Third-paycheck credit reduces the regular Pearl contribution to $45."],["2027-05-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,349974.19,50025.81,0,25501.49,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-05-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,347124.19,52875.81,0,25501.49,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-05-11",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,347079.19,52920.81,0,25501.49,"Reduced Pearl contribution under the averaged plan."],["2027-05-25",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,347034.19,52965.81,0,25025.37,"Reduced Pearl contribution under the averaged plan."],["2027-06-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,346471.15,53528.85,0,25025.37,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-06-05",2850,"Rent",0,0,2850,0,0,0,0,0,0,0,0,343621.15,56378.85,0,25025.37,"Rent arrives on the 5th. Send the full $2,850 to Pearl principal."],["2027-06-08",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,343576.15,56423.85,0,25025.37,"Reduced Pearl contribution under the averaged plan."],["2027-06-22",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,343531.15,56468.85,0,24546.12,"Reduced Pearl contribution under the averaged plan."],["2027-07-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,342949.86,57050.14,0,24546.12,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-07-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,338949.86,61050.14,0,24546.12,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-07-06",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,338904.86,61095.14,0,24546.12,"Only $45 to Pearl because prior overage is still being averaged forward."],["2027-07-20",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,338859.86,61140.14,0,24063.72,"Only $45 to Pearl because prior overage is still being averaged forward."],["2027-08-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,338254.25,61745.75,0,24063.72,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-08-03",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,338209.25,61790.75,0,24063.72,"Reduced Pearl contribution under the averaged plan. Rent for this month arrives on the 5th, so the displayed mortgage balance has not yet received that rent-to-Pearl payment."],["2027-08-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,334254.25,65745.75,0,24063.72,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-08-17",3000,"Paycheck",0,1811.48,45,232,150,100,75,15,175,50,346.52,334164.25,65835.75,0,23578.14,"Reduced Pearl contribution under the averaged plan."],["2027-08-31",3000,"Paycheck · 3rd check month",0,0,3000,0,0,0,0,0,0,0,0,331164.25,68835.75,0,23578.14,"Send the full third paycheck to Pearl."],["2027-09-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,330518.55,69481.45,0,23578.14,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-09-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,326518.55,73481.45,0,23578.14,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-09-14",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,326518.55,73481.45,0,23578.14,"No paycheck principal needed; rent already covers the monthly $4,000 target."],["2027-09-28",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,326518.55,73481.45,0,23089.36,"No paycheck principal needed; rent already covers the monthly $4,000 target."],["2027-10-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,325848.66,74151.34,0,23089.36,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-10-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,321848.66,78151.34,0,23089.36,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-10-12",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,321848.66,78151.34,0,23089.36,"No paycheck principal needed."],["2027-10-26",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,321848.66,78151.34,0,22597.36,"No paycheck principal needed."],["2027-11-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,321154.45,78845.55,0,22597.36,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-11-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,317154.45,82845.55,0,22597.36,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-11-09",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,317154.45,82845.55,0,22597.36,"No paycheck principal needed."],["2027-11-23",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,317154.45,82845.55,0,22102.13,"No paycheck principal needed."],["2027-12-01",180,"VA",0,0,0,180,0,0,0,0,0,0,0,316435.78,83564.22,0,22102.13,"VA arrives on the 1st and sends $180 toward the $644 car payment. Rent arrives on the 5th."],["2027-12-05",4000,"Rent",0,0,4000,0,0,0,0,0,0,0,0,312435.78,87564.22,0,22102.13,"Rent arrives on the 5th. Send the full $4,000 to Pearl principal."],["2027-12-07",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,312435.78,87564.22,0,22102.13,"No paycheck principal needed."],["2027-12-21",3000,"Paycheck",0,1811.48,0,232,150,100,75,15,175,50,391.52,312435.78,87564.22,0,21603.63,"No paycheck principal needed."]];
 
 const PAYMENT_COLUMNS = [
   ["USAA",3],
@@ -476,12 +423,29 @@ const fmtMoney = value => "$"+Number(value).toLocaleString("en-US",{
   maximumFractionDigits:2
 });
 
-function midnightDate(str){
+function calendarDate(str){
   const [y,m,d]=str.split("-").map(Number);
   return new Date(y,m-1,d,0,0,0,0);
 }
-function endOfDay(str){
-  const d=midnightDate(str); d.setHours(23,59,59,999); return d;
+
+function nthSunday(year, monthIndex, nth){
+  const first=new Date(Date.UTC(year,monthIndex,1));
+  const firstSunday=1+((7-first.getUTCDay())%7);
+  return firstSunday+(nth-1)*7;
+}
+
+function easternNoonDate(str){
+  const [y,m,d]=str.split("-").map(Number);
+  const marchSecondSunday=nthSunday(y,2,2);
+  const novemberFirstSunday=nthSunday(y,10,1);
+  const inDST=(m>3&&m<11)||(m===3&&d>=marchSecondSunday)||(m===11&&d<novemberFirstSunday);
+  const utcHour=inDST?16:17; // 12:00 PM America/New_York = 16:00 UTC in EDT, 17:00 UTC in EST
+  return new Date(Date.UTC(y,m-1,d,utcHour,0,0,0));
+}
+
+function endOfMoneyDay(str){
+  const d=easternNoonDate(str);
+  return new Date(d.getTime()+12*60*60*1000-1);
 }
 function formattedDate(date){
   return date.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
@@ -503,13 +467,13 @@ function countdown(target){
   return days>0?`${days}d ${hours}h ${mins}m`:`${hours}h ${mins}m`;
 }
 function rowsWithDates(){
-  return PLAN.map(r=>({...r,actualDate:midnightDate(r.date)}));
+  return PLAN.map(r=>({...r,actualDate:easternNoonDate(r.date)}));
 }
 function upcomingMoneyRows(){
   return rowsWithDates().filter(r=>r.income>0&&r.actualDate>now).sort((a,b)=>a.actualDate-b.actualDate);
 }
 function paymentRowsToShow(){
-  return rowsWithDates().filter(r=>r.income>0&&r.payments.length>0&&endOfDay(r.date)>=now).sort((a,b)=>a.actualDate-b.actualDate);
+  return rowsWithDates().filter(r=>r.income>0&&r.payments.length>0&&endOfMoneyDay(r.date)>=now).sort((a,b)=>a.actualDate-b.actualDate);
 }
 function currentPlanRow(){
   return rowsWithDates().filter(r=>r.actualDate<=now).sort((a,b)=>b.actualDate-a.actualDate)[0]||PLAN[0];
@@ -535,14 +499,20 @@ function renderCountdown(){
   const next=upcoming[0];
   main.textContent=countdown(next.actualDate);
   amt.textContent=fmtMoney(next.income);
-  sub.textContent=`${next.source} · ${formattedDate(next.actualDate)} at 12:00 AM`;
+  sub.textContent=`${next.source} · ${formattedDate(next.actualDate)} at 12:00 PM Eastern`;
 }
 
-function nextRelief(){
-  const current=currentPlanRow();
-  if(current.relief>0)return current.relief;
-  const next=rowsWithDates().find(r=>r.actualDate>now&&r.relief>0);
-  return next?next.relief:0;
+function reliefPaychecks(){
+  return rowsWithDates().filter(r=>r.source.includes("Paycheck")&&r.relief>0);
+}
+
+function nextReliefPaycheck(){
+  return reliefPaychecks().find(r=>r.actualDate>now)||null;
+}
+
+function previousReliefPaycheck(row){
+  const list=reliefPaychecks().filter(r=>r.actualDate<row.actualDate);
+  return list.length?list[list.length-1]:null;
 }
 
 function pearlStatus(){
@@ -554,7 +524,7 @@ function pearlStatus(){
 }
 
 function nextThreePayDate(){
-  return ["2027-03-30","2027-08-31"].map(midnightDate).find(d=>d>now)||null;
+  return ["2027-03-30","2027-08-31"].map(easternNoonDate).find(d=>d>now)||null;
 }
 
 function renderPriorities(){
@@ -568,7 +538,19 @@ function renderPriorities(){
   const [value,note]=pearlStatus();
   document.getElementById("priorityPearl").textContent=value;
   document.getElementById("priorityPearlNote").textContent=note;
-  document.getElementById("priorityRelief").textContent=fmtMoney(nextRelief());
+  const reliefRow=nextReliefPaycheck();
+  const reliefBox=document.getElementById("priorityRelief");
+  const reliefNote=reliefBox.nextElementSibling;
+  if(reliefRow){
+    reliefBox.textContent=fmtMoney(reliefRow.relief);
+    const previous=previousReliefPaycheck(reliefRow);
+    const increased=previous&&reliefRow.relief>previous.relief+0.001;
+    const same=previous&&Math.abs(reliefRow.relief-previous.relief)<0.001;
+    reliefNote.innerHTML=`${formattedDate(reliefRow.actualDate)} paycheck${increased?` · <span class="good">↑ Increased from ${fmtMoney(previous.relief)}</span>`:same?` · Same as prior relief`:``}`;
+  }else{
+    reliefBox.textContent="$0";
+    reliefNote.textContent="No later relief-bearing paycheck loaded.";
+  }
 
   const three=nextThreePayDate();
   document.getElementById("priorityThreePay").textContent=three?formattedDate(three):"Done";
@@ -652,7 +634,7 @@ function generateBills(){
   const bills=[];
   const end=new Date(2027,11,31,23,59,59,999);
   BILL_RULES.forEach(rule=>{
-    const start=midnightDate(rule.start);
+    const start=calendarDate(rule.start);
     let y=start.getFullYear(),m=start.getMonth();
     while(true){
       const day=rule.monthEnd?daysInMonth(y,m):Math.min(rule.day,daysInMonth(y,m));
