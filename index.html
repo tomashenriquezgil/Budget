@@ -87,7 +87,7 @@ h1{
 
 .countdown-label{
   font-size:11px;
-  letter-spacing:0.1em;
+  letter-spacing:0.10em;
   text-transform:uppercase;
   color:var(--text-dim);
 }
@@ -356,7 +356,11 @@ section{
 
 .progress-fill{
   height:100%;
-  background:linear-gradient(90deg,var(--brass),var(--teal));
+  background:linear-gradient(
+    90deg,
+    var(--brass),
+    var(--teal)
+  );
   border-radius:6px;
 }
 
@@ -385,52 +389,119 @@ section{
 <body>
 
 <header>
-  <div class="eyebrow">Bill Ledger · Live Dashboard</div>
-  <h1>Where the money's going</h1>
-  <div class="date-line mono" id="todayLine"></div>
+  <div class="eyebrow">
+    Bill Ledger · Live Dashboard
+  </div>
+
+  <h1>
+    Where the money's going
+  </h1>
+
+  <div
+    class="date-line mono"
+    id="todayLine"
+  ></div>
 </header>
 
 <div class="countdown-card">
-  <div class="countdown-label">Next Paycheck Countdown</div>
-  <div class="countdown-main" id="paycheckCountdownMain">Loading…</div>
-  <div class="countdown-sub" id="paycheckCountdownSub"></div>
+  <div class="countdown-label">
+    Next Paycheck Countdown
+  </div>
+
+  <div
+    class="countdown-main"
+    id="paycheckCountdownMain"
+  >
+    Loading…
+  </div>
+
+  <div
+    class="countdown-sub"
+    id="paycheckCountdownSub"
+  ></div>
 </div>
 
-<div class="stub" id="nextDueStub"></div>
+<div
+  class="stub"
+  id="nextDueStub"
+></div>
 
 <section>
-  <div class="section-title">Upcoming Bills</div>
+  <div class="section-title">
+    Upcoming Bills
+  </div>
+
   <div id="billsList"></div>
 </section>
 
 <section>
-  <div class="section-title">Next Paychecks</div>
+  <div class="section-title">
+    Next Paychecks
+  </div>
+
   <div id="paychecksList"></div>
 </section>
 
 <section>
-  <div class="section-title">Balances</div>
+  <div class="section-title">
+    Balances
+  </div>
 
-  <div class="stat-grid" style="margin-bottom:8px;">
+  <div
+    class="stat-grid"
+    style="margin-bottom:8px;"
+  >
 
     <div class="stat">
-      <div class="stat-label">Mortgage</div>
-      <div class="stat-val" id="statMortgage">$384,634</div>
+      <div class="stat-label">
+        Mortgage
+      </div>
+
+      <div
+        class="stat-val"
+        id="statMortgage"
+      >
+        $384,634
+      </div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">USAA</div>
-      <div class="stat-val" id="statUsaa">$2,200</div>
+      <div class="stat-label">
+        USAA
+      </div>
+
+      <div
+        class="stat-val"
+        id="statUsaa"
+      >
+        $2,200
+      </div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Car loan</div>
-      <div class="stat-val" id="statCar">$29,200</div>
+      <div class="stat-label">
+        Car loan
+      </div>
+
+      <div
+        class="stat-val"
+        id="statCar"
+      >
+        $29,200
+      </div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Equity</div>
-      <div class="stat-val" id="statEquity">$15,366</div>
+      <div class="stat-label">
+        Equity
+      </div>
+
+      <div
+        class="stat-val"
+        id="statEquity"
+      >
+        $15,366
+      </div>
     </div>
 
   </div>
@@ -438,8 +509,13 @@ section{
   <div class="progress-wrap">
 
     <div class="progress-top">
-      <span>Equity progress</span>
-      <span id="progressPct">3.8%</span>
+      <span>
+        Equity progress
+      </span>
+
+      <span id="progressPct">
+        3.8%
+      </span>
     </div>
 
     <div class="progress-track">
@@ -455,34 +531,117 @@ section{
     </div>
 
   </div>
-
 </section>
 
 <div class="footnote">
-  Tap a bill to mark it paid &mdash; saved on this device.
+  Tap a bill to mark it paid
+  &mdash;
+  saved on this device.
   <br>
-  <b>Next paycheck countdown updates every minute.</b>
+  <b>
+    Next paycheck countdown updates automatically.
+  </b>
 </div>
 
 <script>
 
 const RECURRING_BILLS = [
-  {name:"Mortgage (PITI)",amount:3622,day:1,payee:"Mortgage servicer",note:"~$2,370 principal & interest, rest escrow/taxes/insurance."},
-  {name:"Car payment",amount:644,day:1,payee:"Auto lender",note:"7.9% APR."},
-  {name:"Water",amount:200,day:1,payee:"Utility",note:"Monthly estimate."},
-  {name:"Food budget",amount:350,day:1,payee:"Spending",note:"Monthly spending budget."},
-  {name:"Gas budget",amount:100,day:1,payee:"Spending",note:"Monthly spending budget."},
-  {name:"USAA minimum",amount:200,day:5,payee:"USAA",note:"27% APR — pay more than minimum when you can."},
-  {name:"Car insurance",amount:300,day:18,payee:"Auto insurer",note:"Monthly premium."}
+  {
+    name:"Mortgage (PITI)",
+    amount:3622,
+    day:1,
+    payee:"Mortgage servicer",
+    note:
+      "~$2,370 principal & interest, rest escrow/taxes/insurance."
+  },
+  {
+    name:"Car payment",
+    amount:644,
+    day:1,
+    payee:"Auto lender",
+    note:"7.9% APR."
+  },
+  {
+    name:"Water",
+    amount:200,
+    day:1,
+    payee:"Utility",
+    note:"Monthly estimate."
+  },
+  {
+    name:"Food budget",
+    amount:350,
+    day:1,
+    payee:"Spending",
+    note:"Monthly spending budget."
+  },
+  {
+    name:"Gas budget",
+    amount:100,
+    day:1,
+    payee:"Spending",
+    note:"Monthly spending budget."
+  },
+  {
+    name:"USAA minimum",
+    amount:200,
+    day:5,
+    payee:"USAA",
+    note:
+      "27% APR — pay more than minimum when you can."
+  },
+  {
+    name:"Car insurance",
+    amount:300,
+    day:18,
+    payee:"Auto insurer",
+    note:"Monthly premium."
+  }
 ];
 
 const PAYCHECKS = [
-  {date:"2026-08-18",amount:4000,source:"Paycheck",note:"Send $4,000 to USAA. No Pearl extra principal yet."},
-  {date:"2026-09-01",amount:6730,source:"Paycheck + Rent + VA",note:"Pay Sept car ($644), set aside Sept water ($200), finish USAA (~$2,200), fully fund Oct mortgage, then $63.04 to Pearl."},
-  {date:"2026-09-15",amount:3000,source:"Paycheck",note:"Fund Oct car, insurance, water in advance. Food $175 / gas $50. Rest ($2,435) to Pearl."},
-  {date:"2026-09-29",amount:3000,source:"Paycheck",note:"Finish funding Oct car, insurance, water. $1,682.84 to Pearl; $752.16 stays as spending money."},
-  {date:"2026-10-01",amount:3030,source:"Rent + VA",note:"Oct mortgage/car/water/insurance already funded. All $2,850 rent + $180 VA goes to Pearl."},
-  {date:"2026-10-13",amount:3000,source:"Paycheck",note:"Half Nov mortgage, $232 toward Oct car, half living bills, $481.52 to Pearl."}
+  {
+    date:"2026-08-18",
+    amount:4000,
+    source:"Paycheck",
+    note:
+      "Send $4,000 to USAA. No Pearl extra principal yet."
+  },
+  {
+    date:"2026-09-01",
+    amount:6730,
+    source:"Paycheck + Rent + VA",
+    note:
+      "Pay Sept car ($644), set aside Sept water ($200), finish USAA (~$2,200), fully fund Oct mortgage, then $63.04 to Pearl."
+  },
+  {
+    date:"2026-09-15",
+    amount:3000,
+    source:"Paycheck",
+    note:
+      "Fund Oct car, insurance, water in advance. Food $175 / gas $50. Rest ($2,435) to Pearl."
+  },
+  {
+    date:"2026-09-29",
+    amount:3000,
+    source:"Paycheck",
+    note:
+      "Finish funding Oct car, insurance, water. $1,682.84 to Pearl; $752.16 stays as spending money."
+  },
+  {
+    date:"2026-10-01",
+    amount:3030,
+    source:"Rent + VA",
+    note:
+      "Oct mortgage/car/water/insurance already funded. All $2,850 rent + $180 VA goes to Pearl."
+  },
+  {
+    date:"2026-10-13",
+    amount:3000,
+    source:"Paycheck",
+    note:
+      "Half Nov mortgage, $232 toward Oct car, half living bills, $481.52 to Pearl."
+  }
 ];
 
 const BALANCES = {
@@ -495,46 +654,73 @@ const BALANCES = {
 
 const fmt0 = n =>
   "$" +
-  Number(n).toLocaleString("en-US",{
-    maximumFractionDigits:0
-  });
+  Number(n).toLocaleString(
+    "en-US",
+    {
+      maximumFractionDigits:0
+    }
+  );
 
-let now = new Date();
-let today = new Date(now);
-today.setHours(0,0,0,0);
+let now =
+  new Date();
+
+let today =
+  new Date(now);
+
+today.setHours(
+  0,
+  0,
+  0,
+  0
+);
 
 function refreshClock(){
 
-  now = new Date();
+  now =
+    new Date();
 
-  today = new Date(now);
-  today.setHours(0,0,0,0);
+  today =
+    new Date(now);
 
-  document.getElementById("todayLine").textContent =
-    now.toLocaleDateString("en-US",{
-      weekday:"long",
-      month:"long",
-      day:"numeric",
-      year:"numeric"
-    });
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
 
+  document
+    .getElementById(
+      "todayLine"
+    )
+    .textContent =
+      now.toLocaleDateString(
+        "en-US",
+        {
+          weekday:"long",
+          month:"long",
+          day:"numeric",
+          year:"numeric"
+        }
+      );
 }
 
 function parsePaycheckDate(str){
 
   const [y,m,d] =
-    str.split("-").map(Number);
+    str
+      .split("-")
+      .map(Number);
 
   return new Date(
     y,
-    m-1,
+    m - 1,
     d,
     17,
     0,
     0,
     0
   );
-
 }
 
 function nextOccurrence(day){
@@ -546,21 +732,24 @@ function nextOccurrence(day){
       day
     );
 
-  d.setHours(0,0,0,0);
+  d.setHours(
+    0,
+    0,
+    0,
+    0
+  );
 
   if(d < today){
 
     d =
       new Date(
         today.getFullYear(),
-        today.getMonth()+1,
+        today.getMonth() + 1,
         day
       );
-
   }
 
   return d;
-
 }
 
 function daysUntil(d){
@@ -568,13 +757,17 @@ function daysUntil(d){
   const target =
     new Date(d);
 
-  target.setHours(0,0,0,0);
+  target.setHours(
+    0,
+    0,
+    0,
+    0
+  );
 
   return Math.round(
     (target - today)
     / 86400000
   );
-
 }
 
 function fullCountdown(target){
@@ -583,13 +776,13 @@ function fullCountdown(target){
     target - now;
 
   if(diff <= 0){
-
     return "0m";
-
   }
 
   let seconds =
-    Math.floor(diff / 1000);
+    Math.floor(
+      diff / 1000
+    );
 
   const days =
     Math.floor(
@@ -622,7 +815,6 @@ function fullCountdown(target){
       minutes +
       "m"
     );
-
   }
 
   if(hours > 0){
@@ -633,14 +825,34 @@ function fullCountdown(target){
       minutes +
       "m"
     );
-
   }
 
   return (
     minutes +
     "m"
   );
+}
 
+function getUpcomingPaychecks(){
+
+  return PAYCHECKS
+    .map(p => ({
+      ...p,
+      actualDate:
+        parsePaycheckDate(
+          p.date
+        )
+    }))
+    .filter(
+      p =>
+        p.actualDate > now
+    )
+    .sort(
+      (a,b) =>
+        a.actualDate
+        -
+        b.actualDate
+    );
 }
 
 function renderTopCountdown(){
@@ -648,74 +860,55 @@ function renderTopCountdown(){
   refreshClock();
 
   const upcoming =
-    PAYCHECKS
-      .map(p => ({
-        ...p,
-        actualDate:
-          parsePaycheckDate(
-            p.date
-          )
-      }))
-      .filter(
-        p =>
-          p.actualDate > now
-      )
-      .sort(
-        (a,b) =>
-          a.actualDate
-          -
-          b.actualDate
-      );
+    getUpcomingPaychecks();
+
+  const main =
+    document.getElementById(
+      "paycheckCountdownMain"
+    );
+
+  const sub =
+    document.getElementById(
+      "paycheckCountdownSub"
+    );
 
   if(upcoming.length === 0){
 
-    document
-      .getElementById(
-        "paycheckCountdownMain"
-      )
-      .textContent =
-        "No future paycheck loaded";
+    main.textContent =
+      "No future paycheck loaded";
 
-    document
-      .getElementById(
-        "paycheckCountdownSub"
-      )
-      .textContent =
-        "Add the next paycheck date to continue the countdown.";
+    sub.textContent =
+      "Add the next paycheck date to continue the countdown.";
 
     return;
-
   }
 
   const nextPaycheck =
     upcoming[0];
 
-  document
-    .getElementById(
-      "paycheckCountdownMain"
-    )
-    .textContent =
-      fullCountdown(
-        nextPaycheck.actualDate
-      );
+  main.textContent =
+    fullCountdown(
+      nextPaycheck.actualDate
+    );
 
-  document
-    .getElementById(
-      "paycheckCountdownSub"
+  sub.textContent =
+    fmt0(
+      nextPaycheck.amount
     )
-    .textContent =
-      `${fmt0(nextPaycheck.amount)} · ${
-        nextPaycheck.actualDate
-          .toLocaleDateString(
-            "en-US",
-            {
-              weekday:"short",
-              month:"short",
-              day:"numeric"
-            }
-          )
-      } at 5:00 PM`;
-
+    +
+    " · "
+    +
+    nextPaycheck.actualDate
+      .toLocaleDateString(
+        "en-US",
+        {
+          weekday:"short",
+          month:"short",
+          day:"numeric"
+        }
+      )
+    +
+    " at 5:00 PM";
 }
 
 function billStorageKey(b){
@@ -732,13 +925,12 @@ function billStorageKey(b){
     "-"
     +
     String(
-      b.date.getMonth()+1
+      b.date.getMonth() + 1
     ).padStart(
       2,
       "0"
     )
   );
-
 }
 
 function getPaid(key){
@@ -755,12 +947,13 @@ function getPaid(key){
   catch(e){
 
     return false;
-
   }
-
 }
 
-function setPaid(key,value){
+function setPaid(
+  key,
+  value
+){
 
   try{
 
@@ -773,7 +966,6 @@ function setPaid(key,value){
 
   }
   catch(e){}
-
 }
 
 function renderBills(){
@@ -795,7 +987,6 @@ function renderBills(){
           days:
             daysUntil(d)
         };
-
       })
       .sort(
         (a,b) =>
@@ -824,7 +1015,6 @@ function renderBills(){
       "nextDueStub"
     )
     .innerHTML = `
-
       <div class="stub-label">
         Next Due
       </div>
@@ -846,11 +1036,8 @@ function renderBills(){
             color:${daysColor};
           "
         >
-
           ${daysLabel}
-
           &middot;
-
           ${
             next.date
               .toLocaleDateString(
@@ -861,20 +1048,14 @@ function renderBills(){
                 }
               )
           }
-
         </span>
 
       </div>
 
       <div class="stub-note">
-
-        To:
-        ${next.payee}.
-
+        To: ${next.payee}.
         ${next.note}
-
       </div>
-
     `;
 
   const list =
@@ -908,11 +1089,12 @@ function renderBills(){
 
       row.className =
         `bill ${urgencyClass} ${
-          paid ? "paid" : ""
+          paid
+            ? "paid"
+            : ""
         }`;
 
       row.innerHTML = `
-
         <div class="bill-check">
           ${paid ? "✓" : ""}
         </div>
@@ -924,8 +1106,7 @@ function renderBills(){
           </div>
 
           <div class="bill-meta">
-            To:
-            ${b.payee}
+            To: ${b.payee}
           </div>
 
         </div>
@@ -937,7 +1118,6 @@ function renderBills(){
           </div>
 
           <div class="bill-when">
-
             ${
               b.days === 0
                 ? "Today"
@@ -952,11 +1132,9 @@ function renderBills(){
                         }
                       )
             }
-
           </div>
 
         </div>
-
       `;
 
       row.addEventListener(
@@ -972,17 +1150,14 @@ function renderBills(){
           );
 
           renderBills();
-
         }
       );
 
       list.appendChild(
         row
       );
-
     }
   );
-
 }
 
 function renderPaychecks(){
@@ -990,24 +1165,7 @@ function renderPaychecks(){
   refreshClock();
 
   const upcoming =
-    PAYCHECKS
-      .map(p => ({
-        ...p,
-        actualDate:
-          parsePaycheckDate(
-            p.date
-          )
-      }))
-      .filter(
-        p =>
-          p.actualDate > now
-      )
-      .sort(
-        (a,b) =>
-          a.actualDate
-          -
-          b.actualDate
-      );
+    getUpcomingPaychecks();
 
   const list =
     document.getElementById(
@@ -1034,11 +1192,9 @@ function renderPaychecks(){
           "paycheck-card";
 
         card.innerHTML = `
-
           <div class="paycheck-head">
 
             <span class="paycheck-date">
-
               ${
                 p.actualDate
                   .toLocaleDateString(
@@ -1050,46 +1206,46 @@ function renderPaychecks(){
                     }
                   )
               }
-
             </span>
 
             <span class="paycheck-amt mono">
-
               ${fmt0(p.amount)}
-
             </span>
 
           </div>
 
           <div class="paycheck-source">
-
             ${p.source}
-
             ·
-
             ${fullCountdown(
               p.actualDate
             )}
-
             until 5:00 PM
-
           </div>
 
           <div class="paycheck-note">
-
             ${p.note}
-
           </div>
-
         `;
 
         list.appendChild(
           card
         );
-
       }
     );
 
+  if(upcoming.length === 0){
+
+    list.innerHTML = `
+      <div class="paycheck-card">
+
+        <div class="paycheck-source">
+          No future paycheck dates are loaded yet.
+        </div>
+
+      </div>
+    `;
+  }
 }
 
 function renderBalances(){
@@ -1157,7 +1313,6 @@ function renderBalances(){
       pct.toFixed(1)
       +
       "%";
-
 }
 
 function refreshEverything(){
@@ -1167,7 +1322,6 @@ function refreshEverything(){
   renderBills();
 
   renderPaychecks();
-
 }
 
 refreshClock();
