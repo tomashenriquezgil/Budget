@@ -26,9 +26,19 @@ section{margin-bottom:25px}.section-head{display:flex;justify-content:space-betw
 <section>
 <div class="section-head"><div>
   <div class="section-title">Upcoming money moves</div>
-  <div class="section-sub">What to do when money comes in, next one first</div>
+  <div class="section-sub">Today's move stays here through the end of the day, then the next one takes its place</div>
 </div></div>
-<div class="relief-card" style="margin:0 0 10px;">
+<div id="paymentsList"></div>
+</section>
+<section><div class="section-head"><div><div class="section-title">Next bill due dates</div><div class="section-sub">Actual due-date calendar</div></div></div><div id="billScheduleList"></div></section>
+<section>
+<div class="section-head"><div>
+  <div class="section-title">Payday plan</div>
+  <div class="section-sub">Quick summary of upcoming income dates</div>
+</div></div>
+<div id="paydayList"></div>
+
+<div class="relief-card" style="margin:10px 0 0;">
   <div class="relief-top">
     <div>
       <div class="relief-label">Next paycheck relief</div>
@@ -39,12 +49,9 @@ section{margin-bottom:25px}.section-head{display:flex;justify-content:space-betw
   <div class="relief-sub" id="reliefSub"></div>
   <div class="relief-increase" id="reliefIncrease"></div>
 </div>
-<div id="paymentsList"></div>
 </section>
-<section><div class="section-head"><div><div class="section-title">Next bill due dates</div><div class="section-sub">Actual due-date calendar</div></div></div><div id="billScheduleList"></div></section>
-<section><div class="section-head"><div><div class="section-title">Payday plan</div><div class="section-sub">Quick summary of upcoming income dates</div></div></div><div id="paydayList"></div></section>
 <div class="legend"><span class="chip">$3,000 = minimum paycheck assumption</span><span class="chip">$4,000/mo = average Pearl target</span><span class="chip">$4,000 rent begins Jul 2027 · paid on the 5th</span></div>
-<div class="footnote">Tap an individual money move to mark it complete on this device.<br><b>The “Next money move” automatically rolls to the following move just after midnight Eastern, so past moves disappear without you changing anything.</b></div>
+<div class="footnote">Tap an individual money move to mark it complete on this device.<br><b>Today’s “Next money move” stays visible until 11:59 PM Eastern. Just after midnight, it disappears automatically and the following move becomes next.</b></div>
 </div>
 <script>
 const PLAN_RAW = [
@@ -125,7 +132,24 @@ const fmtMoney=value=>"$"+Number(value).toLocaleString("en-US",{minimumFractionD
 function calendarDate(str){const[y,m,d]=str.split("-").map(Number);return new Date(y,m-1,d,0,0,0,0)}
 function nthSunday(year,monthIndex,nth){const first=new Date(Date.UTC(year,monthIndex,1));const firstSunday=1+((7-first.getUTCDay())%7);return firstSunday+(nth-1)*7}
 function easternNoonDate(str){const[y,m,d]=str.split("-").map(Number);const marchSecondSunday=nthSunday(y,2,2);const novemberFirstSunday=nthSunday(y,10,1);const inDST=(m>3&&m<11)||(m===3&&d>=marchSecondSunday)||(m===11&&d<novemberFirstSunday);return new Date(Date.UTC(y,m-1,d,inDST?16:17,0,0,0))}
-function easternEndOfCalendarDay(str){return new Date(easternNoonDate(str).getTime()+12*60*60*1000-1)}
+function easternEndOfCalendarDay(str){
+  const [y,m,d]=str.split("-").map(Number);
+  const marchSecondSunday=nthSunday(y,2,2);
+  const novemberFirstSunday=nthSunday(y,10,1);
+  const inDST=(m>3&&m<11)||(m===3&&d>=marchSecondSunday)||(m===11&&d<novemberFirstSunday);
+
+  // 11:59:59.999 PM Eastern converted to UTC.
+  // EDT = UTC-4, EST = UTC-5.
+  return new Date(Date.UTC(
+    y,
+    m-1,
+    d,
+    inDST ? 27 : 28,
+    59,
+    59,
+    999
+  ));
+}
 function formattedDate(date){return date.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
 function fullDate(date){return date.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}
 const ROWS=PLAN.map(r=>({...r,actualDate:easternNoonDate(r.date),endOfMoneyDay:easternEndOfCalendarDay(r.date)})).sort((a,b)=>a.actualDate-b.actualDate||a.idx-b.idx);
