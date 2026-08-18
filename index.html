@@ -19,15 +19,32 @@ section{margin-bottom:25px}.section-head{display:flex;justify-content:space-betw
 </style>
 </head>
 <body><div class="shell">
-<header><div class="eyebrow">Bill Ledger · Money Command Center</div><h1>What matters next</h1><div class="date-line mono" id="todayLine"></div></header>
+<div class="date-line mono" id="todayLine" style="margin:2px 2px 10px;"></div>
 <div class="hero"><div class="hero-top"><div><div class="hero-label">Next money in · 12 PM Eastern</div><div class="hero-count mono" id="countdownMain">Loading…</div></div><div class="hero-amount" id="nextIncomeAmount"></div></div><div class="hero-sub" id="countdownSub"></div></div>
-<div class="relief-card"><div class="relief-top"><div><div class="relief-label">Next paycheck relief</div><div class="relief-value" id="reliefValue">—</div></div><div class="relief-date" id="reliefDate"></div></div><div class="relief-sub" id="reliefSub"></div><div class="relief-increase" id="reliefIncrease"></div></div>
-<section><div class="section-head"><div><div class="section-title">Current plan balances</div><div class="section-sub">Follows the plan timeline automatically; checkmarks only track completion</div></div></div><div class="stat-grid"><div class="stat"><div class="stat-label">Mortgage</div><div class="stat-val" id="statMortgage"></div></div><div class="stat"><div class="stat-label">USAA</div><div class="stat-val" id="statUsaa"></div></div><div class="stat"><div class="stat-label">Car loan</div><div class="stat-val" id="statCar"></div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div class="stat-val" id="statEquity"></div></div></div><div class="progress-wrap"><div class="progress-top"><span>Equity progress</span><span id="progressPct"></span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="progress-note">Property value assumption: $400,000.</div></div></section>
-<section><div class="section-head"><div><div class="section-title">Upcoming money moves</div><div class="section-sub">What to do when money comes in, next one first</div></div></div><div id="paymentsList"></div></section>
+
+<section><div class="section-head"><div><div class="section-title">Current plan balances</div><div class="section-sub">Follows the plan timeline; debt payments you mark paid early update balances immediately</div></div></div><div class="stat-grid"><div class="stat"><div class="stat-label">Mortgage</div><div class="stat-val" id="statMortgage"></div></div><div class="stat"><div class="stat-label">USAA</div><div class="stat-val" id="statUsaa"></div></div><div class="stat"><div class="stat-label">Car loan</div><div class="stat-val" id="statCar"></div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div class="stat-val" id="statEquity"></div></div></div><div class="progress-wrap"><div class="progress-top"><span>Equity progress</span><span id="progressPct"></span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="progress-note">Property value assumption: $400,000.</div></div></section>
+<section>
+<div class="section-head"><div>
+  <div class="section-title">Upcoming money moves</div>
+  <div class="section-sub">What to do when money comes in, next one first</div>
+</div></div>
+<div class="relief-card" style="margin:0 0 10px;">
+  <div class="relief-top">
+    <div>
+      <div class="relief-label">Next paycheck relief</div>
+      <div class="relief-value" id="reliefValue">—</div>
+    </div>
+    <div class="relief-date" id="reliefDate"></div>
+  </div>
+  <div class="relief-sub" id="reliefSub"></div>
+  <div class="relief-increase" id="reliefIncrease"></div>
+</div>
+<div id="paymentsList"></div>
+</section>
 <section><div class="section-head"><div><div class="section-title">Next bill due dates</div><div class="section-sub">Actual due-date calendar</div></div></div><div id="billScheduleList"></div></section>
 <section><div class="section-head"><div><div class="section-title">Payday plan</div><div class="section-sub">Quick summary of upcoming income dates</div></div></div><div id="paydayList"></div></section>
 <div class="legend"><span class="chip">$3,000 = minimum paycheck assumption</span><span class="chip">$4,000/mo = average Pearl target</span><span class="chip">$4,000 rent begins Jul 2027 · paid on the 5th</span></div>
-<div class="footnote">Tap an individual money move to mark it complete on this device.<br><b>The “Next money move” automatically disappears after that calendar day and the following move becomes next.</b></div>
+<div class="footnote">Tap an individual money move to mark it complete on this device.<br><b>The “Next money move” automatically rolls to the following move just after midnight Eastern, so past moves disappear without you changing anything.</b></div>
 </div>
 <script>
 const PLAN_RAW = [
@@ -124,14 +141,64 @@ function nextMoneyGroup(){const future=upcomingMoneyRows();if(!future.length)ret
 function renderCountdown(){const group=nextMoneyGroup();const main=document.getElementById("countdownMain"),sub=document.getElementById("countdownSub"),amt=document.getElementById("nextIncomeAmount");if(!group){main.textContent="Plan complete";sub.textContent="No future money-in dates loaded.";amt.textContent="";return}main.textContent=countdown(group.date);amt.textContent=fmtMoney(group.total);sub.textContent=`${group.sources} · ${formattedDate(group.date)} at 12:00 PM Eastern${group.rows.length>1?` · ${group.rows.length} money-in events`:""}`}
 function paycheckRows(){return ROWS.filter(r=>r.source.toLowerCase().includes("paycheck"))}
 function renderRelief(){const checks=paycheckRows();const next=checks.find(r=>r.actualDate>now);const value=document.getElementById("reliefValue"),date=document.getElementById("reliefDate"),sub=document.getElementById("reliefSub"),increase=document.getElementById("reliefIncrease");if(!next){value.textContent="Plan complete";date.textContent="";sub.textContent="No future paycheck relief rows loaded.";increase.textContent="";return}value.textContent=fmtMoney(next.relief||0);date.textContent=formattedDate(next.actualDate);sub.textContent=`Relief on this exact paycheck: ${fmtMoney(next.relief||0)}.`;const nextIndex=checks.indexOf(next);const prior=nextIndex>0?checks[nextIndex-1]:null;if(prior&&next.relief>prior.relief+0.004){increase.textContent=`↑ Increased from ${fmtMoney(prior.relief)} on the prior paycheck.`;return}const futureIncrease=checks.slice(nextIndex+1).find(r=>r.relief>(next.relief||0)+0.004);increase.textContent=futureIncrease?`Next increase: ${formattedDate(futureIncrease.actualDate)} → ${fmtMoney(futureIncrease.relief)}.`:"No later relief increase loaded in this plan."}
-function renderPayments(){const container=document.getElementById("paymentsList");container.innerHTML="";paymentRowsToShow().slice(0,6).forEach((row,rowIndex)=>{const isNext=rowIndex===0;const group=document.createElement("div");group.className="payment-group"+(isNext?" payment-group-next":"");const total=row.payments.reduce((s,p)=>s+p.amount,0),leftover=row.income-total;group.innerHTML=`<div class="payment-group-head"><div>${isNext?'<div class="next-badge">Next money move</div>':""}<div class="payment-group-date">${formattedDate(row.actualDate)}</div><div class="payment-source">${row.source}</div></div><div><div class="payment-group-income">${fmtMoney(row.income)} in</div><div class="payment-total">${fmtMoney(total)} scheduled</div></div></div>`;row.payments.forEach((payment,index)=>{const paid=paymentIsPaid(row,index);const el=document.createElement("div");el.className="payment-row"+(paid?" paid":"");el.innerHTML=`<div class="payment-check">${paid?"✓":""}</div><div class="payment-info"><div class="payment-name">${payment.name}</div></div><div class="payment-amount">${fmtMoney(payment.amount)}</div>`;el.addEventListener("click",()=>{savePaymentPaid(row,index,!paymentIsPaid(row,index));renderPayments()});group.appendChild(el)});if(leftover>0.004){const e=document.createElement("div");e.className="relief-row";e.innerHTML=`<span>Money left over</span><strong>${fmtMoney(leftover)}</strong>`;group.appendChild(e)}if(isNext&&row.note){const n=document.createElement("div");n.className="payment-group-note";n.textContent=row.note;group.appendChild(n)}container.appendChild(group)})}
+function renderPayments(){const container=document.getElementById("paymentsList");container.innerHTML="";paymentRowsToShow().slice(0,6).forEach((row,rowIndex)=>{const isNext=rowIndex===0;const group=document.createElement("div");group.className="payment-group"+(isNext?" payment-group-next":"");const total=row.payments.reduce((s,p)=>s+p.amount,0),leftover=row.income-total;group.innerHTML=`<div class="payment-group-head"><div>${isNext?'<div class="next-badge">Next money move</div>':""}<div class="payment-group-date">${formattedDate(row.actualDate)}</div><div class="payment-source">${row.source}</div></div><div><div class="payment-group-income">${fmtMoney(row.income)} in</div><div class="payment-total">${fmtMoney(total)} scheduled</div></div></div>`;row.payments.forEach((payment,index)=>{const paid=paymentIsPaid(row,index);const el=document.createElement("div");el.className="payment-row"+(paid?" paid":"");el.innerHTML=`<div class="payment-check">${paid?"✓":""}</div><div class="payment-info"><div class="payment-name">${payment.name}</div></div><div class="payment-amount">${fmtMoney(payment.amount)}</div>`;el.addEventListener("click",()=>{savePaymentPaid(row,index,!paymentIsPaid(row,index));renderPayments();renderBalances()});group.appendChild(el)});if(leftover>0.004){const e=document.createElement("div");e.className="relief-row";e.innerHTML=`<span>Money left over</span><strong>${fmtMoney(leftover)}</strong>`;group.appendChild(e)}if(isNext&&row.note){const n=document.createElement("div");n.className="payment-group-note";n.textContent=row.note;group.appendChild(n)}container.appendChild(group)})}
 function daysInMonth(y,m){return new Date(y,m+1,0).getDate()}
 function generateBills(){const bills=[],end=new Date(2027,11,31,23,59,59,999);BILL_RULES.forEach(rule=>{const start=calendarDate(rule.start);let y=start.getFullYear(),m=start.getMonth();while(true){const day=rule.monthEnd?daysInMonth(y,m):Math.min(rule.day,daysInMonth(y,m));const date=new Date(y,m,day,0,0,0,0);if(date>end)break;if(date>=start)bills.push({date,name:rule.name,amount:rule.amount});m++;if(m>11){m=0;y++}}});return bills.sort((a,b)=>a.date-b.date)}
 const ALL_BILLS=generateBills();
 function groupBillsByDate(){const map=new Map();ALL_BILLS.filter(b=>{const d=new Date(b.date);d.setHours(23,59,59,999);return d>=now}).forEach(b=>{const key=`${b.date.getFullYear()}-${b.date.getMonth()}-${b.date.getDate()}`;if(!map.has(key))map.set(key,{date:b.date,items:[]});map.get(key).items.push(b)});return[...map.values()].sort((a,b)=>a.date-b.date)}
 function renderBillSchedule(){const container=document.getElementById("billScheduleList");container.innerHTML="";groupBillsByDate().slice(0,8).forEach(group=>{const total=group.items.reduce((s,b)=>s+b.amount,0);const card=document.createElement("div");card.className="bill-card";card.innerHTML=`<div class="bill-top"><div class="bill-date">${formattedDate(group.date)}</div><div class="bill-total">${fmtMoney(total)}</div></div><div class="bill-items">${group.items.map(b=>`${b.name} ${fmtMoney(b.amount)}`).join(" · ")}</div>`;container.appendChild(card)})}
 function renderPaydayPlan(){const container=document.getElementById("paydayList");container.innerHTML="";paymentRowsToShow().slice(0,6).forEach(row=>{const total=row.payments.reduce((s,p)=>s+p.amount,0),leftover=row.income-total;const card=document.createElement("div");card.className="paycheck-card";card.innerHTML=`<div class="paycheck-head"><span class="paycheck-date">${formattedDate(row.actualDate)}</span><span class="paycheck-amt mono">${fmtMoney(row.income)}</span></div><div class="paycheck-source">${row.source}</div><div class="paycheck-note">Scheduled out: ${fmtMoney(total)}${leftover>0.004?` · Left over: ${fmtMoney(leftover)}`:""}. ${row.note}</div>`;container.appendChild(card)})}
-function renderBalances(){const current=currentPlanRow();document.getElementById("statMortgage").textContent=fmtMoney(current.mortgage);document.getElementById("statUsaa").textContent=fmtMoney(current.usaaBalance);document.getElementById("statCar").textContent=fmtMoney(current.carBalance);document.getElementById("statEquity").textContent=fmtMoney(current.equity);const pct=Math.min(100,(current.equity/400000)*100);document.getElementById("progressPct").textContent=pct.toFixed(1)+"%";document.getElementById("progressFill").style.width=pct+"%"}
+function computeDisplayedBalances(){
+  /*
+    Start with the latest spreadsheet-style planned balance that has
+    already been reached by time. Then apply any debt payment that the
+    user manually checked off BEFORE its plan row has been reached.
+
+    This gives both behaviors:
+    1) balances continue advancing automatically with the plan timeline;
+    2) checking USAA / Pearl / Car paid early lowers the displayed balance immediately.
+  */
+  const current=currentPlanRow();
+  let mortgage=current.mortgage;
+  let equity=current.equity;
+  let usaa=current.usaaBalance;
+  let car=current.carBalance;
+
+  ROWS.forEach(row=>{
+    // If this row is already included in the current planned snapshot,
+    // do not apply it again.
+    if(row.actualDate<=current.actualDate)return;
+
+    row.payments.forEach((payment,index)=>{
+      if(!paymentIsPaid(row,index))return;
+
+      if(payment.name==="USAA"){
+        usaa=Math.max(0,usaa-payment.amount);
+      }else if(payment.name==="Pearl Principal"){
+        mortgage=Math.max(0,mortgage-payment.amount);
+        equity+=payment.amount;
+      }else if(payment.name==="Car"){
+        // Immediate on-screen reduction when marked paid.
+        // The plan timeline later replaces this approximation with the
+        // spreadsheet's interest-adjusted car balance.
+        car=Math.max(0,car-payment.amount);
+      }
+    });
+  });
+
+  return{mortgage,equity,usaa,car};
+}
+
+function renderBalances(){
+  const live=computeDisplayedBalances();
+  document.getElementById("statMortgage").textContent=fmtMoney(live.mortgage);
+  document.getElementById("statUsaa").textContent=fmtMoney(live.usaa);
+  document.getElementById("statCar").textContent=fmtMoney(live.car);
+  document.getElementById("statEquity").textContent=fmtMoney(live.equity);
+  const pct=Math.min(100,(live.equity/400000)*100);
+  document.getElementById("progressPct").textContent=pct.toFixed(1)+"%";
+  document.getElementById("progressFill").style.width=pct+"%";
+}
 function tick(){refreshClock();renderCountdown();renderRelief()}
 function refreshEverything(){tick();renderBalances();renderPayments();renderBillSchedule();renderPaydayPlan()}
 refreshEverything();setInterval(tick,1000);setInterval(refreshEverything,30000);
