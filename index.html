@@ -41,15 +41,26 @@ section{margin-bottom:25px}.section-title{font-size:11px;text-transform:uppercas
   <h1>Wealth Command Center</h1>
   <div class="subtitle">Follow the next move first. Required bills stay funded ahead of time, USAA disappears, and every freed dollar keeps moving toward Pearl and the next property.</div>
 
+  <div class="hero" id="todayMoveCard" style="display:none">
+    <div class="hero-top">
+      <div>
+        <div class="hero-label">Today's money move</div>
+        <div id="todayMoveTitle" class="hero-count">TODAY</div>
+      </div>
+      <div id="todayIncomeAmount" class="hero-amount">—</div>
+    </div>
+    <div id="todayMoveSub" class="hero-sub">Loading today's move…</div>
+  </div>
+
   <div class="hero">
     <div class="hero-top">
       <div>
-        <div class="hero-label" id="heroMoveLabel">Current money move</div>
+        <div class="hero-label" id="heroMoveLabel">Next money move</div>
         <div id="countdownMain" class="hero-count">—</div>
       </div>
       <div id="nextIncomeAmount" class="hero-amount">—</div>
     </div>
-    <div id="countdownSub" class="hero-sub">Loading plan…</div>
+    <div id="countdownSub" class="hero-sub">Loading countdown…</div>
   </div>
 
   <div class="mission">
@@ -110,7 +121,7 @@ section{margin-bottom:25px}.section-title{font-size:11px;text-transform:uppercas
 
   <section>
     <div class="section-title">Upcoming money moves</div>
-    <div class="section-sub">Today stays visible through 11:59 PM Eastern. After midnight, only the next future move takes its place.</div>
+    <div class="section-sub">Today's move stays visible for the whole calendar day. The live countdown rolls to the next scheduled money date at 4:00 PM Eastern.</div>
     <div id="paymentsList"></div>
   </section>
 
@@ -238,22 +249,74 @@ function countdownTo(target){
   if(hours>0)return `${hours}h ${pad(mins)}m ${pad(secs)}s`;
   return `${mins}m ${pad(secs)}s`;
 }
-function displayGroup(){
-  const today=easternTodayISO();
-  const todays=ROWS.filter(r=>r.income>0&&r.date===today);
-  if(todays.length)return {date:today,rows:todays,isToday:true,target:easternEndOfDay(today)};
-  const firstFuture=ROWS.find(r=>r.income>0&&r.date>today);
-  if(!firstFuture)return null;
-  const sameDate=ROWS.filter(r=>r.income>0&&r.date===firstFuture.date);
-  return {date:firstFuture.date,rows:sameDate,isToday:false,target:easternNoonDate(firstFuture.date)};
+function easternFourPMDate(str){
+  const [y,m,d]=str.split("-").map(Number);
+  return new Date(Date.UTC(y,m-1,d,isEasternDST(y,m,d)?20:21,0,0,0));
 }
+
+function groupForDate(date){
+  const rows=ROWS.filter(r=>r.income>0&&r.date===date);
+  if(!rows.length)return null;
+  return {date,rows};
+}
+
+function todaysMoveGroup(){
+  return groupForDate(easternTodayISO());
+}
+
+function countdownGroup(){
+  const current=new Date();
+  const first=ROWS.find(r=>r.income>0&&easternFourPMDate(r.date)>current);
+  if(!first)return null;
+  const group=groupForDate(first.date);
+  return {...group,target:easternFourPMDate(first.date),isToday:first.date===easternTodayISO()};
+}
+
+function moveSummary(rows){
+  return rows.flatMap(r=>r.moves.map(m=>`${m.name} ${fmtMoney(m.amount)}`)).join(" · ");
+}
+
+function renderTodayMove(){
+  const card=document.getElementById("todayMoveCard");
+  const title=document.getElementById("todayMoveTitle");
+  const amount=document.getElementById("todayIncomeAmount");
+  const sub=document.getElementById("todayMoveSub");
+  const g=todaysMoveGroup();
+
+  if(!g){
+    card.style.display="none";
+    return;
+  }
+
+  card.style.display="block";
+  const totalIncome=g.rows.reduce((s,r)=>s+r.income,0);
+  const sources=[...new Set(g.rows.map(r=>r.source))].join(" + ");
+  title.textContent="TODAY";
+  amount.textContent=fmtMoney(totalIncome);
+  sub.textContent=`${sources} · ${moveSummary(g.rows)} · stays visible until midnight Eastern`;
+}
+
 function renderCountdown(){
-  const g=displayGroup();const label=document.getElementById("heroMoveLabel"),main=document.getElementById("countdownMain"),amount=document.getElementById("nextIncomeAmount"),sub=document.getElementById("countdownSub");
-  if(!g){label.textContent="Plan status";main.textContent="Plan complete";amount.textContent="";sub.textContent="No future money dates loaded.";return}
-  const totalIncome=g.rows.reduce((s,r)=>s+r.income,0);const assigned=g.rows.reduce((s,r)=>s+r.moves.reduce((a,m)=>a+m.amount,0),0);const sources=[...new Set(g.rows.map(r=>r.source))].join(" + ");
-  label.textContent=g.isToday?"Today's money move":"Next money move";
-  main.textContent=countdownTo(g.target);amount.textContent=fmtMoney(totalIncome);
-  sub.textContent=g.isToday?`${sources} · ${fmtMoney(assigned)} assigned · stays here until midnight Eastern`:`${sources} · ${formattedDate(g.target)} · ${fmtMoney(assigned)} assigned`;
+  renderTodayMove();
+  const g=countdownGroup();
+  const label=document.getElementById("heroMoveLabel"),main=document.getElementById("countdownMain"),amount=document.getElementById("nextIncomeAmount"),sub=document.getElementById("countdownSub");
+
+  if(!g){
+    label.textContent="Plan status";
+    main.textContent="Plan complete";
+    amount.textContent="";
+    sub.textContent="No future money dates loaded.";
+    return;
+  }
+
+  const totalIncome=g.rows.reduce((s,r)=>s+r.income,0);
+  const assigned=g.rows.reduce((s,r)=>s+r.moves.reduce((a,m)=>a+m.amount,0),0);
+  const sources=[...new Set(g.rows.map(r=>r.source))].join(" + ");
+
+  label.textContent=g.isToday?"Today's 4 PM cutoff":"Next money move";
+  main.textContent=countdownTo(g.target);
+  amount.textContent=fmtMoney(totalIncome);
+  sub.textContent=`${sources} · ${formattedDate(g.target)} · ${fmtMoney(assigned)} assigned · countdown ends at 4:00 PM Eastern`;
 }
 
 function paymentKey(row,index){return `wealth-command-v30:${row.index}:${index}`}
@@ -262,9 +325,19 @@ function togglePayment(row,index){try{localStorage.setItem(paymentKey(row,index)
 function rowsToShow(){return ROWS.filter(r=>r.income>0&&r.moves.length>0&&r.endDate>=new Date())}
 function renderPayments(){
   const container=document.getElementById("paymentsList");container.innerHTML="";
+  const today=easternTodayISO();
+  const firstFuture=ROWS.find(r=>r.income>0&&r.date>today);
+  const nextDate=firstFuture?firstFuture.date:null;
+
   rowsToShow().slice(0,7).forEach((row,rowIndex)=>{
-    const group=document.createElement("div");group.className="payment-group"+(rowIndex===0?" next":"");const total=row.moves.reduce((s,m)=>s+m.amount,0);
-    group.innerHTML=`<div class="payment-head"><div>${rowIndex===0?'<div class="badge">Current / next move</div>':""}<div class="payment-date">${formattedDate(row.actualDate)}</div><div class="payment-source">${row.source}</div></div><div><div class="payment-income">${fmtMoney(row.income)} in</div><div class="payment-total">${fmtMoney(total)} assigned</div></div></div>`;
+    let badge="";
+    if(row.date===today)badge="<div class='badge'>Today's move</div>";
+    else if(nextDate&&row.date===nextDate)badge='<div class="badge">Next move</div>';
+
+    const group=document.createElement("div");
+    group.className="payment-group"+((row.date===today||row.date===nextDate)?" next":"");
+    const total=row.moves.reduce((s,m)=>s+m.amount,0);
+    group.innerHTML=`<div class="payment-head"><div>${badge}<div class="payment-date">${formattedDate(row.actualDate)}</div><div class="payment-source">${row.source}</div></div><div><div class="payment-income">${fmtMoney(row.income)} in</div><div class="payment-total">${fmtMoney(total)} assigned</div></div></div>`;
     row.moves.forEach((move,index)=>{const paid=paymentIsPaid(row,index);const item=document.createElement("div");item.className="payment-row"+(paid?" paid":"");item.innerHTML=`<div class="payment-check">${paid?"✓":""}</div><div class="payment-name">${move.name}</div><div class="payment-amount">${fmtMoney(move.amount)}</div>`;item.addEventListener("click",()=>togglePayment(row,index));group.appendChild(item)});
     const note=document.createElement("div");note.className="payment-note";note.textContent=row.note;group.appendChild(note);container.appendChild(group);
   });
