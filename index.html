@@ -9,166 +9,117 @@
 <meta name="apple-mobile-web-app-title" content="Wealth Plan">
 <title>Wealth Command Center</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,750&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root{
   --ink:#0f1720;--panel:#161f29;--panel2:#1c2733;--panel3:#111922;
   --line:rgba(232,230,223,.10);--text:#e8e6df;--dim:#91a0aa;
   --gold:#c9a15f;--green:#63aa91;--red:#db7c74;--warn:#e0a458;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{background:var(--ink)}
-body{margin:0;background:var(--ink);color:var(--text);font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;padding:calc(16px + env(safe-area-inset-top)) 13px calc(86px + env(safe-area-inset-bottom));min-height:100vh}
-button{font:inherit}
-.shell{max-width:820px;margin:0 auto}
-.mono{font-family:'IBM Plex Mono',monospace}
-h1,h2,h3{font-family:'Fraunces',serif;margin:0}
-h1{font-size:28px;letter-spacing:-.025em}
-.topdate{font-size:11px;color:var(--dim);margin-bottom:2px}
-.subtitle{font-size:12px;color:var(--dim);line-height:1.5;margin:5px 0 14px}
-.source-note{font-size:10px;color:var(--dim);margin-bottom:15px}
-.tab{display:none}
-.tab.active{display:block}
-.hero,.card,.section-card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
-.hero.current{border-color:rgba(99,170,145,.42)}
-.hero.next{border-color:rgba(201,161,95,.46)}
-.hero-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.eyebrow,.section-title{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:600}
-.hero-title{font-family:'IBM Plex Mono',monospace;font-size:23px;color:var(--gold);font-weight:600;margin-top:5px}
-.hero.current .hero-title{color:var(--green)}
-.hero-money{font-family:'IBM Plex Mono',monospace;font-size:18px;white-space:nowrap}
-.hero-sub{font-size:11px;color:var(--dim);line-height:1.5;margin-top:7px}
-.move-lines{display:grid;gap:6px;margin-top:10px}
-.move-line{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;background:var(--panel3);border-radius:9px;font-size:12px}
-.move-line span:last-child{font-family:'IBM Plex Mono',monospace;color:var(--gold)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px}
-.stat-label{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
-.stat-value{font-family:'IBM Plex Mono',monospace;font-size:17px;margin-top:4px}
-.stat-note{font-size:10px;color:var(--dim);line-height:1.35;margin-top:4px}
-.green{color:var(--green)} .gold{color:var(--gold)} .red{color:var(--red)}
-section{margin:23px 0}
-.section-head{margin-bottom:9px}
-.section-sub{font-size:11px;color:var(--dim);line-height:1.45;margin-top:3px}
-.rule-list{display:grid;gap:7px}
-.rule{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px}
-.rule strong{font-size:12.5px}
-.rule p{font-size:11px;color:var(--dim);line-height:1.45;margin:4px 0 0}
-.plan-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden}
-.plan-card.today{border-color:rgba(99,170,145,.45)}
-.plan-card.next{border-color:rgba(201,161,95,.45)}
-.plan-head{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;background:var(--panel2)}
-.plan-date{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:12px}
-.plan-source{font-size:10.5px;color:var(--dim);margin-top:3px}
-.plan-income{font-family:'IBM Plex Mono',monospace;text-align:right}
-.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:var(--gold);color:var(--ink);font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
-.badge.current{background:var(--green)}
-.allocs{padding:3px 12px 10px}
-.alloc{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:12px}
-.alloc:first-child{border-top:0}
-.alloc-name{color:var(--dim)}
-.alloc-value{font-family:'IBM Plex Mono',monospace;color:var(--gold)}
+html,body{margin:0;background:var(--ink);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{padding:calc(16px + env(safe-area-inset-top)) 13px calc(86px + env(safe-area-inset-bottom));min-height:100vh}
+button{font:inherit}.shell{max-width:820px;margin:0 auto}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+h1,h2,h3{margin:0}h1{font-size:28px}.topdate{font-size:11px;color:var(--dim);margin-bottom:2px}
+.subtitle,.source-note,.section-sub{font-size:11px;color:var(--dim);line-height:1.45}
+.subtitle{font-size:12px;margin:5px 0 8px}.source-note{margin-bottom:15px}
+.tab{display:none}.tab.active{display:block}
+.hero,.card,.section-card,.plan-card,.bill-card,.input-card,.rule{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px}
+.hero{padding:14px;margin-bottom:10px}.hero.current{border-color:rgba(99,170,145,.45)}.hero.next{border-color:rgba(201,161,95,.45)}
+.hero-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.eyebrow,.section-title{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:700}
+.hero-title{font-size:24px;color:var(--gold);font-weight:700;margin-top:5px}.hero.current .hero-title{color:var(--green)}
+.hero-money{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:18px;white-space:nowrap}.hero-sub{font-size:11px;color:var(--dim);line-height:1.5;margin-top:7px}
+.move-lines{display:grid;gap:6px;margin-top:10px}.move-line{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;background:var(--panel3);border-radius:9px;font-size:12px}
+.move-line span:last-child{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px}
+.stat-label{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}.stat-value{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:17px;margin-top:4px}
+.green{color:var(--green)}.gold{color:var(--gold)}.red{color:var(--red)}
+section{margin:23px 0}.section-head{margin-bottom:9px}.section-title{font-weight:700}
+.rule-list{display:grid;gap:7px}.rule{padding:11px}.rule strong{font-size:12.5px}.rule p{font-size:11px;color:var(--dim);line-height:1.45;margin:4px 0 0}
+.plan-card{margin-bottom:9px;overflow:hidden;background:var(--panel)}.plan-card.next{border-color:rgba(201,161,95,.45)}
+.plan-head{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;background:var(--panel2)}.plan-date{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold);font-size:12px}
+.plan-source{font-size:10.5px;color:var(--dim);margin-top:3px}.plan-income{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-align:right}
+.allocs{padding:3px 12px 10px}.alloc{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:12px}.alloc:first-child{border-top:0}
+.alloc-name{color:var(--dim)}.alloc-value{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold)}
 .plan-note{padding:10px 12px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);line-height:1.45}
-.balance-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 12px 11px}
-.balance-pill{background:var(--panel3);border-radius:9px;padding:8px}
-.balance-pill b{font-family:'IBM Plex Mono',monospace;font-size:12px}
-.balance-pill span{display:block;color:var(--dim);font-size:8.5px;text-transform:uppercase;margin-bottom:3px}
-.check-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);cursor:pointer}
-.check{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--dim);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
-.check-row.done{opacity:.45}
-.check-row.done .check{background:var(--green);border-color:var(--green);color:var(--ink)}
-.toolbar{display:flex;gap:7px;margin:9px 0 11px;flex-wrap:wrap}
-.filter-btn{border:1px solid var(--line);background:var(--panel3);color:var(--dim);padding:7px 10px;border-radius:999px;font-size:11px}
-.filter-btn.active{color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:600}
-.bill-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
-.bill-top{display:flex;justify-content:space-between;gap:10px}
-.bill-timing{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold)}
-.bill-name{font-size:13px;font-weight:600;margin-top:3px}
-.bill-amount{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right}
-.bill-meta{display:grid;gap:5px;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
-.bill-meta div{font-size:10.5px;color:var(--dim);line-height:1.4}
-.bill-meta b{color:var(--text);font-weight:500}
-.input-card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px;margin-bottom:7px}
-.input-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.input-label{font-size:12px}
-.input-value{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right}
-.input-note{font-size:10.5px;color:var(--dim);line-height:1.4;margin-top:4px}
-.warning{background:rgba(224,164,88,.08);border:1px solid rgba(224,164,88,.35);border-radius:12px;padding:12px;margin:10px 0}
-.warning-title{font-weight:600;color:var(--warn);font-size:12px}
+.toolbar{display:flex;gap:7px;margin:9px 0 11px;flex-wrap:wrap}.filter-btn{border:1px solid var(--line);background:var(--panel3);color:var(--dim);padding:7px 10px;border-radius:999px;font-size:11px}
+.filter-btn.active{color:var(--ink);background:var(--gold);border-color:var(--gold);font-weight:700}
+.bill-card,.input-card{padding:12px;margin-bottom:8px;background:var(--panel)}.bill-top,.input-top{display:flex;justify-content:space-between;gap:10px}.bill-name,.input-label{font-size:13px;font-weight:600}
+.bill-amount,.input-value{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;text-align:right}.bill-meta,.input-note{font-size:10.5px;color:var(--dim);line-height:1.4;margin-top:7px}
+.warning{background:rgba(224,164,88,.08);border:1px solid rgba(224,164,88,.35);border-radius:12px;padding:12px;margin:10px 0}.warning-title{font-weight:700;color:var(--warn);font-size:12px}
 .warning p{font-size:10.5px;color:var(--dim);line-height:1.5;margin:5px 0 0}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(15,23,32,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));z-index:20}
-.nav-inner{max-width:820px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
-.nav-btn{border:0;background:transparent;color:var(--dim);padding:8px 4px;border-radius:10px;font-size:10px;line-height:1.2}
-.nav-btn.active{background:var(--panel2);color:var(--gold);font-weight:600}
-.mini-table{width:100%;border-collapse:separate;border-spacing:0 6px}
-.mini-table td{font-size:11px;padding:8px 9px;background:var(--panel)}
-.mini-table td:first-child{border-radius:9px 0 0 9px;color:var(--dim)}
-.mini-table td:last-child{border-radius:0 9px 9px 0;text-align:right;font-family:'IBM Plex Mono',monospace}
-.footer{font-size:10px;color:var(--dim);line-height:1.5;text-align:center;margin:20px 0}
-@media(min-width:680px){
-  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .balance-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
-
-
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(15,23,32,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:7px 8px calc(7px + env(safe-area-inset-bottom));z-index:20}
+.nav-inner{max-width:820px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.nav-btn{border:0;background:transparent;color:var(--dim);padding:8px 4px;border-radius:10px;font-size:10px}
+.nav-btn.active{background:var(--panel2);color:var(--gold);font-weight:700}.footer{font-size:10px;color:var(--dim);line-height:1.5;text-align:center;margin:20px 0}
+@media(min-width:680px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="topdate mono" id="todayLine"></div>
   <h1>Wealth Command Center</h1>
-  <div class="subtitle">This version is built from the exact current workbook rows instead of recreating the plan with separate app logic.</div>
-  <div class="source-note" id="sourceNote"></div>
+  <div class="subtitle">Pearl Road payoff plan — updated for the real USAA balance and the minimum next paycheck.</div>
+  <div class="source-note">Updated August 19, 2026 · USAA balance $2,615 · next paycheck target $3,259</div>
 
   <main id="dashboardTab" class="tab active">
-    <div id="todayCard"></div>
-    <div id="nextCard"></div>
+    <div class="hero current">
+      <div class="hero-top">
+        <div><div class="eyebrow">Next paycheck target</div><div class="hero-title">$3,259</div></div>
+        <div class="hero-money green">USAA → $0</div>
+      </div>
+      <div class="hero-sub">This is the minimum paycheck needed to clear USAA and make the September car payment. The $180 VA payment is separate and is not used to make the paycheck target look smaller.</div>
+      <div class="move-lines">
+        <div class="move-line"><span>USAA payoff</span><span>$2,615</span></div>
+        <div class="move-line"><span>Car payment</span><span>$644</span></div>
+        <div class="move-line"><span>Next mortgage reserve</span><span>$0</span></div>
+        <div class="move-line"><span>Paycheck left over</span><span>$0</span></div>
+      </div>
+    </div>
+
+    <div class="hero next">
+      <div class="hero-top">
+        <div><div class="eyebrow">Following normal paycheck</div><div class="hero-title">Sep 15 · $3,000</div></div>
+        <div class="hero-money gold">$772.96 → mortgage</div>
+      </div>
+      <div class="hero-sub">The old $136 mortgage start is moved here. Rent on September 5 puts $2,850 toward the October mortgage, then this check finishes the remaining $772.96.</div>
+      <div class="move-lines">
+        <div class="move-line"><span>October mortgage reserve</span><span>$772.96</span></div>
+        <div class="move-line"><span>Half October car</span><span>$322</span></div>
+        <div class="move-line"><span>Insurance</span><span>$300</span></div>
+        <div class="move-line"><span>Utilities</span><span>$200</span></div>
+        <div class="move-line"><span>Food + fuel</span><span>$225</span></div>
+        <div class="move-line"><span>Pearl principal</span><span>$1,180.04</span></div>
+      </div>
+    </div>
 
     <section>
-      <div class="section-head">
-        <div class="section-title">Current plan balances</div>
-        <div class="section-sub" id="balanceAsOf"></div>
-      </div>
+      <div class="section-head"><div class="section-title">Current plan balances</div></div>
       <div class="grid">
-        <div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div>
-        <div class="stat"><div class="stat-label">Equity @ $400k</div><div id="equityNow" class="stat-value green">—</div></div>
-        <div class="stat"><div class="stat-label">USAA</div><div id="usaaNow" class="stat-value">—</div></div>
-        <div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div>
+        <div class="stat"><div class="stat-label">Mortgage</div><div class="stat-value">$384,684</div></div>
+        <div class="stat"><div class="stat-label">Equity @ $400k</div><div class="stat-value green">$15,316</div></div>
+        <div class="stat"><div class="stat-label">USAA now</div><div class="stat-value">$2,615</div></div>
+        <div class="stat"><div class="stat-label">Car balance</div><div class="stat-value">$29,200</div></div>
       </div>
     </section>
 
-    
     <section>
-      <div class="section-head">
-        <div class="section-title">How the plan works</div>
-        <div class="section-sub">The app follows the PAYDAY PLAN and BILL SCHEDULE. Every dollar already has a job.</div>
-      </div>
+      <div class="section-head"><div class="section-title">What changed</div></div>
       <div class="rule-list">
-        <div class="rule"><strong>Every dollar is assigned</strong><p>There is no separate “leftover” category. When the PAYDAY PLAN sends money to Pearl, it is already assigned as Pearl principal.</p></div>
-        <div class="rule"><strong>Priority order</strong><p>Required bills → USAA → Pearl principal.</p></div>
-        <div class="rule"><strong>Due-date rule</strong><p>Mortgage + car + utilities are funded before the month they are due.</p></div>
-        <div class="rule"><strong>Rent</strong><p>$2,850 on the 5th now; $4,000 starting July 2027. The plan sends rent to Pearl after the setup period.</p></div>
-        <div class="rule"><strong>2027 extra Pearl principal</strong><p>$56,256.48 across the exact PAYDAY PLAN rows.</p></div>
+        <div class="rule"><strong>September 1 paycheck = $3,259 minimum</strong><p>$2,615 to USAA and $644 to the car. Nothing from that paycheck goes to the next mortgage.</p></div>
+        <div class="rule"><strong>VA stays separate</strong><p>The $180 monthly VA income is still its own income source.</p></div>
+        <div class="rule"><strong>Mortgage start moves forward</strong><p>The old $136 mortgage allocation is absorbed into the September 15 paycheck, making that mortgage allocation $772.96.</p></div>
+        <div class="rule"><strong>Then return to the normal pattern</strong><p>Two normal $3,000 checks fund the next mortgage, car, utilities, food/fuel and insurance; remaining money goes to Pearl principal.</p></div>
       </div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <div class="section-title">Next rows from PAYDAY PLAN</div>
-        <div class="section-sub">No recreated dates. These are the spreadsheet rows themselves.</div>
-      </div>
-      <div id="dashboardMoves"></div>
     </section>
   </main>
 
   <main id="paydayTab" class="tab">
     <section style="margin-top:8px">
       <div class="section-head">
-        <div class="section-title">PAYDAY PLAN</div>
-        <div class="section-sub">Exact main columns from the workbook, including after-move balances and “What To Send.”</div>
+        <div class="section-title">Payday Plan</div>
+        <div class="section-sub">The next-check adjustment is built in. After September setup, the original two-check rhythm continues.</div>
       </div>
       <div class="toolbar">
         <button class="filter-btn active" data-filter="upcoming">Upcoming</button>
-        <button class="filter-btn" data-filter="all">All rows</button>
+        <button class="filter-btn" data-filter="2026">2026</button>
         <button class="filter-btn" data-filter="2027">2027</button>
       </div>
       <div id="paydayList"></div>
@@ -177,40 +128,23 @@ section{margin:23px 0}
 
   <main id="billsTab" class="tab">
     <section style="margin-top:8px">
-      <div class="section-head">
-        <div class="section-title">BILL SCHEDULE</div>
-        <div class="section-sub">This tab now mirrors the BILL SCHEDULE sheet exactly. The old app-only gas/electric/water due-date calendar has been removed.</div>
-      </div>
+      <div class="section-head"><div class="section-title">Bill Schedule</div></div>
       <div id="billList"></div>
     </section>
   </main>
 
   <main id="inputsTab" class="tab">
     <section style="margin-top:8px">
-      <div class="section-head">
-        <div class="section-title">Debts & Property — Plan Inputs</div>
-        <div class="section-sub">Exact values and notes from columns A–C.</div>
-      </div>
+      <div class="section-head"><div class="section-title">Plan Inputs</div></div>
       <div id="inputList"></div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <div class="section-title">Plan summary</div>
-        <div class="section-sub">Simple summary values from the corrected workbook.</div>
+      <div class="warning">
+        <div class="warning-title">Special September setup</div>
+        <p>The September 1 paycheck is intentionally only large enough to clear USAA plus the $644 car payment. It does not begin the October mortgage reserve.</p>
       </div>
-      <div id="summaryList"></div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <div class="section-title">Property / utility summary</div>
-      </div>
-      <div id="propertyList"></div>
     </section>
   </main>
 
-  <div class="footer">Static snapshot of the workbook. If the spreadsheet changes later, this HTML must be regenerated unless you connect the app to a live data source.</div>
+  <div class="footer">Static planning app. Update the code when balances or pay amounts change.</div>
 </div>
 
 <nav class="bottom-nav">
@@ -223,207 +157,114 @@ section{margin:23px 0}
 </nav>
 
 <script>
-const DATA={"planRows":[{"Date":"2026-08-16","Income":0,"Source":"Starting Balance","USAA":0,"Next Mortgage":0,"Pearl Principal":0,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":384684,"Equity @ $400k":15316,"USAA Balance":6000,"Car Balance":29200,"What To Send":"Starting point. Priority order: required bills → USAA → Pearl principal.","_sheetRow":2},{"Date":"2026-08-18","Income":4000,"Source":"Paycheck","USAA":3600,"Next Mortgage":0,"Pearl Principal":0,"Car":0,"Insurance":0,"Utilities":400,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":384684,"Equity @ $400k":15316,"USAA Balance":2400,"Car Balance":29200,"What To Send":"Reserve the full $400 utility bucket first (current shown bills total about $336.62), then send $3,600 to USAA.","_sheetRow":3},{"Date":"2026-09-01","Income":3180,"Source":"Paycheck + VA","USAA":2400,"Next Mortgage":136,"Pearl Principal":0,"Car":644,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":384684,"Equity @ $400k":15316,"USAA Balance":0,"Car Balance":28748.233333333334,"What To Send":"Pay the September car on the 1st, finish USAA, then start the October mortgage reserve with the remaining $136.","_sheetRow":4},{"Date":"2026-09-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":2850,"Pearl Principal":0,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":384684,"Equity @ $400k":15316,"USAA Balance":0,"Car Balance":28748.233333333334,"What To Send":"Rent arrives on the 5th. Put the full $2,850 toward the October mortgage reserve.","_sheetRow":5},{"Date":"2026-09-15","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":636.96,"Pearl Principal":1316.04,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":383367.96,"Equity @ $400k":16632.03999999998,"USAA Balance":0,"Car Balance":28748.233333333334,"What To Send":"Finish the October mortgage by 9/15. Fund half the October car, full September insurance before the 18th, half next utility bucket, food/fuel; send the rest to Pearl.","_sheetRow":6},{"Date":"2026-09-29","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":0,"Pearl Principal":2253,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":381114.96,"Equity @ $400k":18885.03999999998,"USAA Balance":0,"Car Balance":28748.233333333334,"What To Send":"Finish the October car and utility reserve before 10/1. Food/fuel are funded. Everything else goes to Pearl.","_sheetRow":7},{"Date":"2026-10-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":380549.93375,"Equity @ $400k":19450.066249999974,"USAA Balance":0,"Car Balance":28293.492536111113,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":8},{"Date":"2026-10-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":377699.93375,"Equity @ $400k":22300.066249999974,"USAA Balance":0,"Car Balance":28293.492536111113,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":9},{"Date":"2026-10-13","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":377558.41375,"Equity @ $400k":22441.586249999993,"USAA Balance":0,"Car Balance":28293.492536111113,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":10},{"Date":"2026-10-27","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":377116.89375,"Equity @ $400k":22883.10625000001,"USAA Balance":0,"Car Balance":28293.492536111113,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":11},{"Date":"2026-11-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":376531.04423828126,"Equity @ $400k":23468.95576171874,"USAA Balance":0,"Car Balance":27835.75802864051,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":12},{"Date":"2026-11-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":373681.04423828126,"Equity @ $400k":26318.95576171874,"USAA Balance":0,"Car Balance":27835.75802864051,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":13},{"Date":"2026-11-10","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":373539.52423828124,"Equity @ $400k":26460.475761718757,"USAA Balance":0,"Car Balance":27835.75802864051,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":14},{"Date":"2026-11-24","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":373098.0042382812,"Equity @ $400k":26901.995761718776,"USAA Balance":0,"Car Balance":27835.75802864051,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":15},{"Date":"2026-12-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":372491.2230103556,"Equity @ $400k":27508.776989644393,"USAA Balance":0,"Car Balance":27375.01010232906,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":16},{"Date":"2026-12-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":369641.2230103556,"Equity @ $400k":30358.776989644393,"USAA Balance":0,"Car Balance":27375.01010232906,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":17},{"Date":"2026-12-08","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":369499.7030103556,"Equity @ $400k":30500.296989644412,"USAA Balance":0,"Car Balance":27375.01010232906,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":18},{"Date":"2026-12-22","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":369058.18301035557,"Equity @ $400k":30941.81698964443,"USAA Balance":0,"Car Balance":27375.01010232906,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":19},{"Date":"2027-01-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":368430.36104686785,"Equity @ $400k":31569.638953132147,"USAA Balance":0,"Car Balance":26911.22891883606,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":20},{"Date":"2027-01-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":365580.36104686785,"Equity @ $400k":34419.63895313215,"USAA Balance":0,"Car Balance":26911.22891883606,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":21},{"Date":"2027-01-05","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":365438.84104686783,"Equity @ $400k":34561.158953132166,"USAA Balance":0,"Car Balance":26911.22891883606,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":22},{"Date":"2027-01-19","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":364997.3210468678,"Equity @ $400k":35002.678953132185,"USAA Balance":0,"Car Balance":26911.22891883606,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":23},{"Date":"2027-02-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":364348.3487606536,"Equity @ $400k":35651.65123934642,"USAA Balance":0,"Car Balance":26444.394509218397,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":24},{"Date":"2027-02-02","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":364206.82876065356,"Equity @ $400k":35793.17123934644,"USAA Balance":0,"Car Balance":26444.394509218397,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":25},{"Date":"2027-02-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":361356.82876065356,"Equity @ $400k":38643.17123934644,"USAA Balance":0,"Car Balance":26444.394509218397,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":26},{"Date":"2027-02-16","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":360915.30876065354,"Equity @ $400k":39084.69123934646,"USAA Balance":0,"Car Balance":26444.394509218397,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":27},{"Date":"2027-03-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":360245.07599378197,"Equity @ $400k":39754.92400621803,"USAA Balance":0,"Car Balance":25974.486773070752,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":28},{"Date":"2027-03-02","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":360103.55599378195,"Equity @ $400k":39896.44400621805,"USAA Balance":0,"Car Balance":25974.486773070752,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":29},{"Date":"2027-03-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":357253.55599378195,"Equity @ $400k":42746.44400621805,"USAA Balance":0,"Car Balance":25974.486773070752,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":30},{"Date":"2027-03-16","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":356812.03599378193,"Equity @ $400k":43187.96400621807,"USAA Balance":0,"Car Balance":25974.486773070752,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":31},{"Date":"2027-03-30","Income":3000,"Source":"Paycheck · 3rd check month","USAA":0,"Next Mortgage":0,"Pearl Principal":3000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":353812.03599378193,"Equity @ $400k":46187.96400621807,"USAA Balance":0,"Car Balance":25974.486773070752,"What To Send":"First two checks already funded required monthly buckets. Send the full third paycheck to Pearl.","_sheetRow":32},{"Date":"2027-04-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":353104.80701458285,"Equity @ $400k":46895.19298541715,"USAA Balance":0,"Car Balance":25501.485477660135,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":33},{"Date":"2027-04-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":350254.80701458285,"Equity @ $400k":49745.19298541715,"USAA Balance":0,"Car Balance":25501.485477660135,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":34},{"Date":"2027-04-13","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":350113.28701458283,"Equity @ $400k":49886.712985417165,"USAA Balance":0,"Car Balance":25501.485477660135,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":35},{"Date":"2027-04-27","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":349671.7670145828,"Equity @ $400k":50328.232985417184,"USAA Balance":0,"Car Balance":25501.485477660135,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":36},{"Date":"2027-05-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":348942.97413445043,"Equity @ $400k":51057.02586554957,"USAA Balance":0,"Car Balance":25025.370257054732,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":37},{"Date":"2027-05-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":346092.97413445043,"Equity @ $400k":53907.02586554957,"USAA Balance":0,"Car Balance":25025.370257054732,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":38},{"Date":"2027-05-11","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":345951.4541344504,"Equity @ $400k":54048.54586554959,"USAA Balance":0,"Car Balance":25025.370257054732,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":39},{"Date":"2027-05-25","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":345509.9341344504,"Equity @ $400k":54490.06586554961,"USAA Balance":0,"Car Balance":25025.370257054732,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":40},{"Date":"2027-06-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":344759.46504140063,"Equity @ $400k":55240.53495859937,"USAA Balance":0,"Car Balance":24546.12061124701,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":41},{"Date":"2027-06-05","Income":2850,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":2850,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":341909.46504140063,"Equity @ $400k":58090.53495859937,"USAA Balance":0,"Car Balance":24546.12061124701,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":42},{"Date":"2027-06-08","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":341767.9450414006,"Equity @ $400k":58232.05495859939,"USAA Balance":0,"Car Balance":24546.12061124701,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":43},{"Date":"2027-06-22","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":341326.4250414006,"Equity @ $400k":58673.574958599405,"USAA Balance":0,"Car Balance":24546.12061124701,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":44},{"Date":"2027-07-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":340554.1668384912,"Equity @ $400k":59445.83316150878,"USAA Balance":0,"Car Balance":24063.715905271052,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":45},{"Date":"2027-07-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":336554.1668384912,"Equity @ $400k":63445.83316150878,"USAA Balance":0,"Car Balance":24063.715905271052,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":46},{"Date":"2027-07-06","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":336412.6468384912,"Equity @ $400k":63587.3531615088,"USAA Balance":0,"Car Balance":24063.715905271052,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":47},{"Date":"2027-07-20","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":335971.1268384912,"Equity @ $400k":64028.87316150882,"USAA Balance":0,"Car Balance":24063.715905271052,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":48},{"Date":"2027-08-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":335170.97645744163,"Equity @ $400k":64829.02354255837,"USAA Balance":0,"Car Balance":23578.135368314088,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":49},{"Date":"2027-08-03","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":335029.4564574416,"Equity @ $400k":64970.543542558386,"USAA Balance":0,"Car Balance":23578.135368314088,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":50},{"Date":"2027-08-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":331029.4564574416,"Equity @ $400k":68970.54354255839,"USAA Balance":0,"Car Balance":23578.135368314088,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":51},{"Date":"2027-08-17","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":330587.9364574416,"Equity @ $400k":69412.0635425584,"USAA Balance":0,"Car Balance":23578.135368314088,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":52},{"Date":"2027-08-31","Income":3000,"Source":"Paycheck · 3rd check month","USAA":0,"Next Mortgage":0,"Pearl Principal":3000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":327587.9364574416,"Equity @ $400k":72412.0635425584,"USAA Balance":0,"Car Balance":23578.135368314088,"What To Send":"First two checks already funded required monthly buckets. Send the full third paycheck to Pearl.","_sheetRow":53},{"Date":"2027-09-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":326744.12362649076,"Equity @ $400k":73255.87637350924,"USAA Balance":0,"Car Balance":23089.358092822156,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":54},{"Date":"2027-09-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":322744.12362649076,"Equity @ $400k":77255.87637350924,"USAA Balance":0,"Car Balance":23089.358092822156,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":55},{"Date":"2027-09-14","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":322602.60362649075,"Equity @ $400k":77397.39637350925,"USAA Balance":0,"Car Balance":23089.358092822156,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":56},{"Date":"2027-09-28","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":322161.0836264907,"Equity @ $400k":77838.91637350927,"USAA Balance":0,"Car Balance":23089.358092822156,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":57},{"Date":"2027-10-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":321289.0059370454,"Equity @ $400k":78710.99406295462,"USAA Balance":0,"Car Balance":22597.3630335999,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":58},{"Date":"2027-10-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":317289.0059370454,"Equity @ $400k":82710.99406295462,"USAA Balance":0,"Car Balance":22597.3630335999,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":59},{"Date":"2027-10-12","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":317147.48593704536,"Equity @ $400k":82852.51406295464,"USAA Balance":0,"Car Balance":22597.3630335999,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":60},{"Date":"2027-10-26","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":316705.96593704534,"Equity @ $400k":83294.03406295466,"USAA Balance":0,"Car Balance":22597.3630335999,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":61},{"Date":"2027-11-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":315805.4761763008,"Equity @ $400k":84194.52382369922,"USAA Balance":0,"Car Balance":22102.129006904433,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":62},{"Date":"2027-11-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":311805.4761763008,"Equity @ $400k":88194.52382369922,"USAA Balance":0,"Car Balance":22102.129006904433,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":63},{"Date":"2027-11-09","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":311663.95617630077,"Equity @ $400k":88336.04382369923,"USAA Balance":0,"Car Balance":22102.129006904433,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":64},{"Date":"2027-11-23","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":311222.43617630075,"Equity @ $400k":88777.56382369925,"USAA Balance":0,"Car Balance":22102.129006904433,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":65},{"Date":"2027-12-01","Income":180,"Source":"VA","USAA":0,"Next Mortgage":0,"Pearl Principal":180,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":310293.38636471896,"Equity @ $400k":89706.61363528104,"USAA Balance":0,"Car Balance":21603.63468953322,"What To Send":"Mortgage and car for this 1st were funded from prior paychecks. Send the $180 VA to Pearl.","_sheetRow":66},{"Date":"2027-12-05","Income":4000,"Source":"Rent","USAA":0,"Next Mortgage":0,"Pearl Principal":4000,"Car":0,"Insurance":0,"Utilities":0,"Food":0,"Fuel":0,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":306293.38636471896,"Equity @ $400k":93706.61363528104,"USAA Balance":0,"Car Balance":21603.63468953322,"What To Send":"Send the full rent to Pearl principal.","_sheetRow":67},{"Date":"2027-12-07","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":141.52,"Car":322,"Insurance":300,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":306151.86636471894,"Equity @ $400k":93848.13363528106,"USAA Balance":0,"Car Balance":21603.63468953322,"What To Send":"First check funds insurance before the 18th; both checks fund next mortgage/car/utilities. Remaining cash goes to Pearl.","_sheetRow":68},{"Date":"2027-12-21","Income":3000,"Source":"Paycheck","USAA":0,"Next Mortgage":1811.48,"Pearl Principal":441.52,"Car":322,"Insurance":0,"Utilities":200,"Food":175,"Fuel":50,"Spending Money":0,"Extra Income Needed":0,"Mortgage Balance":305710.3463647189,"Equity @ $400k":94289.65363528108,"USAA Balance":0,"Car Balance":21603.63468953322,"What To Send":"Finish next mortgage/car/utilities and monthly food/fuel; remaining cash goes to Pearl.","_sheetRow":69}],"billRows":[{"Date / Timing":"1st of month","Bill / Budget":"Mortgage PITI","Amount":3622.96,"Funded From":"Prior month's 2 normal paychecks","Rule":"$1,811.48 from each normal paycheck"},{"Date / Timing":"1st of month","Bill / Budget":"Car payment","Amount":644,"Funded From":"Prior month's 2 normal paychecks","Rule":"$322 from each normal paycheck"},{"Date / Timing":"Early month","Bill / Budget":"Utilities","Amount":400,"Funded From":"Prior month's 2 normal paychecks","Rule":"$200/check; covers water + sewer + both electric + natural gas"},{"Date / Timing":"10th","Bill / Budget":"USAA","Amount":"Pay off by 9/1/2026","Funded From":"8/18 + 9/1 income","Rule":"After payoff, this category disappears and money redirects to Pearl"},{"Date / Timing":"18th","Bill / Budget":"Car insurance","Amount":300,"Funded From":"First normal paycheck of month","Rule":"Fund full $300 before the 18th"},{"Date / Timing":"Flexible","Bill / Budget":"Food","Amount":350,"Funded From":"Two normal paychecks","Rule":"$175/check"},{"Date / Timing":"Flexible","Bill / Budget":"Fuel","Amount":100,"Funded From":"Two normal paychecks","Rule":"$50/check"},{"Date / Timing":"5th","Bill / Budget":"Rent income","Amount":2850,"Funded From":"Tenant rent","Rule":"Send to Pearl; increases to $4,000 starting July 2027"},{"Date / Timing":"1st","Bill / Budget":"VA income","Amount":180,"Funded From":"VA","Rule":"Send to Pearl once due-date bills are funded ahead"}],"inputRows":[{"label":"Starting mortgage balance","value":384684,"notes":"8/16/2026 starting point"},{"label":"Mortgage rate","value":0.0625,"notes":"6.25%"},{"label":"Mortgage payment (PITI)","value":3622.96,"notes":"Due 1st"},{"label":"P&I portion","value":2370,"notes":"Used to estimate scheduled principal"},{"label":"Current rent","value":2850,"notes":"Paid on the 5th"},{"label":"Typical paycheck","value":3000,"notes":"Biweekly after 8/18/2026"},{"label":"VA income","value":180,"notes":"Monthly on 1st"},{"label":"Car balance","value":29200,"notes":"7.9% APR; $644/mo due 1st"},{"label":"USAA balance","value":6000,"notes":"27% APR; due 10th"},{"label":"Car insurance","value":300,"notes":"Monthly due 18th"},{"label":"Food","value":350,"notes":"Monthly estimate"},{"label":"Fuel","value":100,"notes":"Monthly estimate"},{"label":"Utilities","value":400,"notes":"Water + sewer + Unit 3 electric + common electric + natural gas"},{"label":"Car payment","value":644,"notes":"Monthly due 1st"},{"label":"Future rent","value":4000,"notes":"Begins July 2027; paid on the 5th"}],"summaryRows":[{"label":"1st normal check required","value":2858.48},{"label":"1st check → Pearl","value":141.52},{"label":"Monthly utilities budget","value":400},{"label":"Current rent","value":2850},{"label":"Future rent starting Jul 2027","value":4000},{"label":"Extra-principal target","value":4000},{"label":"Planning note","value":"USAA first; then surplus goes to Pearl principal."},{"label":"Due-date rule","value":"Mortgage + car + utilities are funded before the month they are due."},{"label":"USAA target payoff","value":"9/1/2026"},{"label":"2nd normal check required","value":2558.48},{"label":"2nd check → Pearl","value":441.52},{"label":"3rd paycheck → Pearl","value":3000},{"label":"Pearl from paychecks (2-check month)","value":583.04}],"propertyRows":[{"label":"Property value assumption","value":400000},{"label":"Current utility bills shown","value":336.62},{"label":"Utility cushion","value":63.38}],"derived":{"firstRequired":2858.48,"secondRequired":2558.48,"averageRequired":2708.48,"firstPearl":141.52,"secondPearl":441.52,"averagePearl":291.52,"thirdCheckPearl":3000,"principal2027":56256.48},"source":{"title":"Copy of Real Estate Money Command Center.xlsx","driveId":"1b6qwBzFik8It2d4rkCfTHOJER5n2jPpF","snapshotDate":"2026-08-19"}};
-const PLAN=DATA.planRows;
-const BILLS=DATA.billRows;
-const INPUTS=DATA.inputRows;
-const SUMMARY=DATA.summaryRows;
-const PROPERTY=DATA.propertyRows;
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(n);
+const iso=d=>d.toISOString().slice(0,10);
+const fmtDate=s=>new Date(s+"T12:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 
-const allocationKeys=["USAA","Next Mortgage","Pearl Principal","Car","Insurance","Utilities","Food","Fuel","Spending Money","Extra Income Needed"];
+const INPUTS=[
+  ["Current USAA balance",2615,"Pay off on next paycheck"],
+  ["Minimum next paycheck",3259,"$2,615 USAA + $644 car"],
+  ["VA income",180,"Separate from paycheck"],
+  ["Typical paycheck",3000,"Biweekly after the USAA payoff check"],
+  ["Mortgage PITI",3622.96,"Due 1st"],
+  ["Current rent",2850,"Paid on 5th"],
+  ["Future rent",4000,"Starts July 2027"],
+  ["Car payment",644,"Due 1st"],
+  ["Car insurance",300,"Due 18th"],
+  ["Utilities",400,"$200 from each normal check"],
+  ["Food",350,"$175 from each normal check"],
+  ["Fuel",100,"$50 from each normal check"]
+];
 
-function money(v){
-  if(typeof v!=="number") return String(v ?? "");
-  const decimals=Math.abs(v-Math.round(v))<0.000001?0:2;
-  return "$"+v.toLocaleString("en-US",{minimumFractionDigits:decimals,maximumFractionDigits:2});
-}
-function pct(v){return (Number(v)*100).toFixed(2).replace(/\.00$/,"")+"%"}
-function displayValue(label,v){
-  if(v===null||v===undefined) return "";
-  if(typeof v==="string") return v;
-  if(label.toLowerCase().includes("rate")) return pct(v);
-  return money(Number(v));
-}
-function easternParts(){
-  const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(new Date());
-  const o={};parts.forEach(p=>{if(p.type!=="literal")o[p.type]=p.value});return o;
-}
-function todayISO(){const p=easternParts();return `${p.year}-${p.month}-${p.day}`}
-function parseISO(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12)}
-function friendly(s){return parseISO(s).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})}
-function endOfEasternDay(s){
-  const [y,m,d]=s.split("-").map(Number);
-  const local=new Date(`${s}T23:59:59-04:00`);
-  // November through early March may be -05:00; Intl-safe construction below corrects only the cutoff display logic.
-  return local;
-}
-function cutoff4PM(s){
-  const [y,m,d]=s.split("-").map(Number);
-  // Determine Eastern offset at noon by formatting UTC guesses.
-  const jan=new Date(Date.UTC(y,0,1)); const jul=new Date(Date.UTC(y,6,1));
-  function tzOffset(date){
-    const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",timeZoneName:"shortOffset",hour:"2-digit"}).formatToParts(date);
-    const z=p.find(x=>x.type==="timeZoneName")?.value||"GMT-5";
-    const match=z.match(/GMT([+-]\d+)/); return match?Number(match[1]):-5;
-  }
-  const offset=tzOffset(new Date(Date.UTC(y,m-1,d,17)));
-  return new Date(Date.UTC(y,m-1,d,16-offset,0,0,0));
-}
-function countdown(target){
-  let ms=target-new Date();
-  if(ms<=0)return "0m 00s";
-  let s=Math.floor(ms/1000);
-  const days=Math.floor(s/86400);s%=86400;
-  const h=Math.floor(s/3600);s%=3600;
-  const min=Math.floor(s/60);const sec=s%60;
-  const pad=n=>String(n).padStart(2,"0");
-  return days>0?`${days}d ${pad(h)}h ${pad(min)}m ${pad(sec)}s`:`${h}h ${pad(min)}m ${pad(sec)}s`;
-}
-function rowsOnDate(date){return PLAN.filter(r=>r.Date===date&&Number(r.Income)>0)}
-function uniquePlanDates(){return [...new Set(PLAN.filter(r=>Number(r.Income)>0).map(r=>r.Date))].sort()}
-function currentBalanceRow(){
-  const t=todayISO();
-  const candidates=PLAN.filter(r=>r.Date<=t);
-  return candidates.length?candidates[candidates.length-1]:PLAN[0];
-}
-function nextCountdownGroup(){
-  const now=new Date();
-  const dates=uniquePlanDates();
-  const date=dates.find(d=>cutoff4PM(d)>now);
-  return date?{date,rows:rowsOnDate(date),target:cutoff4PM(date)}:null;
-}
-function nextFutureDate(){
-  const t=todayISO();
-  return uniquePlanDates().find(d=>d>t)||null;
-}
-function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
-function allocationsHTML(rows){
-  const totals={};
-  rows.forEach(r=>allocationKeys.forEach(k=>{totals[k]=(totals[k]||0)+Number(r[k]||0)}));
-  return allocationKeys.filter(k=>Math.abs(totals[k]||0)>0.000001).map(k=>`<div class="move-line"><span>${k}</span><span>${money(totals[k])}</span></div>`).join("");
-}
-function notesFor(rows){return rows.map(r=>r["What To Send"]).filter(Boolean).join(" • ")}
+const BILLS=[
+  ["Mortgage PITI",3622.96,"Normally $1,811.48 from each of two normal checks; September 2026 is a one-time setup exception."],
+  ["Car payment",644,"$644 on Sep 1 payoff check; afterward $322 from each of two normal checks."],
+  ["Utilities",400,"$200 from each normal check."],
+  ["USAA",2615,"Pay to $0 on the next paycheck."],
+  ["Car insurance",300,"First normal paycheck of each month."],
+  ["Food",350,"$175 from each normal paycheck."],
+  ["Fuel",100,"$50 from each normal paycheck."],
+  ["Rent income",2850,"$2,850 now; $4,000 beginning July 2027."],
+  ["VA income",180,"Separate monthly income source."]
+];
 
-function renderHeroCards(){
-  const today=todayISO();
-  const todays=rowsOnDate(today);
-  const todayHost=document.getElementById("todayCard");
-  if(todays.length){
-    todayHost.innerHTML=`<div class="hero current"><div class="hero-top"><div><div class="eyebrow">Today's current move</div><div class="hero-title">${friendly(today)}</div></div><div class="hero-money">${money(totalIncome(todays))}</div></div><div class="move-lines">${allocationsHTML(todays)}</div><div class="hero-sub">${notesFor(todays)} · This stays visible for the entire calendar day.</div></div>`;
-  } else {
-    todayHost.innerHTML="";
+function buildPlan(){
+  const rows=[];
+  rows.push({date:"2026-09-01",source:"Paycheck — minimum target",income:3259,allocs:[
+    ["USAA payoff",2615],["Car payment",644],["Next mortgage",0]
+  ],note:"Minimum paycheck: USAA goes to $0, car is paid, and no money goes to the next mortgage from this check."});
+  rows.push({date:"2026-09-01",source:"VA",income:180,allocs:[["Pearl principal",180]],note:"VA stays separate from the paycheck target."});
+  rows.push({date:"2026-09-05",source:"Rent",income:2850,allocs:[["October mortgage reserve",2850]],note:"Put the full September rent toward the October mortgage."});
+  rows.push({date:"2026-09-15",source:"Paycheck",income:3000,allocs:[
+    ["October mortgage reserve",772.96],["Car",322],["Insurance",300],["Utilities",200],["Food",175],["Fuel",50],["Pearl principal",1180.04]
+  ],note:"This check absorbs the old $136 mortgage start and finishes the October mortgage reserve."});
+  rows.push({date:"2026-09-29",source:"Paycheck",income:3000,allocs:[
+    ["Car",322],["Utilities",200],["Food",175],["Fuel",50],["Pearl principal",2253]
+  ],note:"Finish October car/utilities; remaining money goes to Pearl."});
+
+  // VA and rent rows from Oct 2026 through Dec 2027.
+  let y=2026,m=10;
+  while(y<2028){
+    const rent=y>2027 || (y===2027 && m>=7) ? 4000 : 2850;
+    rows.push({date:`${y}-${String(m).padStart(2,'0')}-01`,source:"VA",income:180,allocs:[["Pearl principal",180]],note:"Monthly VA income goes to Pearl."});
+    rows.push({date:`${y}-${String(m).padStart(2,'0')}-05`,source:"Rent",income:rent,allocs:[["Pearl principal",rent]],note:"Full rent goes to Pearl principal."});
+    m++; if(m===13){m=1;y++}
   }
 
-  const g=nextCountdownGroup();
-  const nextHost=document.getElementById("nextCard");
-  if(!g){
-    nextHost.innerHTML=`<div class="hero next"><div class="eyebrow">Next money move</div><div class="hero-title">Plan complete</div></div>`;
-    return;
+  // Normal biweekly paychecks from Oct 13, 2026 through Dec 31, 2027.
+  let d=new Date("2026-10-13T12:00:00");
+  const end=new Date("2027-12-31T12:00:00");
+  const countByMonth={};
+  while(d<=end){
+    const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0');
+    const n=(countByMonth[key]||0)+1; countByMonth[key]=n;
+    if(n===1){
+      rows.push({date:iso(d),source:"Paycheck",income:3000,allocs:[
+        ["Next mortgage",1811.48],["Car",322],["Insurance",300],["Utilities",200],["Food",175],["Fuel",50],["Pearl principal",141.52]
+      ],note:"First normal check: fund next-month obligations first; remaining money goes to Pearl."});
+    }else if(n===2){
+      rows.push({date:iso(d),source:"Paycheck",income:3000,allocs:[
+        ["Next mortgage",1811.48],["Car",322],["Utilities",200],["Food",175],["Fuel",50],["Pearl principal",441.52]
+      ],note:"Second normal check: finish next-month obligations; remaining money goes to Pearl."});
+    }else{
+      rows.push({date:iso(d),source:"Paycheck · 3rd check month",income:3000,allocs:[["Pearl principal",3000]],note:"Third paycheck goes fully to Pearl because the first two checks funded the normal monthly buckets."});
+    }
+    d.setDate(d.getDate()+14);
   }
-  const sameDay=g.date===today;
-  nextHost.innerHTML=`<div class="hero next"><div class="hero-top"><div><div class="eyebrow">${sameDay?"Today's 4 PM cutoff":"Next money move"}</div><div id="liveCountdown" class="hero-title">${countdown(g.target)}</div></div><div class="hero-money">${money(totalIncome(g.rows))}</div></div><div class="hero-sub">${friendly(g.date)} · ${[...new Set(g.rows.map(r=>r.Source))].join(" + ")} · cutoff is 4:00 PM Eastern; after that this card advances to the next PAYDAY PLAN date.</div></div>`;
+  rows.sort((a,b)=>a.date.localeCompare(b.date) || (a.source==="Paycheck — minimum target"?-1:1));
+  return rows;
 }
+const PLAN=buildPlan();
 
-function renderBalances(){
-  const r=currentBalanceRow();
-  document.getElementById("mortgageNow").textContent=money(Number(r["Mortgage Balance"]));
-  document.getElementById("equityNow").textContent=money(Number(r["Equity @ $400k"]));
-  document.getElementById("usaaNow").textContent=money(Number(r["USAA Balance"]));
-  document.getElementById("carNow").textContent=money(Number(r["Car Balance"]));
-  document.getElementById("balanceAsOf").textContent=`Sheet-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}.`;
-}
-
-function rowKey(r){return `sheet-row-${r._sheetRow}`}
-function isDone(r){try{return localStorage.getItem(rowKey(r))==="1"}catch(e){return false}}
-function toggleDone(r){
-  try{localStorage.setItem(rowKey(r),isDone(r)?"0":"1")}catch(e){}
-  renderDashboardMoves();renderPayday();
-}
-function planCard(r,context=""){
-  const today=todayISO();
-  const next=nextFutureDate();
-  const classes=["plan-card"];
-  if(r.Date===today)classes.push("today");
-  else if(r.Date===next)classes.push("next");
-  const done=isDone(r);
-  let badge="";
-  if(r.Date===today)badge='<div class="badge current">Today</div>';
-  else if(r.Date===next)badge='<div class="badge">Next date</div>';
-  const allocs=allocationKeys.filter(k=>Math.abs(Number(r[k]||0))>0.000001).map(k=>`<div class="alloc"><span class="alloc-name">${k}</span><span class="alloc-value">${money(Number(r[k]))}</span></div>`).join("");
-  return `<div class="${classes.join(" ")}">
-    <div class="plan-head"><div>${badge}<div class="plan-date">${friendly(r.Date)}</div><div class="plan-source">${r.Source} · Sheet row ${r._sheetRow}</div></div><div><div class="plan-income">${money(Number(r.Income))} in</div></div></div>
-    <div class="allocs">${allocs||'<div class="alloc"><span class="alloc-name">No allocation</span><span class="alloc-value">$0</span></div>'}</div>
-    <div class="balance-strip">
-      <div class="balance-pill"><span>Mortgage after</span><b>${money(Number(r["Mortgage Balance"]))}</b></div>
-      <div class="balance-pill"><span>Equity after</span><b>${money(Number(r["Equity @ $400k"]))}</b></div>
-      <div class="balance-pill"><span>USAA after</span><b>${money(Number(r["USAA Balance"]))}</b></div>
-      <div class="balance-pill"><span>Car after</span><b>${money(Number(r["Car Balance"]))}</b></div>
-      <div class="balance-pill"><span>Spending money</span><b>${money(Number(r["Spending Money"]))}</b></div>
-      <div class="balance-pill"><span>Extra income needed</span><b>${money(Number(r["Extra Income Needed"]))}</b></div>
-    </div>
-    <div class="plan-note">${r["What To Send"]||""}</div>
-    <div class="check-row ${done?"done":""}" data-row="${r._sheetRow}"><span class="check">${done?"✓":""}</span><span>Mark this sheet row completed (visual only — it does not change spreadsheet balances)</span></div>
+function planCard(r){
+  return `<div class="plan-card">
+    <div class="plan-head"><div><div class="plan-date">${fmtDate(r.date)}</div><div class="plan-source">${r.source}</div></div><div class="plan-income">${money(r.income)}</div></div>
+    <div class="allocs">${r.allocs.filter(x=>x[1]!==0).map(x=>`<div class="alloc"><span class="alloc-name">${x[0]}</span><span class="alloc-value">${money(x[1])}</span></div>`).join("")}</div>
+    <div class="plan-note">${r.note}</div>
   </div>`;
 }
-function bindChecks(host){
-  host.querySelectorAll(".check-row").forEach(el=>{
-    el.onclick=()=>{
-      const row=PLAN.find(r=>String(r._sheetRow)===el.dataset.row);
-      if(row)toggleDone(row);
-    };
-  });
-}
-function renderDashboardMoves(){
-  const host=document.getElementById("dashboardMoves");
-  const t=todayISO();
-  const upcoming=PLAN.filter(r=>Number(r.Income)>0&&r.Date>=t).slice(0,7);
-  host.innerHTML=upcoming.map(r=>planCard(r,"dashboard")).join("");
-  bindChecks(host);
-}
-let paydayFilter="upcoming";
-function renderPayday(){
-  const host=document.getElementById("paydayList");
-  const t=todayISO();
+
+function renderPlan(filter="upcoming"){
   let rows=PLAN;
-  if(paydayFilter==="upcoming")rows=PLAN.filter(r=>r.Date>=t);
-  if(paydayFilter==="2027")rows=PLAN.filter(r=>r.Date.startsWith("2027-"));
-  host.innerHTML=rows.map(r=>planCard(r,"full")).join("");
-  bindChecks(host);
-}
-function renderBills(){
-  const host=document.getElementById("billList");
-  host.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("");
-}
-function renderInputs(){
-  document.getElementById("inputList").innerHTML=INPUTS.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${displayValue(x.label,x.value)}</div></div><div class="input-note">${x.notes||""}</div></div>`).join("");
-  document.getElementById("summaryList").innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");
-  document.getElementById("propertyList").innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");
+  if(filter==="2026") rows=PLAN.filter(r=>r.date.startsWith("2026"));
+  if(filter==="2027") rows=PLAN.filter(r=>r.date.startsWith("2027"));
+  if(filter==="upcoming") rows=PLAN.slice(0,14);
+  document.getElementById("paydayList").innerHTML=rows.map(planCard).join("");
 }
 
-function switchTab(id){
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.querySelector(`.nav-btn[data-tab="${id}"]`).classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-document.querySelectorAll(".filter-btn").forEach(b=>b.onclick=()=>{
-  paydayFilter=b.dataset.filter;
-  document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");renderPayday();
-});
+document.getElementById("billList").innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div class="bill-name">${b[0]}</div><div class="bill-amount">${money(b[1])}</div></div><div class="bill-meta">${b[2]}</div></div>`).join("");
+document.getElementById("inputList").innerHTML=INPUTS.map(i=>`<div class="input-card"><div class="input-top"><div class="input-label">${i[0]}</div><div class="input-value">${money(i[1])}</div></div><div class="input-note">${i[2]}</div></div>`).join("");
 
-function tick(){
-  document.getElementById("todayLine").textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());
-  renderHeroCards();
-}
-function init(){
-  document.getElementById("sourceNote").textContent=`Source snapshot: ${DATA.source.title} · corrected workbook rows embedded directly · not a live Drive connection`;
-  renderBalances();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick();
-}
-init();
-setInterval(tick,1000);
+document.querySelectorAll(".nav-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  btn.classList.add("active"); document.getElementById(btn.dataset.tab).classList.add("active");
+}));
+document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderPlan(btn.dataset.filter);
+}));
+document.getElementById("todayLine").textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+renderPlan();
 </script>
 </body>
 </html>
