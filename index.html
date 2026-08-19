@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0f1720">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,7 +11,6 @@
 <title>Wealth Command Center</title>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root{
@@ -24,12 +18,9 @@
   --panel:#161f29;
   --panel2:#1c2733;
   --panel3:#111922;
-
   --line:rgba(232,230,223,.09);
-
   --text:#e8e6df;
   --dim:#8fa0ab;
-
   --gold:#c9a15f;
   --green:#5fa88f;
   --amber:#e0a458;
@@ -49,18 +40,11 @@ body{
   margin:0;
   background:var(--ink);
   color:var(--text);
-
-  font-family:
-    'IBM Plex Sans',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-
+  font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif;
   padding:
     calc(18px + env(safe-area-inset-top))
     14px
     calc(60px + env(safe-area-inset-bottom));
-
   min-height:100vh;
 }
 
@@ -86,7 +70,6 @@ h1{
 .date-line{
   color:var(--dim);
   font-size:12px;
-  margin-bottom:3px;
 }
 
 .subtitle{
@@ -115,20 +98,12 @@ section{
   margin-bottom:9px;
 }
 
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero,
 .mission,
-.relief-card{
-  background:
-    linear-gradient(
-      145deg,
-      var(--panel2),
-      var(--panel)
-    );
-
+.card{
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:16px;
   padding:15px;
@@ -170,9 +145,7 @@ section{
   line-height:1.5;
 }
 
-/* =========================
-   CURRENT MISSION
-========================= */
+/* MISSION */
 
 .mission-title{
   font-family:'Fraunces',serif;
@@ -197,7 +170,6 @@ section{
   display:grid;
   grid-template-columns:30px 1fr;
   gap:9px;
-
   background:var(--panel3);
   border-radius:9px;
   padding:9px 10px;
@@ -207,14 +179,11 @@ section{
   width:24px;
   height:24px;
   border-radius:50%;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   background:var(--gold);
   color:var(--ink);
-
   font-family:'IBM Plex Mono',monospace;
   font-size:11px;
   font-weight:600;
@@ -232,9 +201,7 @@ section{
   margin-top:2px;
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .grid{
   display:grid;
@@ -269,21 +236,11 @@ section{
   margin-top:4px;
 }
 
-.green{
-  color:var(--green);
-}
+.green{color:var(--green)}
+.gold{color:var(--gold)}
+.red{color:var(--red)}
 
-.gold{
-  color:var(--gold);
-}
-
-.red{
-  color:var(--red);
-}
-
-/* =========================
-   BREAKDOWN
-========================= */
+/* PAYCHECK BREAKDOWN */
 
 .breakdown{
   background:var(--panel);
@@ -296,10 +253,8 @@ section{
   display:flex;
   justify-content:space-between;
   gap:12px;
-
   padding:10px 13px;
   border-top:1px solid var(--line);
-
   font-size:12px;
 }
 
@@ -324,49 +279,7 @@ section{
   color:var(--green);
 }
 
-/* =========================
-   PROGRESS
-========================= */
-
-.progress{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:11px;
-  padding:13px;
-  margin-top:8px;
-}
-
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-
-  color:var(--dim);
-  font-size:11px;
-  margin-bottom:8px;
-}
-
-.track{
-  height:8px;
-  background:var(--panel2);
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.fill{
-  height:100%;
-  background:
-    linear-gradient(
-      90deg,
-      var(--gold),
-      var(--green)
-    );
-
-  border-radius:10px;
-}
-
-/* =========================
-   PAYMENT GROUP
-========================= */
+/* PAYMENTS */
 
 .payment-group{
   background:var(--panel);
@@ -385,9 +298,21 @@ section{
   display:flex;
   justify-content:space-between;
   gap:10px;
-
   background:var(--panel2);
   padding:11px 13px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 7px;
+  margin-bottom:5px;
+  background:var(--gold);
+  color:var(--ink);
+  border-radius:999px;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
 .payment-date{
@@ -415,27 +340,10 @@ section{
   text-align:right;
 }
 
-.badge{
-  display:inline-block;
-  padding:3px 7px;
-  margin-bottom:5px;
-
-  background:var(--gold);
-  color:var(--ink);
-
-  border-radius:999px;
-
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-}
-
 .payment-row{
   display:flex;
   align-items:center;
   gap:10px;
-
   padding:11px 13px;
   border-top:1px solid var(--line);
 }
@@ -444,13 +352,10 @@ section{
   width:20px;
   height:20px;
   border-radius:50%;
-
   border:1.5px solid var(--dim);
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   flex:0 0 auto;
   font-size:11px;
 }
@@ -476,40 +381,51 @@ section{
   font-size:13px;
 }
 
-.leftover{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-
-  padding:10px 13px;
-  border-top:1px dashed var(--line);
-
-  color:var(--green);
-  font-size:11.5px;
-}
-
-.leftover strong{
-  font-family:'IBM Plex Mono',monospace;
-}
-
 .payment-note{
   color:var(--dim);
   font-size:11px;
   line-height:1.45;
-
   padding:9px 13px;
   border-top:1px solid var(--line);
 }
 
-/* =========================
-   BILLS
-========================= */
+/* PROGRESS */
+
+.progress{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:13px;
+  margin-top:8px;
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  color:var(--dim);
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.track{
+  height:8px;
+  background:var(--panel2);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--green));
+  border-radius:10px;
+}
+
+/* BILLS */
 
 .bill{
   background:var(--panel);
   border:1px solid var(--line);
   border-radius:10px;
-
   padding:11px 12px;
   margin-bottom:7px;
 }
@@ -538,15 +454,13 @@ section{
   margin-top:4px;
 }
 
-/* =========================
-   NEXT MILESTONE
-========================= */
+/* MILESTONES */
 
-.milestone-card{
+.milestone{
   background:var(--panel);
   border:1px solid var(--line);
   border-radius:11px;
-  padding:13px;
+  padding:12px;
   margin-bottom:8px;
 }
 
@@ -557,61 +471,21 @@ section{
 }
 
 .milestone-title{
-  font-size:14px;
-  font-weight:600;
-}
-
-.milestone-time{
-  font-family:'IBM Plex Mono',monospace;
-  color:var(--gold);
-  font-size:11px;
-  white-space:nowrap;
-}
-
-.milestone-sub{
-  color:var(--dim);
-  font-size:11px;
-  line-height:1.45;
-  margin-top:4px;
-}
-
-/* =========================
-   ROADMAP
-========================= */
-
-.road{
-  display:grid;
-  gap:8px;
-}
-
-.road-row{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:10px;
-
-  padding:11px 12px;
-
-  display:grid;
-  grid-template-columns:70px 1fr;
-  gap:9px;
-}
-
-.road-time{
-  color:var(--gold);
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;
-}
-
-.road-title{
   font-size:13px;
   font-weight:600;
 }
 
-.road-sub{
+.milestone-time{
+  color:var(--gold);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+}
+
+.milestone-sub{
   color:var(--dim);
   font-size:10.5px;
-  line-height:1.4;
-  margin-top:3px;
+  line-height:1.45;
+  margin-top:4px;
 }
 
 .chips{
@@ -624,9 +498,7 @@ section{
   background:var(--panel3);
   border:1px solid var(--line);
   border-radius:999px;
-
   color:var(--dim);
-
   padding:5px 8px;
   font-size:10px;
 }
@@ -642,7 +514,6 @@ section{
 .footer b{
   color:var(--green);
 }
-
 </style>
 </head>
 
@@ -650,181 +521,95 @@ section{
 
 <div class="shell">
 
-<div
-  id="todayLine"
-  class="date-line mono">
-</div>
+<div id="todayLine" class="date-line mono"></div>
 
-<h1>
-Wealth Command Center
-</h1>
+<h1>Wealth Command Center</h1>
 
 <div class="subtitle">
-Know the minimum you need, keep every required bill ahead of schedule, and deliberately send the rest toward the next goal.
+Follow the next move first. Required bills stay funded ahead of time, USAA disappears, and the money you free up keeps moving into Pearl.
 </div>
 
 
-<!-- ===================================
-     NEXT MONEY IN
-=================================== -->
+<!-- NEXT MONEY -->
 
 <div class="hero">
-
   <div class="hero-top">
-
     <div>
-
-      <div class="hero-label">
-      Next money in
-      </div>
-
-      <div
-        id="countdownMain"
-        class="hero-count">
-      —
-      </div>
-
+      <div class="hero-label">Next money move</div>
+      <div id="countdownMain" class="hero-count">—</div>
     </div>
 
-    <div
-      id="nextIncomeAmount"
-      class="hero-amount">
-    —
-    </div>
-
+    <div id="nextIncomeAmount" class="hero-amount">—</div>
   </div>
 
-  <div
-    id="countdownSub"
-    class="hero-sub">
-  </div>
-
+  <div id="countdownSub" class="hero-sub"></div>
 </div>
 
 
-<!-- ===================================
-     CURRENT MISSION
-=================================== -->
+<!-- CURRENT MISSION -->
 
 <div class="mission">
 
-  <div class="hero-label">
-  Current mission
-  </div>
+  <div class="hero-label">Current plan</div>
 
   <div class="mission-title">
-  Kill USAA → Keep bills ahead → Build Pearl
+    Utilities → USAA → Bills Ahead → Pearl
   </div>
 
   <div class="mission-phase">
-  Phase 1 · Right now
+    Current phase · 2026
   </div>
-
 
   <div class="steps">
 
     <div class="step">
-
-      <div class="step-num">
-      1
-      </div>
-
+      <div class="step-num">1</div>
       <div>
-
-        <div class="step-title">
-        Finish USAA
-        </div>
-
+        <div class="step-title">$400 utility bucket first</div>
         <div class="step-sub">
-        Do not put new purchases on it. Finish the balance first so that payment disappears from your future plan.
+          This covers water, sewer, Unit 3 electric, common electric and natural gas.
         </div>
-
       </div>
-
     </div>
 
-
     <div class="step">
-
-      <div class="step-num">
-      2
-      </div>
-
+      <div class="step-num">2</div>
       <div>
-
-        <div class="step-title">
-        Mortgage + car ready before the 1st
-        </div>
-
+        <div class="step-title">Finish USAA</div>
         <div class="step-sub">
-        Use the two prior normal checks to build the next mortgage and next $644 car payment before the month begins.
+          $3,600 on Aug. 18, then the remaining planned balance on Sept. 1.
         </div>
-
       </div>
-
     </div>
 
-
     <div class="step">
-
-      <div class="step-num">
-      3
-      </div>
-
+      <div class="step-num">3</div>
       <div>
-
-        <div class="step-title">
-        $400/month Utilities
-        </div>
-
+        <div class="step-title">Have the next mortgage + car ready early</div>
         <div class="step-sub">
-        Water + sewer + Unit 3 electric + common electric + natural gas are one budget bucket.
+          The goal is for the money to already be waiting before the 1st arrives.
         </div>
-
       </div>
-
     </div>
 
-
     <div class="step">
-
-      <div class="step-num">
-      4
-      </div>
-
+      <div class="step-num">4</div>
       <div>
-
-        <div class="step-title">
-        Everything above your floor goes to the active goal
-        </div>
-
+        <div class="step-title">Everything remaining attacks Pearl</div>
         <div class="step-sub">
-        USAA first. Once USAA reaches $0, that same money automatically becomes Pearl principal instead of lifestyle spending.
+          Once USAA is gone, freed cash does not become extra spending.
         </div>
-
       </div>
-
     </div>
 
-
     <div class="step">
-
-      <div class="step-num">
-      5
-      </div>
-
+      <div class="step-num">5</div>
       <div>
-
-        <div class="step-title">
-        Prepare for 4-unit #2
-        </div>
-
+        <div class="step-title">Prepare for 4-unit #2</div>
         <div class="step-sub">
-        Once Pearl and your consumer debt are strong, begin lender preparation and target the next 4-unit around summer 2027.
+          Start lender preparation in 2027 after the first steps are working consistently.
         </div>
-
       </div>
-
     </div>
 
   </div>
@@ -832,96 +617,39 @@ Know the minimum you need, keep every required bill ahead of schedule, and delib
 </div>
 
 
-<!-- ===================================
-     PAYCHECK FLOOR
-=================================== -->
+<!-- NORMAL PAYCHECK -->
 
 <section>
 
-<div class="section-title">
-Paycheck survival numbers
-</div>
+<div class="section-title">Normal paycheck numbers</div>
 
 <div class="section-sub">
-This answers the most important question: how low can a normal paycheck be without the baseline plan going negative?
+After the unusual August/September setup is finished, this is how a normal two-check month works.
 </div>
-
 
 <div class="grid">
 
   <div class="stat">
-
-    <div class="stat-label">
-    Conservative check
-    </div>
-
-    <div
-      id="normalCheck"
-      class="stat-value">
-    —
-    </div>
-
-    <div class="stat-note">
-    Planning assumption
-    </div>
-
+    <div class="stat-label">Normal paycheck</div>
+    <div class="stat-value">$3,000</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    Minimum check needed
-    </div>
-
-    <div
-      id="minimumCheck"
-      class="stat-value green">
-    —
-    </div>
-
-    <div class="stat-note">
-    Required baseline allocations
-    </div>
-
+    <div class="stat-label">1st check required</div>
+    <div class="stat-value green">$2,858.48</div>
+    <div class="stat-note">Includes full $300 insurance</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    Room above minimum
-    </div>
-
-    <div
-      id="roomAboveMinimum"
-      class="stat-value gold">
-    —
-    </div>
-
-    <div class="stat-note">
-    Goes to the active goal
-    </div>
-
+    <div class="stat-label">2nd check required</div>
+    <div class="stat-value green">$2,558.48</div>
+    <div class="stat-note">Insurance already funded</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    Utilities reserve
-    </div>
-
-    <div
-      id="monthlyUtilities"
-      class="stat-value">
-    —
-    </div>
-
-    <div class="stat-note">
-    $200 per normal check
-    </div>
-
+    <div class="stat-label">3rd paycheck month</div>
+    <div class="stat-value gold">$3,000</div>
+    <div class="stat-note">Full check available for Pearl</div>
   </div>
 
 </div>
@@ -929,132 +657,66 @@ This answers the most important question: how low can a normal paycheck be witho
 </section>
 
 
-<!-- ===================================
-     NORMAL PAYCHECK
-=================================== -->
+<!-- PAYCHECK BREAKDOWN -->
 
 <section>
 
-<div class="section-title">
-Normal $3,000 paycheck
-</div>
+<div class="section-title">Normal paycheck breakdown</div>
 
 <div class="section-sub">
-Your baseline once the plan is operating normally.
+The first and second check are slightly different because insurance is due on the 18th.
 </div>
-
 
 <div class="breakdown">
 
   <div class="break-row">
-
-    <span class="break-name">
-    Next mortgage
-    </span>
-
-    <span
-      id="bMortgage"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Next mortgage</span>
+    <span class="break-value">$1,811.48</span>
   </div>
-
 
   <div class="break-row">
-
-    <span class="break-name">
-    Next car payment
-    </span>
-
-    <span
-      id="bCar"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Next car payment</span>
+    <span class="break-value">$322</span>
   </div>
-
 
   <div class="break-row">
-
-    <span class="break-name">
-    Insurance
-    </span>
-
-    <span
-      id="bInsurance"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Utilities</span>
+    <span class="break-value">$200</span>
   </div>
-
 
   <div class="break-row">
-
-    <span class="break-name">
-    Utilities
-    </span>
-
-    <span
-      id="bUtilities"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Food</span>
+    <span class="break-value">$175</span>
   </div>
-
 
   <div class="break-row">
-
-    <span class="break-name">
-    Food
-    </span>
-
-    <span
-      id="bFood"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Fuel</span>
+    <span class="break-value">$50</span>
   </div>
-
 
   <div class="break-row">
-
-    <span class="break-name">
-    Fuel
-    </span>
-
-    <span
-      id="bFuel"
-      class="break-value">
-    </span>
-
+    <span class="break-name">Insurance — first check</span>
+    <span class="break-value">$300</span>
   </div>
-
 
   <div class="break-row break-total">
-
-    <span>
-    Required total
-    </span>
-
-    <span
-      id="requiredTotal"
-      class="break-value">
-    </span>
-
+    <span>First check required</span>
+    <span class="break-value">$2,858.48</span>
   </div>
 
+  <div class="break-row break-extra">
+    <span>First check → Pearl</span>
+    <span class="break-value">$141.52</span>
+  </div>
+
+  <div class="break-row break-total">
+    <span>Second check required</span>
+    <span class="break-value">$2,558.48</span>
+  </div>
 
   <div class="break-row break-extra">
-
-    <span>
-    Extra above required floor
-    </span>
-
-    <span
-      id="goalMoney"
-      class="break-value">
-    </span>
-
+    <span>Second check → Pearl</span>
+    <span class="break-value">$441.52</span>
   </div>
 
 </div>
@@ -1062,108 +724,49 @@ Your baseline once the plan is operating normally.
 </section>
 
 
-<!-- ===================================
-     BALANCES
-=================================== -->
+<!-- BALANCES -->
 
 <section>
 
-<div class="section-title">
-Current plan balances
-</div>
+<div class="section-title">Plan balances</div>
 
 <div class="section-sub">
-The displayed balance follows the plan timeline and also reacts when you manually mark future debt moves complete.
+Planning estimates based on your starting balances, scheduled loan payments and the extra-principal plan.
 </div>
-
 
 <div class="grid">
 
   <div class="stat">
-
-    <div class="stat-label">
-    Mortgage
-    </div>
-
-    <div
-      id="statMortgage"
-      class="stat-value">
-    —
-    </div>
-
+    <div class="stat-label">Mortgage</div>
+    <div id="statMortgage" class="stat-value">—</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    USAA
-    </div>
-
-    <div
-      id="statUsaa"
-      class="stat-value">
-    —
-    </div>
-
+    <div class="stat-label">USAA</div>
+    <div id="statUsaa" class="stat-value">—</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    Car loan
-    </div>
-
-    <div
-      id="statCar"
-      class="stat-value">
-    —
-    </div>
-
+    <div class="stat-label">Car loan</div>
+    <div id="statCar" class="stat-value">—</div>
   </div>
 
-
   <div class="stat">
-
-    <div class="stat-label">
-    Equity @ $400k
-    </div>
-
-    <div
-      id="statEquity"
-      class="stat-value">
-    —
-    </div>
-
+    <div class="stat-label">Equity @ $400k</div>
+    <div id="statEquity" class="stat-value">—</div>
   </div>
 
 </div>
-
 
 <div class="progress">
 
   <div class="progress-top">
-
-    <span>
-    Pearl equity
-    </span>
-
-    <span
-      id="progressPct">
-    —
-    </span>
-
+    <span>Pearl equity</span>
+    <span id="progressPct">—</span>
   </div>
 
   <div class="track">
-
-    <div
-      id="progressFill"
-      class="fill"
-      style="width:0%">
-    </div>
-
+    <div id="progressFill" class="fill" style="width:0%"></div>
   </div>
 
 </div>
@@ -1171,189 +774,111 @@ The displayed balance follows the plan timeline and also reacts when you manuall
 </section>
 
 
-<!-- ===================================
-     UPCOMING MONEY MOVES
-=================================== -->
+<!-- UPCOMING MOVES -->
 
 <section>
 
-<div class="section-title">
-Upcoming money moves
-</div>
+<div class="section-title">Upcoming money moves</div>
 
 <div class="section-sub">
-This is the section to actually follow check by check.
+Tap an individual move when you complete it.
 </div>
 
-<div id="paymentsList">
-</div>
+<div id="paymentsList"></div>
 
 </section>
 
 
-<!-- ===================================
-     BILL DATES
-=================================== -->
+<!-- DUE DATES -->
 
 <section>
 
-<div class="section-title">
-Actual due dates
-</div>
+<div class="section-title">Bills / deadlines</div>
 
 <div class="section-sub">
-Utilities use one $400 budget bucket, but the actual companies remain separate here.
+The budget uses one utility bucket, but the current bills are still shown individually where useful.
 </div>
 
-<div id="billScheduleList">
-</div>
+<div id="billScheduleList"></div>
 
 </section>
 
 
-<!-- ===================================
-     NEXT RELIEF
-=================================== -->
+<!-- FIRST MILESTONES -->
 
 <section>
 
-<div class="relief-card">
-
-  <div class="hero-label">
-  Next normal-check room
-  </div>
-
-  <div
-    id="reliefValue"
-    class="hero-count green">
-  —
-  </div>
-
-  <div
-    id="reliefSub"
-    class="hero-sub">
-  </div>
-
-</div>
-
-</section>
-
-
-<!-- ===================================
-     FIRST MILESTONES
-=================================== -->
-
-<section>
-
-<div class="section-title">
-First milestones
-</div>
+<div class="section-title">What to care about next</div>
 
 <div class="section-sub">
-Focus on these before worrying about the commercial building.
+The first few wins matter more than the distant commercial deal.
 </div>
 
-
-<div class="milestone-card">
+<div class="milestone">
 
   <div class="milestone-top">
-
-    <div class="milestone-title">
-    USAA = $0
-    </div>
-
-    <div class="milestone-time">
-    FIRST
-    </div>
-
+    <div class="milestone-title">USAA reaches $0</div>
+    <div class="milestone-time">SEP 2026</div>
   </div>
 
   <div class="milestone-sub">
-  The first big win. Once the card is eliminated, that cash is permanently redirected instead of becoming new spending.
+    Once this disappears, there is no longer an expensive revolving balance competing with Pearl.
   </div>
 
 </div>
 
 
-<div class="milestone-card">
+<div class="milestone">
 
   <div class="milestone-top">
-
-    <div class="milestone-title">
-    Every bill funded before due date
-    </div>
-
-    <div class="milestone-time">
-    2026
-    </div>
-
+    <div class="milestone-title">Monthly system becomes automatic</div>
+    <div class="milestone-time">OCT 2026</div>
   </div>
 
   <div class="milestone-sub">
-  Mortgage and car ready before the 1st. Utilities funded throughout the month. No need to rely on the next paycheck to rescue the prior bill.
+    Two normal checks fund next month's mortgage, car and utilities. Rent and VA can work harder for Pearl.
   </div>
 
 </div>
 
 
-<div class="milestone-card">
+<div class="milestone">
 
   <div class="milestone-top">
-
-    <div class="milestone-title">
-    Pearl principal keeps falling
-    </div>
-
-    <div class="milestone-time">
-    2026–27
-    </div>
-
+    <div class="milestone-title">Keep hammering Pearl</div>
+    <div class="milestone-time">2026–27</div>
   </div>
 
   <div class="milestone-sub">
-  After the required floor is covered, extra employment income and rental income continue building equity.
+    Rent, paycheck surplus and third-paycheck months keep lowering the mortgage balance.
   </div>
 
 </div>
 
 
-<div class="milestone-card">
+<div class="milestone">
 
   <div class="milestone-top">
-
-    <div class="milestone-title">
-    Begin 4-unit #2 preparation
-    </div>
-
-    <div class="milestone-time">
-    SPRING 2027
-    </div>
-
+    <div class="milestone-title">Prepare for second fourplex</div>
+    <div class="milestone-time">SPRING 2027</div>
   </div>
 
   <div class="milestone-sub">
-  Recheck your COE, talk with lenders, verify remaining entitlement, protect your credit and start underwriting fourplexes.
+    Recheck VA entitlement, lender qualification, credit, DTI and reserves.
   </div>
 
 </div>
 
 
-<div class="milestone-card">
+<div class="milestone">
 
   <div class="milestone-top">
-
-    <div class="milestone-title">
-    Target 4-unit #2
-    </div>
-
-    <div class="milestone-time">
-    SUMMER 2027
-    </div>
-
+    <div class="milestone-title">Target 4-unit #2</div>
+    <div class="milestone-time">SUMMER 2027</div>
   </div>
 
   <div class="milestone-sub">
-  Target outcome: Pearl fully rented + second fourplex = approximately 8 total units.
+    Pearl rent is assumed to increase to $4,000 starting July 2027. Goal after the second fourplex: 8 total units.
   </div>
 
 </div>
@@ -1361,83 +886,38 @@ Focus on these before worrying about the commercial building.
 </section>
 
 
-<!-- ===================================
-     LATER ROADMAP
-=================================== -->
+<!-- LATER -->
 
 <section>
 
-<div class="section-title">
-Later — motivation only
-</div>
+<div class="section-title">Later — motivation only</div>
 
 <div class="section-sub">
-Useful to remember where the first steps are leading.
+Not what you need to execute today, but this is where the first steps are leading.
 </div>
 
+<div class="milestone">
 
-<div class="road">
-
-  <div class="road-row">
-
-    <div class="road-time">
-    2028
-    </div>
-
-    <div>
-
-      <div class="road-title">
-      Build acquisition cash
-      </div>
-
-      <div class="road-sub">
-      Stabilize eight units and begin redirecting more surplus toward larger multifamily.
-      </div>
-
-    </div>
-
+  <div class="milestone-top">
+    <div class="milestone-title">Build larger acquisition fund</div>
+    <div class="milestone-time">2028</div>
   </div>
 
-
-  <div class="road-row">
-
-    <div class="road-time">
-    2029+
-    </div>
-
-    <div>
-
-      <div class="road-title">
-      Start serious commercial shopping
-      </div>
-
-      <div class="road-sub">
-      Build lender relationships and underwrite 6–12+ unit opportunities.
-      </div>
-
-    </div>
-
+  <div class="milestone-sub">
+    Stabilize the two fourplexes and redirect more surplus into liquid acquisition capital.
   </div>
 
+</div>
 
-  <div class="road-row">
+<div class="milestone">
 
-    <div class="road-time">
-    2029–31
-    </div>
+  <div class="milestone-top">
+    <div class="milestone-title">6–12+ unit multifamily</div>
+    <div class="milestone-time">2029+</div>
+  </div>
 
-    <div>
-
-      <div class="road-title">
-      First 6–12+ unit building
-      </div>
-
-      <div class="road-sub">
-      Use your cash contribution, landlord history and commercial financing rather than trying to save the entire purchase price.
-      </div>
-
-    </div>
-
+  <div class="milestone-sub">
+    Use liquidity, landlord history and commercial financing to move into larger multifamily.
   </div>
 
 </div>
@@ -1446,36 +926,18 @@ Useful to remember where the first steps are leading.
 
 
 <div class="chips">
-
-  <span class="chip">
-  $3,000 conservative check
-  </span>
-
-  <span class="chip">
-  $2,708.48 normal required floor
-  </span>
-
-  <span class="chip">
-  $400 utilities
-  </span>
-
-  <span class="chip">
-  $644 car due 1st
-  </span>
-
-  <span class="chip">
-  Mortgage funded ahead
-  </span>
-
+  <span class="chip">$400 utilities</span>
+  <span class="chip">$3,600 USAA Aug. 18</span>
+  <span class="chip">USAA target $0 Sept. 1</span>
+  <span class="chip">Rent paid on the 5th</span>
+  <span class="chip">$4,000 rent Jul. 2027</span>
 </div>
 
 
 <div class="footer">
-
 <b>
-The objective is not to make the biggest paycheck possible forever. It is to use the high-income period to get your required monthly floor low enough that the plan still works when overtime eventually falls.
+Follow the next move. The real power of the plan is that once a debt disappears, its money automatically gets reassigned instead of becoming extra spending.
 </b>
-
 </div>
 
 </div>
@@ -1483,810 +945,122 @@ The objective is not to make the biggest paycheck possible forever. It is to use
 
 <script>
 
-/* =====================================================
-   MASTER SETTINGS
+/* ======================================================
+   CORE ASSUMPTIONS
+====================================================== */
 
-   EDIT THESE NUMBERS IF SOMETHING CHANGES.
-===================================================== */
-
-const BUDGET = {
-
-  typicalPaycheck:3000,
+const SETTINGS = {
 
   propertyValue:400000,
 
-  mortgagePayment:3622.96,
-  mortgagePerCheck:1811.48,
+  startingMortgage:384684,
+  mortgageRate:0.0625,
+  mortgagePI:2370,
+  mortgagePITI:3622.96,
 
+  startingUSAA:6000,
+
+  startingCar:29200,
+  carRate:0.079,
   carPayment:644,
-  carPerCheck:322,
 
-  insuranceMonthly:300,
-  insurancePerCheck:150,
+  normalPaycheck:3000,
 
-  utilitiesMonthly:400,
-  utilitiesPerCheck:200,
-
-  foodMonthly:350,
-  foodPerCheck:175,
-
-  fuelMonthly:100,
-  fuelPerCheck:50,
-
-  vaMonthly:180,
+  vaIncome:180,
 
   currentRent:2850,
-  futureRent:4000
+  futureRent:4000,
+
+  futureRentStart:"2027-07-01"
 
 };
 
 
-/* =====================================================
-   STARTING BALANCES
-===================================================== */
-
-const STARTING = {
-
-  date:"2026-08-16",
-
-  mortgage:384634,
-
-  usaa:6200,
-
-  car:29200,
-
-  propertyValue:400000
-
-};
-
-
-/* =====================================================
-   CORE PAYCHECK CALCULATIONS
-===================================================== */
-
-function requiredPerCheck(){
-
-  return (
-
-    BUDGET.mortgagePerCheck
-
-    +
-
-    BUDGET.carPerCheck
-
-    +
-
-    BUDGET.insurancePerCheck
-
-    +
-
-    BUDGET.utilitiesPerCheck
-
-    +
-
-    BUDGET.foodPerCheck
-
-    +
-
-    BUDGET.fuelPerCheck
-
-  );
-
-}
-
-
-function roomAboveMinimum(){
-
-  return Math.max(
-
-    0,
-
-    BUDGET.typicalPaycheck
-    -
-    requiredPerCheck()
-
-  );
-
-}
-
-
-/* =====================================================
-   MONEY-MOVE PLAN
-
-   This is deliberately strongest near-term.
-===================================================== */
+/* ======================================================
+   EXACT NEAR-TERM PLAN
+====================================================== */
 
 const PLAN = [
 
 {
   date:"2026-08-18",
-
   income:4000,
-
   source:"Paycheck",
-
-  note:
-  "Protect the current utility bills and attack USAA first.",
-
+  note:"Reserve the entire $400 utility bucket first. Then send $3,600 to USAA.",
   moves:[
-
-    {
-      name:"Utilities",
-      amount:400
-    },
-
-    {
-      name:"USAA",
-      amount:3600
-    }
-
+    {name:"Utilities",amount:400},
+    {name:"USAA",amount:3600}
   ]
 },
-
 
 {
   date:"2026-09-01",
-
-  income:6730,
-
-  source:"Paycheck + Rent + VA",
-
-  note:
-  "Finish USAA, pay the September car, fully fund the October mortgage, then send the remainder to Pearl.",
-
+  income:3180,
+  source:"Paycheck + VA",
+  note:"Pay the September car payment, finish USAA, then start the October mortgage reserve.",
   moves:[
-
-    {
-      name:"USAA",
-      amount:2200
-    },
-
-    {
-      name:"Car payment",
-      amount:644
-    },
-
-    {
-      name:"Next mortgage",
-      amount:3622.96
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:263.04
-    }
-
+    {name:"Car payment",amount:644},
+    {name:"USAA",amount:2400},
+    {name:"Next mortgage",amount:136}
   ]
 },
 
+{
+  date:"2026-09-05",
+  income:2850,
+  source:"Rent",
+  note:"Put the full rent payment toward the October mortgage reserve.",
+  moves:[
+    {name:"Next mortgage",amount:2850}
+  ]
+},
 
 {
   date:"2026-09-15",
-
   income:3000,
-
   source:"Paycheck",
-
-  note:
-  "Begin funding October obligations in advance. September has three paycheck dates, so this month gives you extra room.",
-
+  note:"Finish the October mortgage. Fund half the October car, full September insurance, half the next utility bucket, food/fuel, then send the remainder to Pearl.",
   moves:[
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:2103
-    }
-
+    {name:"Next mortgage",amount:636.96},
+    {name:"Next car",amount:322},
+    {name:"Insurance",amount:300},
+    {name:"Utilities",amount:200},
+    {name:"Food",amount:175},
+    {name:"Fuel",amount:50},
+    {name:"Pearl Principal",amount:1316.04}
   ]
 },
-
 
 {
   date:"2026-09-29",
-
   income:3000,
-
   source:"Paycheck",
-
-  note:
-  "Finish the October car reserve and September monthly buckets. Everything left can keep pushing Pearl.",
-
+  note:"Finish the October car and utility reserve. Fund food/fuel. Everything else goes to Pearl.",
   moves:[
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:2103
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-10-01",
-
-  income:3030,
-
-  source:"Rent + VA",
-
-  note:
-  "October mortgage and car were funded beforehand. Rent + VA can now work for Pearl.",
-
-  moves:[
-
-    {
-      name:"Pearl Principal",
-      amount:3030
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-10-13",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Normal paycheck structure begins: required baseline is $2,708.48, leaving $291.52 for the active goal.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-10-27",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Finish November funding. Keep the $291.52 surplus working instead of absorbing it into spending.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-11-01",
-
-  income:3030,
-
-  source:"Rent + VA",
-
-  note:
-  "November required bills should already be funded. Rent + VA go to Pearl.",
-
-  moves:[
-
-    {
-      name:"Pearl Principal",
-      amount:3030
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-11-10",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Fund half of December mortgage and the normal required buckets.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-11-24",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Finish December funding.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-12-01",
-
-  income:3030,
-
-  source:"Rent + VA",
-
-  note:
-  "December rent + VA continue toward Pearl.",
-
-  moves:[
-
-    {
-      name:"Pearl Principal",
-      amount:3030
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-12-08",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Fund half of January obligations.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2026-12-22",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Finish January funding and end the year with the same system.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2027-01-01",
-
-  income:3030,
-
-  source:"Rent + VA",
-
-  note:
-  "Required January bills should already be ready. Rent + VA continue toward Pearl.",
-
-  moves:[
-
-    {
-      name:"Pearl Principal",
-      amount:3030
-    }
-
-  ]
-},
-
-
-{
-  date:"2027-01-05",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Continue the normal paycheck structure.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
-  ]
-},
-
-
-{
-  date:"2027-01-19",
-
-  income:3000,
-
-  source:"Paycheck",
-
-  note:
-  "Finish February funding.",
-
-  moves:[
-
-    {
-      name:"Next mortgage",
-      amount:1811.48
-    },
-
-    {
-      name:"Next car",
-      amount:322
-    },
-
-    {
-      name:"Insurance",
-      amount:150
-    },
-
-    {
-      name:"Utilities",
-      amount:200
-    },
-
-    {
-      name:"Food",
-      amount:175
-    },
-
-    {
-      name:"Fuel",
-      amount:50
-    },
-
-    {
-      name:"Pearl Principal",
-      amount:291.52
-    }
-
+    {name:"Next car",amount:322},
+    {name:"Utilities",amount:200},
+    {name:"Food",amount:175},
+    {name:"Fuel",amount:50},
+    {name:"Pearl Principal",amount:2253}
   ]
 }
 
 ];
 
 
-/* =====================================================
-   AUTO-GENERATE THE REST OF 2027
-
-   - biweekly $3,000 checks
-   - rent + VA on 1st
-   - $4,000 rent beginning July 2027
-   - third-check dates automatically have no mortgage,
-     car, insurance, utilities, food or fuel allocation
-     and send the full $3,000 toward Pearl
-===================================================== */
-
-function addDays(date,days){
-
-  const d =
-    new Date(date);
-
-  d.setDate(
-    d.getDate()+days
-  );
-
-  return d;
-
-}
-
+/* ======================================================
+   AUTOMATIC MONTHLY PLAN
+   OCT 2026 THROUGH DEC 2027
+====================================================== */
 
 function isoDate(date){
 
   return (
     date.getFullYear()
-    +
-    "-"
-    +
-    String(
-      date.getMonth()+1
-    ).padStart(2,"0")
-    +
-    "-"
-    +
-    String(
-      date.getDate()
-    ).padStart(2,"0")
+    + "-"
+    + String(date.getMonth()+1).padStart(2,"0")
+    + "-"
+    + String(date.getDate()).padStart(2,"0")
   );
 
 }
@@ -2296,96 +1070,119 @@ function monthKey(date){
 
   return (
     date.getFullYear()
-    +
-    "-"
-    +
-    String(
-      date.getMonth()+1
-    ).padStart(2,"0")
+    + "-"
+    + String(date.getMonth()+1).padStart(2,"0")
   );
 
 }
 
 
-/* Generate monthly rent + VA Feb-Dec 2027 */
+/* VA + rent */
 
 for(
-  let month=1;
-  month<=11;
-  month++
+  let year=2026;
+  year<=2027;
+  year++
 ){
 
-  const d =
-    new Date(
-      2027,
-      month,
-      1,
-      12
-    );
+  const firstMonth =
+    year===2026 ? 9 : 0;
+
+  for(
+    let month=firstMonth;
+    month<=11;
+    month++
+  ){
+
+    const first =
+      new Date(year,month,1,12);
+
+    const fifth =
+      new Date(year,month,5,12);
 
 
-  const rent =
-    month>=6
-    ?
-    BUDGET.futureRent
-    :
-    BUDGET.currentRent;
+    PLAN.push({
+
+      date:isoDate(first),
+
+      income:180,
+
+      source:"VA",
+
+      note:
+      "Required bills due on the 1st should already be funded from prior paychecks. Send the VA income to Pearl.",
+
+      moves:[
+        {
+          name:"Pearl Principal",
+          amount:180
+        }
+      ]
+
+    });
 
 
-  PLAN.push({
-
-    date:
-      isoDate(d),
-
-    income:
-      rent
-      +
-      BUDGET.vaMonthly,
-
-    source:
-      "Rent + VA",
-
-    note:
-      month>=6
+    const rent =
+      (
+        year>2027
+        ||
+        (
+          year===2027
+          &&
+          month>=6
+        )
+      )
       ?
-      "All four Pearl units are assumed rented. Rent + VA continue toward Pearl."
+      SETTINGS.futureRent
       :
-      "Rent + VA continue toward Pearl while required monthly bills are funded from prior paychecks.",
+      SETTINGS.currentRent;
 
-    moves:[
 
-      {
-        name:"Pearl Principal",
-        amount:
-          rent
-          +
-          BUDGET.vaMonthly
-      }
+    PLAN.push({
 
-    ]
+      date:isoDate(fifth),
 
-  });
+      income:rent,
+
+      source:"Rent",
+
+      note:
+      rent===4000
+      ?
+      "All four Pearl units are assumed rented. Send the full $4,000 rent to Pearl principal."
+      :
+      "Send the full $2,850 rent to Pearl principal.",
+
+      moves:[
+        {
+          name:"Pearl Principal",
+          amount:rent
+        }
+      ]
+
+    });
+
+  }
 
 }
 
 
-/* Generate biweekly checks after Jan 19 */
+/* Biweekly paychecks beginning Oct. 13 */
 
-let generatedCheck =
+let payday =
   new Date(
-    2027,
-    1,
-    2,
+    2026,
+    9,
+    13,
     12
   );
 
 
-const checksByMonth =
-  {};
+const monthCheckCount = {};
 
 
 while(
-  generatedCheck
+  payday
   <=
   new Date(
     2027,
@@ -2397,13 +1194,13 @@ while(
 
   const key =
     monthKey(
-      generatedCheck
+      payday
     );
 
 
-  checksByMonth[key] =
+  monthCheckCount[key] =
     (
-      checksByMonth[key]
+      monthCheckCount[key]
       ||
       0
     )
@@ -2411,12 +1208,12 @@ while(
     1;
 
 
-  const checkNumber =
-    checksByMonth[key];
+  const numberThisMonth =
+    monthCheckCount[key];
 
 
   const isThirdCheck =
-    checkNumber===3;
+    numberThisMonth===3;
 
 
   if(isThirdCheck){
@@ -2424,48 +1221,43 @@ while(
     PLAN.push({
 
       date:
-        isoDate(
-          generatedCheck
-        ),
+      isoDate(
+        payday
+      ),
 
-      income:
-        3000,
+      income:3000,
 
-      source:
-        "Paycheck · 3rd check month",
+      source:"Paycheck · 3rd check month",
 
       note:
-        "The month's normal obligations were funded by the first two checks. Send the full extra paycheck toward Pearl.",
+      "The first two checks already funded the normal monthly obligations. Send the full third paycheck to Pearl.",
 
       moves:[
-
         {
           name:"Pearl Principal",
           amount:3000
         }
-
       ]
 
     });
 
   }
-  else{
+
+  else if(numberThisMonth===1){
 
     PLAN.push({
 
       date:
-        isoDate(
-          generatedCheck
-        ),
+      isoDate(
+        payday
+      ),
 
-      income:
-        3000,
+      income:3000,
 
-      source:
-        "Paycheck",
+      source:"Paycheck",
 
       note:
-        "Normal paycheck: $2,708.48 required baseline, leaving $291.52 for the active goal.",
+      "First normal paycheck of the month: fund half next mortgage, half next car, full insurance before the 18th, utilities, food and fuel. Send the remaining $141.52 to Pearl.",
 
       moves:[
 
@@ -2481,7 +1273,7 @@ while(
 
         {
           name:"Insurance",
-          amount:150
+          amount:300
         },
 
         {
@@ -2501,7 +1293,61 @@ while(
 
         {
           name:"Pearl Principal",
-          amount:291.52
+          amount:141.52
+        }
+
+      ]
+
+    });
+
+  }
+
+  else{
+
+    PLAN.push({
+
+      date:
+      isoDate(
+        payday
+      ),
+
+      income:3000,
+
+      source:"Paycheck",
+
+      note:
+      "Second normal paycheck of the month: finish next mortgage, car and utility funding. Fund food/fuel and send the remaining $441.52 to Pearl.",
+
+      moves:[
+
+        {
+          name:"Next mortgage",
+          amount:1811.48
+        },
+
+        {
+          name:"Next car",
+          amount:322
+        },
+
+        {
+          name:"Utilities",
+          amount:200
+        },
+
+        {
+          name:"Food",
+          amount:175
+        },
+
+        {
+          name:"Fuel",
+          amount:50
+        },
+
+        {
+          name:"Pearl Principal",
+          amount:441.52
         }
 
       ]
@@ -2511,65 +1357,220 @@ while(
   }
 
 
-  generatedCheck =
-    addDays(
-      generatedCheck,
-      14
+  payday =
+    new Date(
+      payday.getFullYear(),
+      payday.getMonth(),
+      payday.getDate()+14,
+      12
     );
 
 }
 
 
-/* =====================================================
-   BILL CALENDAR
+/* ======================================================
+   DATE / EASTERN TIME HELPERS
+====================================================== */
 
-   Water uses the 6th as you told me.
-   USAA is shown on the 10th only while it is relevant.
-===================================================== */
+function nthSunday(
+  year,
+  monthIndex,
+  nth
+){
 
-const BILL_RULES = [
+  const first =
+    new Date(
+      Date.UTC(
+        year,
+        monthIndex,
+        1
+      )
+    );
 
-{
-  name:"Mortgage PITI",
-  amount:3622.96,
-  start:"2026-10-01",
-  day:1
-},
 
-{
-  name:"Car payment",
-  amount:644,
-  start:"2026-09-01",
-  day:1
-},
+  const firstSunday =
+    1
+    +
+    (
+      (
+        7
+        -
+        first.getUTCDay()
+      )
+      %
+      7
+    );
 
-{
-  name:"Water / utility bucket reminder",
-  amount:400,
-  start:"2026-09-06",
-  day:6
-},
 
-{
-  name:"USAA due-date reminder",
-  amount:0,
-  start:"2026-09-10",
-  oneTime:true
-},
+  return (
+    firstSunday
+    +
+    (
+      nth-1
+    )
+    *
+    7
+  );
 
-{
-  name:"Insurance",
-  amount:300,
-  start:"2026-09-18",
-  day:18
 }
 
-];
+
+function easternNoonDate(str){
+
+  const [y,m,d] =
+    str
+    .split("-")
+    .map(Number);
 
 
-/* =====================================================
+  const marchSecondSunday =
+    nthSunday(
+      y,
+      2,
+      2
+    );
+
+
+  const novemberFirstSunday =
+    nthSunday(
+      y,
+      10,
+      1
+    );
+
+
+  const inDST =
+
+    (
+      m>3
+      &&
+      m<11
+    )
+
+    ||
+
+    (
+      m===3
+      &&
+      d>=marchSecondSunday
+    )
+
+    ||
+
+    (
+      m===11
+      &&
+      d<novemberFirstSunday
+    );
+
+
+  return new Date(
+    Date.UTC(
+      y,
+      m-1,
+      d,
+      inDST ? 16 : 17,
+      0,
+      0,
+      0
+    )
+  );
+
+}
+
+
+function easternEndOfDay(str){
+
+  const [y,m,d] =
+    str
+    .split("-")
+    .map(Number);
+
+
+  const marchSecondSunday =
+    nthSunday(y,2,2);
+
+
+  const novemberFirstSunday =
+    nthSunday(y,10,1);
+
+
+  const inDST =
+
+    (
+      m>3
+      &&
+      m<11
+    )
+
+    ||
+
+    (
+      m===3
+      &&
+      d>=marchSecondSunday
+    )
+
+    ||
+
+    (
+      m===11
+      &&
+      d<novemberFirstSunday
+    );
+
+
+  return new Date(
+    Date.UTC(
+      y,
+      m-1,
+      d,
+      inDST ? 27 : 28,
+      59,
+      59,
+      999
+    )
+  );
+
+}
+
+
+/* ======================================================
+   NORMALIZED PLAN
+====================================================== */
+
+const ROWS =
+PLAN
+.map(
+  (row,index) => ({
+
+    ...row,
+
+    index,
+
+    actualDate:
+    easternNoonDate(
+      row.date
+    ),
+
+    endDate:
+    easternEndOfDay(
+      row.date
+    )
+
+  })
+)
+.sort(
+  (a,b) =>
+  a.actualDate-b.actualDate
+  ||
+  a.index-b.index
+);
+
+
+/* ======================================================
    FORMATTERS
-===================================================== */
+====================================================== */
 
 const fmtMoney =
 value =>
@@ -2582,63 +1583,15 @@ Number(
   "en-US",
   {
     minimumFractionDigits:
-      Number(
-        value || 0
-      )%1===0
-      ?
-      0
-      :
-      2,
+    Number(value || 0)%1===0
+    ?
+    0
+    :
+    2,
 
     maximumFractionDigits:2
   }
 );
-
-
-/* =====================================================
-   DATE HELPERS
-===================================================== */
-
-let now =
-  new Date();
-
-
-function parseDate(str){
-
-  const parts =
-    str
-    .split("-")
-    .map(Number);
-
-
-  return new Date(
-    parts[0],
-    parts[1]-1,
-    parts[2],
-    12,
-    0,
-    0,
-    0
-  );
-
-}
-
-
-function endOfDay(str){
-
-  const d =
-    parseDate(str);
-
-  d.setHours(
-    23,
-    59,
-    59,
-    999
-  );
-
-  return d;
-
-}
 
 
 function formattedDate(date){
@@ -2670,173 +1623,28 @@ function fullDate(date){
 }
 
 
-/* =====================================================
-   NORMALIZED ROWS
-===================================================== */
-
-const ROWS =
-PLAN
-.map(
-  (row,index) => ({
-
-    ...row,
-
-    index,
-
-    actualDate:
-      parseDate(
-        row.date
-      ),
-
-    endDate:
-      endOfDay(
-        row.date
-      )
-
-  })
-)
-.sort(
-  (a,b) =>
-    a.actualDate-b.actualDate
-    ||
-    a.index-b.index
-);
+let now =
+new Date();
 
 
-/* =====================================================
-   STATIC BUDGET NUMBERS
-===================================================== */
-
-function renderBudgetNumbers(){
-
-  document.getElementById(
-    "normalCheck"
-  ).textContent =
-    fmtMoney(
-      BUDGET.typicalPaycheck
-    );
-
-
-  document.getElementById(
-    "minimumCheck"
-  ).textContent =
-    fmtMoney(
-      requiredPerCheck()
-    );
-
-
-  document.getElementById(
-    "roomAboveMinimum"
-  ).textContent =
-    fmtMoney(
-      roomAboveMinimum()
-    );
-
-
-  document.getElementById(
-    "monthlyUtilities"
-  ).textContent =
-    fmtMoney(
-      BUDGET.utilitiesMonthly
-    );
-
-
-  document.getElementById(
-    "bMortgage"
-  ).textContent =
-    fmtMoney(
-      BUDGET.mortgagePerCheck
-    );
-
-
-  document.getElementById(
-    "bCar"
-  ).textContent =
-    fmtMoney(
-      BUDGET.carPerCheck
-    );
-
-
-  document.getElementById(
-    "bInsurance"
-  ).textContent =
-    fmtMoney(
-      BUDGET.insurancePerCheck
-    );
-
-
-  document.getElementById(
-    "bUtilities"
-  ).textContent =
-    fmtMoney(
-      BUDGET.utilitiesPerCheck
-    );
-
-
-  document.getElementById(
-    "bFood"
-  ).textContent =
-    fmtMoney(
-      BUDGET.foodPerCheck
-    );
-
-
-  document.getElementById(
-    "bFuel"
-  ).textContent =
-    fmtMoney(
-      BUDGET.fuelPerCheck
-    );
-
-
-  document.getElementById(
-    "requiredTotal"
-  ).textContent =
-    fmtMoney(
-      requiredPerCheck()
-    );
-
-
-  document.getElementById(
-    "goalMoney"
-  ).textContent =
-    fmtMoney(
-      roomAboveMinimum()
-    );
-
-
-  document.getElementById(
-    "reliefValue"
-  ).textContent =
-    fmtMoney(
-      roomAboveMinimum()
-    );
-
-
-  document.getElementById(
-    "reliefSub"
-  ).textContent =
-    `On a normal ${fmtMoney(BUDGET.typicalPaycheck)} check, ${fmtMoney(requiredPerCheck())} is the baseline and ${fmtMoney(roomAboveMinimum())} remains for the active goal.`;
-
-}
-
-
-/* =====================================================
-   CLOCK / NEXT MONEY
-===================================================== */
+/* ======================================================
+   NEXT MONEY / COUNTDOWN
+====================================================== */
 
 function refreshClock(){
 
   now =
-    new Date();
+  new Date();
 
 
-  document.getElementById(
+  document
+  .getElementById(
     "todayLine"
-  ).textContent =
-    fullDate(
-      now
-    );
+  )
+  .textContent =
+  fullDate(
+    now
+  );
 
 }
 
@@ -2844,7 +1652,7 @@ function refreshClock(){
 function countdown(target){
 
   const diff =
-    target-now;
+  target-now;
 
 
   if(diff<=0){
@@ -2853,46 +1661,48 @@ function countdown(target){
 
 
   let seconds =
-    Math.floor(
-      diff/1000
-    );
+  Math.floor(
+    diff/1000
+  );
 
 
   const days =
-    Math.floor(
-      seconds/86400
-    );
+  Math.floor(
+    seconds/86400
+  );
 
 
-  seconds %= 86400;
+  seconds %=
+  86400;
 
 
   const hours =
-    Math.floor(
-      seconds/3600
-    );
+  Math.floor(
+    seconds/3600
+  );
 
 
-  seconds %= 3600;
+  seconds %=
+  3600;
 
 
   const minutes =
-    Math.floor(
-      seconds/60
-    );
+  Math.floor(
+    seconds/60
+  );
 
 
   const secs =
-    seconds%60;
+  seconds%60;
 
 
   const pad =
-    n =>
-      String(n)
-      .padStart(
-        2,
-        "0"
-      );
+  n =>
+  String(n)
+  .padStart(
+    2,
+    "0"
+  );
 
 
   if(days>0){
@@ -2921,13 +1731,13 @@ function countdown(target){
 }
 
 
-function nextIncomeRow(){
+function currentOrNextRow(){
 
   return ROWS.find(
     row =>
-      row.income>0
-      &&
-      row.actualDate>now
+    row.income>0
+    &&
+    row.endDate>=now
   );
 
 }
@@ -2935,79 +1745,87 @@ function nextIncomeRow(){
 
 function renderCountdown(){
 
-  const next =
-    nextIncomeRow();
+  const row =
+  currentOrNextRow();
 
 
-  const count =
-    document.getElementById(
-      "countdownMain"
-    );
+  const main =
+  document.getElementById(
+    "countdownMain"
+  );
 
 
   const amount =
-    document.getElementById(
-      "nextIncomeAmount"
-    );
+  document.getElementById(
+    "nextIncomeAmount"
+  );
 
 
   const sub =
-    document.getElementById(
-      "countdownSub"
-    );
+  document.getElementById(
+    "countdownSub"
+  );
 
 
-  if(!next){
+  if(!row){
 
-    count.textContent =
-      "Plan complete";
+    main.textContent =
+    "Plan complete";
 
     amount.textContent =
-      "";
+    "";
 
     sub.textContent =
-      "No future income rows loaded.";
+    "No future plan rows loaded.";
 
     return;
 
   }
 
 
-  count.textContent =
-    countdown(
-      next.actualDate
-    );
+  main.textContent =
+  countdown(
+    row.actualDate
+  );
 
 
   amount.textContent =
-    fmtMoney(
-      next.income
-    );
+  fmtMoney(
+    row.income
+  );
+
+
+  const total =
+  row.moves.reduce(
+    (sum,move) =>
+    sum+move.amount,
+    0
+  );
 
 
   sub.textContent =
-    `${next.source} · ${formattedDate(next.actualDate)}`;
+  `${row.source} · ${formattedDate(row.actualDate)} · ${fmtMoney(total)} assigned`;
 
 }
 
 
-/* =====================================================
-   LOCAL CHECK-OFF STORAGE
-===================================================== */
+/* ======================================================
+   LOCAL CHECKMARK STORAGE
+====================================================== */
 
 function paymentKey(
   row,
-  moveIndex
+  index
 ){
 
   return (
-    "wealth-command-v12:"
+    "wealth-plan-v20:"
     +
     row.index
     +
     ":"
     +
-    moveIndex
+    index
   );
 
 }
@@ -3015,7 +1833,7 @@ function paymentKey(
 
 function paymentIsPaid(
   row,
-  moveIndex
+  index
 ){
 
   try{
@@ -3024,7 +1842,7 @@ function paymentIsPaid(
       localStorage.getItem(
         paymentKey(
           row,
-          moveIndex
+          index
         )
       )
       ===
@@ -3032,6 +1850,7 @@ function paymentIsPaid(
     );
 
   }
+
   catch(e){
 
     return false;
@@ -3043,7 +1862,7 @@ function paymentIsPaid(
 
 function togglePayment(
   row,
-  moveIndex
+  index
 ){
 
   try{
@@ -3052,12 +1871,12 @@ function togglePayment(
 
       paymentKey(
         row,
-        moveIndex
+        index
       ),
 
       paymentIsPaid(
         row,
-        moveIndex
+        index
       )
       ?
       "false"
@@ -3067,6 +1886,7 @@ function togglePayment(
     );
 
   }
+
   catch(e){}
 
 
@@ -3077,19 +1897,19 @@ function togglePayment(
 }
 
 
-/* =====================================================
+/* ======================================================
    UPCOMING MONEY MOVES
-===================================================== */
+====================================================== */
 
 function rowsToShow(){
 
   return ROWS.filter(
     row =>
-      row.income>0
-      &&
-      row.moves.length>0
-      &&
-      row.endDate>=now
+    row.income>0
+    &&
+    row.moves.length>0
+    &&
+    row.endDate>=now
   );
 
 }
@@ -3098,13 +1918,13 @@ function rowsToShow(){
 function renderPayments(){
 
   const container =
-    document.getElementById(
-      "paymentsList"
-    );
+  document.getElementById(
+    "paymentsList"
+  );
 
 
   container.innerHTML =
-    "";
+  "";
 
 
   rowsToShow()
@@ -3113,129 +1933,123 @@ function renderPayments(){
     (row,rowIndex) => {
 
       const group =
-        document.createElement(
-          "div"
-        );
+      document.createElement(
+        "div"
+      );
 
 
       group.className =
-        "payment-group"
-        +
-        (
-          rowIndex===0
-          ?
-          " next"
-          :
-          ""
-        );
+      "payment-group"
+      +
+      (
+        rowIndex===0
+        ?
+        " next"
+        :
+        ""
+      );
 
 
-      const scheduled =
-        row.moves.reduce(
-          (sum,move) =>
-            sum+move.amount,
-          0
-        );
-
-
-      const leftover =
-        row.income
-        -
-        scheduled;
+      const total =
+      row.moves.reduce(
+        (sum,move) =>
+        sum+move.amount,
+        0
+      );
 
 
       group.innerHTML =
       `
-        <div class="payment-head">
+      <div class="payment-head">
 
-          <div>
+        <div>
 
-            ${
-              rowIndex===0
-              ?
-              '<div class="badge">Next money move</div>'
-              :
-              ""
-            }
+          ${
+            rowIndex===0
+            ?
+            '<div class="badge">Next money move</div>'
+            :
+            ""
+          }
 
-            <div class="payment-date">
-              ${formattedDate(row.actualDate)}
-            </div>
-
-            <div class="payment-source">
-              ${row.source}
-            </div>
-
+          <div class="payment-date">
+          ${formattedDate(row.actualDate)}
           </div>
 
-
-          <div>
-
-            <div class="payment-income">
-              ${fmtMoney(row.income)} in
-            </div>
-
-            <div class="payment-total">
-              ${fmtMoney(scheduled)} assigned
-            </div>
-
+          <div class="payment-source">
+          ${row.source}
           </div>
 
         </div>
+
+
+        <div>
+
+          <div class="payment-income">
+          ${fmtMoney(row.income)} in
+          </div>
+
+          <div class="payment-total">
+          ${fmtMoney(total)} assigned
+          </div>
+
+        </div>
+
+      </div>
       `;
 
 
       row.moves.forEach(
-        (move,moveIndex) => {
+        (move,index) => {
 
           const paid =
-            paymentIsPaid(
-              row,
-              moveIndex
-            );
+          paymentIsPaid(
+            row,
+            index
+          );
 
 
-          const element =
-            document.createElement(
-              "div"
-            );
+          const item =
+          document.createElement(
+            "div"
+          );
 
 
-          element.className =
-            "payment-row"
-            +
-            (
-              paid
-              ?
-              " paid"
-              :
-              ""
-            );
+          item.className =
+          "payment-row"
+          +
+          (
+            paid
+            ?
+            " paid"
+            :
+            ""
+          );
 
 
-          element.innerHTML =
+          item.innerHTML =
           `
-            <div class="payment-check">
-              ${paid ? "✓" : ""}
-            </div>
+          <div class="payment-check">
+          ${paid ? "✓" : ""}
+          </div>
 
-            <div class="payment-name">
-              ${move.name}
-            </div>
+          <div class="payment-name">
+          ${move.name}
+          </div>
 
-            <div class="payment-amount">
-              ${fmtMoney(move.amount)}
-            </div>
+          <div class="payment-amount">
+          ${fmtMoney(move.amount)}
+          </div>
           `;
 
 
-          element.addEventListener(
+          item.addEventListener(
             "click",
             () => {
 
               togglePayment(
                 row,
-                moveIndex
+                index
               );
 
             }
@@ -3243,56 +2057,25 @@ function renderPayments(){
 
 
           group.appendChild(
-            element
+            item
           );
 
         }
       );
 
 
-      if(leftover>0.004){
-
-        const leftoverElement =
-          document.createElement(
-            "div"
-          );
-
-
-        leftoverElement.className =
-          "leftover";
-
-
-        leftoverElement.innerHTML =
-        `
-          <span>
-          Unassigned
-          </span>
-
-          <strong>
-          ${fmtMoney(leftover)}
-          </strong>
-        `;
-
-
-        group.appendChild(
-          leftoverElement
-        );
-
-      }
-
-
       const note =
-        document.createElement(
-          "div"
-        );
+      document.createElement(
+        "div"
+      );
 
 
       note.className =
-        "payment-note";
+      "payment-note";
 
 
       note.textContent =
-        row.note;
+      row.note;
 
 
       group.appendChild(
@@ -3310,56 +2093,157 @@ function renderPayments(){
 }
 
 
-/* =====================================================
-   DISPLAYED DEBT BALANCES
+/* ======================================================
+   BALANCE CALCULATIONS
+====================================================== */
 
-   This is a PLAN balance, not your lender's live payoff.
-
-   Mortgage balance is reduced by planned Pearl principal.
-   Car balance uses the full scheduled $644 as a simple
-   planning reduction and therefore does not attempt to
-   model exact lender interest.
-===================================================== */
-
-function calculatePlanBalances(){
+function calculateBalances(){
 
   let mortgage =
-    STARTING.mortgage;
+  SETTINGS.startingMortgage;
 
 
   let usaa =
-    STARTING.usaa;
+  SETTINGS.startingUSAA;
 
 
   let car =
-    STARTING.car;
+  SETTINGS.startingCar;
+
+
+  /*
+  Loop day-by-day through plan rows.
+
+  Extra Pearl principal posts on the plan date.
+  USAA posts on plan date.
+  Car scheduled principal posts on the 1st.
+  Mortgage scheduled principal posts on the 1st.
+  */
+
+  let mortgageLastPaymentMonth = "";
+  let carLastPaymentMonth = "";
 
 
   ROWS.forEach(
     row => {
 
+      const shouldApplyRow =
+      row.actualDate<=now;
+
+
       /*
-      Automatically include rows whose date has passed.
-      For future rows, include only moves manually checked.
+      Apply scheduled mortgage amortization
+      once per month on the 1st beginning Oct 2026.
       */
 
-      const rowPassed =
-        row.actualDate<=now;
+      const [year,month,day] =
+      row.date
+      .split("-")
+      .map(Number);
 
+
+      const monthId =
+      `${year}-${month}`;
+
+
+      if(
+        shouldApplyRow
+        &&
+        day===1
+        &&
+        row.date>="2026-10-01"
+        &&
+        mortgageLastPaymentMonth!==monthId
+      ){
+
+        const interest =
+        mortgage
+        *
+        SETTINGS.mortgageRate
+        /
+        12;
+
+
+        const scheduledPrincipal =
+        Math.max(
+          0,
+          SETTINGS.mortgagePI-interest
+        );
+
+
+        mortgage =
+        Math.max(
+          0,
+          mortgage-scheduledPrincipal
+        );
+
+
+        mortgageLastPaymentMonth =
+        monthId;
+
+      }
+
+
+      /*
+      Apply normal car loan payment once per month.
+      */
+
+      if(
+        shouldApplyRow
+        &&
+        day===1
+        &&
+        row.date>="2026-09-01"
+        &&
+        carLastPaymentMonth!==monthId
+      ){
+
+        const interest =
+        car
+        *
+        SETTINGS.carRate
+        /
+        12;
+
+
+        const principal =
+        Math.max(
+          0,
+          SETTINGS.carPayment-interest
+        );
+
+
+        car =
+        Math.max(
+          0,
+          car-principal
+        );
+
+
+        carLastPaymentMonth =
+        monthId;
+
+      }
+
+
+      /*
+      Apply moves that have passed.
+      Future checked moves also update immediately.
+      */
 
       row.moves.forEach(
         (move,index) => {
 
-          const applyMove =
-            rowPassed
-            ||
-            paymentIsPaid(
-              row,
-              index
-            );
+          const apply =
+          shouldApplyRow
+          ||
+          paymentIsPaid(
+            row,
+            index
+          );
 
 
-          if(!applyMove){
+          if(!apply){
             return;
           }
 
@@ -3369,10 +2253,10 @@ function calculatePlanBalances(){
           ){
 
             usaa =
-              Math.max(
-                0,
-                usaa-move.amount
-              );
+            Math.max(
+              0,
+              usaa-move.amount
+            );
 
           }
 
@@ -3382,23 +2266,10 @@ function calculatePlanBalances(){
           ){
 
             mortgage =
-              Math.max(
-                0,
-                mortgage-move.amount
-              );
-
-          }
-
-
-          if(
-            move.name==="Car payment"
-          ){
-
-            car =
-              Math.max(
-                0,
-                car-move.amount
-              );
+            Math.max(
+              0,
+              mortgage-move.amount
+            );
 
           }
 
@@ -3409,21 +2280,11 @@ function calculatePlanBalances(){
   );
 
 
-  /*
-  Every pair of $322 "Next car" reserves ultimately
-  becomes the next $644 payment once the month rolls.
-  For simplicity, the displayed car balance is not
-  reduced when merely reserving cash.
-  */
-
-
   const equity =
-    Math.max(
-      0,
-      BUDGET.propertyValue
-      -
-      mortgage
-    );
+  Math.max(
+    0,
+    SETTINGS.propertyValue-mortgage
+  );
 
 
   return{
@@ -3439,271 +2300,287 @@ function calculatePlanBalances(){
 function renderBalances(){
 
   const balances =
-    calculatePlanBalances();
+  calculateBalances();
 
 
-  document.getElementById(
+  document
+  .getElementById(
     "statMortgage"
-  ).textContent =
-    fmtMoney(
-      balances.mortgage
-    );
+  )
+  .textContent =
+  fmtMoney(
+    balances.mortgage
+  );
 
 
-  document.getElementById(
+  document
+  .getElementById(
     "statUsaa"
-  ).textContent =
-    fmtMoney(
-      balances.usaa
-    );
+  )
+  .textContent =
+  fmtMoney(
+    balances.usaa
+  );
 
 
-  document.getElementById(
+  document
+  .getElementById(
     "statCar"
-  ).textContent =
-    fmtMoney(
-      balances.car
-    );
+  )
+  .textContent =
+  fmtMoney(
+    balances.car
+  );
 
 
-  document.getElementById(
+  document
+  .getElementById(
     "statEquity"
-  ).textContent =
-    fmtMoney(
-      balances.equity
-    );
+  )
+  .textContent =
+  fmtMoney(
+    balances.equity
+  );
 
 
   const pct =
-    Math.min(
-      100,
-      (
-        balances.equity
-        /
-        BUDGET.propertyValue
-      )
-      *
-      100
+  Math.min(
+    100,
+    (
+      balances.equity
+      /
+      SETTINGS.propertyValue
+    )
+    *
+    100
+  );
+
+
+  document
+  .getElementById(
+    "progressPct"
+  )
+  .textContent =
+  pct.toFixed(1)
+  +
+  "%";
+
+
+  document
+  .getElementById(
+    "progressFill"
+  )
+  .style.width =
+  pct
+  +
+  "%";
+
+}
+
+
+/* ======================================================
+   BILL / DEADLINE CALENDAR
+====================================================== */
+
+const BILL_EVENTS = [
+
+{
+  date:"2026-08-24",
+  name:"Natural gas",
+  amount:72.18
+},
+
+{
+  date:"2026-08-25",
+  name:"Unit 3 electric",
+  amount:44.90
+},
+
+{
+  date:"2026-08-25",
+  name:"Common electric",
+  amount:5.11
+},
+
+{
+  date:"2026-08-26",
+  name:"Water",
+  amount:72.15
+},
+
+{
+  date:"2026-08-31",
+  name:"Sewer",
+  amount:142.28
+},
+
+{
+  date:"2026-09-01",
+  name:"Car payment",
+  amount:644
+},
+
+{
+  date:"2026-09-06",
+  name:"Water due-date reminder",
+  amount:0
+},
+
+{
+  date:"2026-09-10",
+  name:"USAA due date",
+  amount:0
+},
+
+{
+  date:"2026-09-18",
+  name:"Car insurance",
+  amount:300
+}
+
+];
+
+
+/*
+Add recurring mortgage/car/insurance reminders.
+*/
+
+for(
+  let year=2026;
+  year<=2027;
+  year++
+){
+
+  const startMonth =
+  year===2026 ? 9 : 0;
+
+
+  for(
+    let month=startMonth;
+    month<=11;
+    month++
+  ){
+
+    const first =
+    new Date(
+      year,
+      month,
+      1,
+      12
     );
 
 
-  document.getElementById(
-    "progressPct"
-  ).textContent =
-    pct.toFixed(1)
-    +
-    "%";
+    const eighteenth =
+    new Date(
+      year,
+      month,
+      18,
+      12
+    );
 
 
-  document.getElementById(
-    "progressFill"
-  ).style.width =
-    pct
-    +
-    "%";
+    BILL_EVENTS.push({
 
-}
+      date:
+      isoDate(first),
 
+      name:"Mortgage PITI",
 
-/* =====================================================
-   BILL CALENDAR
-===================================================== */
+      amount:3622.96
 
-function daysInMonth(
-  year,
-  month
-){
-
-  return new Date(
-    year,
-    month+1,
-    0
-  )
-  .getDate();
-
-}
+    });
 
 
-function generateBills(){
+    BILL_EVENTS.push({
 
-  const bills = [];
+      date:
+      isoDate(first),
 
+      name:"Car payment",
 
-  BILL_RULES.forEach(
-    rule => {
+      amount:644
 
-      const start =
-        parseDate(
-          rule.start
-        );
+    });
 
 
-      if(rule.oneTime){
+    BILL_EVENTS.push({
 
-        bills.push({
+      date:
+      isoDate(eighteenth),
 
-          date:start,
+      name:"Car insurance",
 
-          name:rule.name,
+      amount:300
 
-          amount:rule.amount
+    });
 
-        });
-
-        return;
-
-      }
-
-
-      let year =
-        start.getFullYear();
-
-
-      let month =
-        start.getMonth();
-
-
-      while(
-
-        new Date(
-          year,
-          month,
-          1
-        )
-        <=
-        new Date(
-          2027,
-          11,
-          31
-        )
-
-      ){
-
-        const day =
-          rule.monthEnd
-          ?
-          daysInMonth(
-            year,
-            month
-          )
-          :
-          Math.min(
-            rule.day,
-            daysInMonth(
-              year,
-              month
-            )
-          );
-
-
-        const date =
-          new Date(
-            year,
-            month,
-            day,
-            12
-          );
-
-
-        if(date>=start){
-
-          bills.push({
-
-            date,
-
-            name:rule.name,
-
-            amount:rule.amount
-
-          });
-
-        }
-
-
-        month++;
-
-
-        if(month>11){
-
-          month=0;
-
-          year++;
-
-        }
-
-      }
-
-    }
-  );
-
-
-  return bills.sort(
-    (a,b) =>
-      a.date-b.date
-  );
+  }
 
 }
 
 
-const ALL_BILLS =
-  generateBills();
+const NORMALIZED_BILLS =
+BILL_EVENTS
+.map(
+  item => ({
+
+    ...item,
+
+    dateObj:
+    easternNoonDate(
+      item.date
+    ),
+
+    endDate:
+    easternEndOfDay(
+      item.date
+    )
+
+  })
+)
+.sort(
+  (a,b) =>
+  a.dateObj-b.dateObj
+);
 
 
 function renderBillSchedule(){
 
   const container =
-    document.getElementById(
-      "billScheduleList"
-    );
+  document.getElementById(
+    "billScheduleList"
+  );
 
 
   container.innerHTML =
-    "";
+  "";
 
 
-  const futureBills =
-    ALL_BILLS.filter(
-      bill => {
-
-        const end =
-          new Date(
-            bill.date
-          );
+  const future =
+  NORMALIZED_BILLS
+  .filter(
+    bill =>
+    bill.endDate>=now
+  );
 
 
-        end.setHours(
-          23,
-          59,
-          59,
-          999
-        );
+  const grouped =
+  new Map();
 
 
-        return end>=now;
-
-      }
-    );
-
-
-  const groups =
-    new Map();
-
-
-  futureBills.forEach(
+  future.forEach(
     bill => {
 
-      const key =
-        bill.date.toDateString();
-
-
       if(
-        !groups.has(key)
+        !grouped.has(
+          bill.date
+        )
       ){
 
-        groups.set(
-          key,
+        grouped.set(
+          bill.date,
           {
-            date:bill.date,
+            dateObj:bill.dateObj,
             items:[]
           }
         );
@@ -3711,8 +2588,10 @@ function renderBillSchedule(){
       }
 
 
-      groups
-      .get(key)
+      grouped
+      .get(
+        bill.date
+      )
       .items
       .push(
         bill
@@ -3723,66 +2602,66 @@ function renderBillSchedule(){
 
 
   [
-    ...groups.values()
+    ...grouped.values()
   ]
   .slice(0,8)
   .forEach(
     group => {
 
       const total =
-        group.items.reduce(
-          (sum,item) =>
-            sum+item.amount,
-          0
-        );
+      group.items.reduce(
+        (sum,item) =>
+        sum+item.amount,
+        0
+      );
 
 
       const card =
-        document.createElement(
-          "div"
-        );
+      document.createElement(
+        "div"
+      );
 
 
       card.className =
-        "bill";
+      "bill";
 
 
       card.innerHTML =
       `
-        <div class="bill-top">
+      <div class="bill-top">
 
-          <div class="bill-date">
-            ${formattedDate(group.date)}
-          </div>
-
-          <div class="bill-total">
-            ${
-              total>0
-              ?
-              fmtMoney(total)
-              :
-              "Reminder"
-            }
-          </div>
-
+        <div class="bill-date">
+        ${formattedDate(group.dateObj)}
         </div>
 
-        <div class="bill-items">
-
-          ${
-            group.items
-            .map(
-              item =>
-                item.amount>0
-                ?
-                `${item.name} ${fmtMoney(item.amount)}`
-                :
-                item.name
-            )
-            .join(" · ")
-          }
-
+        <div class="bill-total">
+        ${
+          total>0
+          ?
+          fmtMoney(total)
+          :
+          "Reminder"
+        }
         </div>
+
+      </div>
+
+      <div class="bill-items">
+
+      ${
+        group.items
+        .map(
+          item =>
+          item.amount>0
+          ?
+          `${item.name} ${fmtMoney(item.amount)}`
+          :
+          item.name
+        )
+        .join(" · ")
+      }
+
+      </div>
       `;
 
 
@@ -3796,9 +2675,9 @@ function renderBillSchedule(){
 }
 
 
-/* =====================================================
+/* ======================================================
    REFRESH
-===================================================== */
+====================================================== */
 
 function tick(){
 
@@ -3812,8 +2691,6 @@ function tick(){
 function refreshEverything(){
 
   tick();
-
-  renderBudgetNumbers();
 
   renderBalances();
 
