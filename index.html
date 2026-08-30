@@ -61,6 +61,9 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
     <section><div class="section-head"><div class="section-title">Current plan balances</div><div class="section-sub" id="balanceAsOf"></div></div>
       <div class="grid"><div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div id="equityNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Credit Cards</div><div id="usaaNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div></div>
     </section>
+    <section><div class="section-head"><div class="section-title">Car $29.2k → $0 progress</div><div class="section-sub">Car payoff is the first priority after Credit Cards and required bills. Pearl Principal resumes automatically after the car is paid.</div></div>
+      <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Car balance now</div><div id="carProgressBalance" class="progress-big">—</div></div><div id="carProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="carProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to $0</span><b id="carProgressLeft">—</b></div><div><span>Plan payoff date</span><b id="carProgressDate">—</b></div></div></div>
+    </section>
     <section><div class="section-head"><div class="section-title">Pearl $385k → $260k progress</div><div class="section-sub">Tracks the mortgage from $385,000 down to the $260,000 switch point.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Mortgage balance now</div><div id="pearlProgressBalance" class="progress-big">—</div></div><div id="pearlProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="pearlProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to $260k</span><b id="pearlProgressLeft">—</b></div><div><span>Plan target date</span><b id="pearlProgressDate">—</b></div></div></div>
     </section>
@@ -77,7 +80,7 @@ const DATA={"planRows":[{"Date":"2026-08-16","Income":0,"Source":"Starting Balan
 const BASE_PLAN=JSON.parse(JSON.stringify(DATA.planRows));
 const PLAN=DATA.planRows,BILLS=DATA.billRows,INPUTS=DATA.inputRows,SUMMARY=DATA.summaryRows,PROPERTY=DATA.propertyRows;
 DATA.derived.pearlStart=385000;
-const allocationKeys=["Credit Cards","Next Mortgage","Pearl Principal","Car","Insurance","Utilities","Food","Fuel"];
+const allocationKeys=["Credit Cards","Next Mortgage","Car","Pearl Principal","Insurance","Utilities","Food","Fuel"];
 const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck",usaaBalance:"wealth-plan-usaa-balance"};
 function storedNumber(key,fallback){try{const v=localStorage.getItem(editableStorageKeys[key]);if(v!==null&&v!==""&&Number.isFinite(Number(v)))return Math.max(0,Number(v))}catch(e){}return fallback}
 const liveInputs={
@@ -125,6 +128,43 @@ function recalculatePlan(){
     r["Credit Cards Balance"]=usaaRemaining;
   }
 
+  const startingCar=Number(INPUTS.find(x=>x.label==="Car balance")?.value||29200);
+  const carRate=.079;
+  const requiredCarPayment=Number(INPUTS.find(x=>x.label==="Car payment")?.value||644);
+  let carBalance=startingCar,carPayoffDate=null,lastCarPaymentMonth="";
+  PLAN.forEach((r,i)=>{
+    const month=String(r.Date).slice(0,7);
+    if(i>0&&r.Date>="2026-09-01"&&r.Date.endsWith("-01")&&month!==lastCarPaymentMonth&&carBalance>0){
+      carBalance=roundMoney(Math.max(0,carBalance+carBalance*carRate/12-requiredCarPayment));
+      lastCarPaymentMonth=month;
+    }
+    const requiredCarAllocation=Number(r.Car||0);
+    const availableForDebt=Number(r["Pearl Principal"]||0);
+    let extraToCar=0;
+    if(carBalance>0&&availableForDebt>0){
+      extraToCar=roundMoney(Math.min(carBalance,availableForDebt));
+      carBalance=roundMoney(carBalance-extraToCar);
+      r.Car=roundMoney(requiredCarAllocation+extraToCar);
+      r["Pearl Principal"]=roundMoney(availableForDebt-extraToCar);
+      if(carBalance<=0&&!carPayoffDate)carPayoffDate=r.Date;
+      if(r["Pearl Principal"]>0)r["What To Send"]=`Fund the listed required buckets, send ${money(extraToCar)} to finish the car, then send ${money(r["Pearl Principal"])} to Pearl principal.`;
+      else r["What To Send"]=`Fund the listed required buckets, then send the remaining ${money(extraToCar)} to the car payoff. Pearl Principal resumes after the car is paid.`;
+    }else if(carBalance<=0&&(requiredCarAllocation>0||availableForDebt>0)){
+      r.Car=0;
+      r["Pearl Principal"]=roundMoney(availableForDebt+requiredCarAllocation);
+      r["What To Send"]=`The car is paid off. Fund the listed required buckets, then send ${money(r["Pearl Principal"])} to Pearl principal.`;
+    }
+    r["Car Balance"]=carBalance;
+  });
+  if(PLAN[0])PLAN[0]["What To Send"]="Starting point. Priority order: required bills → Credit Cards → Car payoff → Pearl principal.";
+  const creditCardBill=BILLS.find(x=>x["Bill / Budget"]==="Credit Cards");
+  if(creditCardBill)creditCardBill.Rule="Ring charge is included in Credit Cards balance; after payoff this category disappears and money redirects to the car, then Pearl";
+  const rentBill=BILLS.find(x=>x["Bill / Budget"]==="Rent income");
+  if(rentBill)rentBill.Rule="Send to the car first; after the car is paid, send to Pearl; increases to $4,000 starting July 2027";
+  setSummaryValue("Planning note","Credit Cards first; then surplus goes to the car; after the car is paid, surplus goes to Pearl principal.");
+  DATA.derived.carStart=startingCar;
+  DATA.derived.carTargetDate=carPayoffDate;
+
   const startBalance=Number(INPUTS.find(x=>x.label==="Starting mortgage balance")?.value||384684);
   const rate=Number(INPUTS.find(x=>x.label==="Mortgage rate")?.value||.0625);
   const principalAndInterest=Number(INPUTS.find(x=>x.label==="P&I portion")?.value||2370);
@@ -145,6 +185,33 @@ function recalculatePlan(){
   DATA.derived.principal2027=PLAN.filter(r=>r.Date.startsWith("2027-")).reduce((s,r)=>s+Number(r["Pearl Principal"]||0),0);
   const targetRow=PLAN.find(r=>Number(r["Mortgage Balance"])<=Number(DATA.derived.pearlTarget||260000));
   DATA.derived.pearlTargetDate=targetRow?targetRow.Date:null;
+  if(!DATA.derived.pearlTargetDate&&PLAN.length){
+    const target=Number(DATA.derived.pearlTarget||260000),lastRow=PLAN[PLAN.length-1];
+    let projectedMortgage=Number(lastRow["Mortgage Balance"]),cursor=new Date(lastRow.Date+"T12:00:00Z");
+    const lastPaycheck=PLAN.filter(r=>r.Source.includes("Paycheck")).slice(-1)[0];
+    let nextPayday=new Date(lastPaycheck.Date+"T12:00:00Z");nextPayday.setUTCDate(nextPayday.getUTCDate()+14);
+    let paydayMonth="",paydayOrdinal=0;
+    const typicalPaycheck=Number(INPUTS.find(x=>x.label==="Typical paycheck")?.value||3000);
+    const halfMortgage=Number(INPUTS.find(x=>x.label==="Mortgage payment (PITI)")?.value||3622.96)/2;
+    const halfUtilities=Number(INPUTS.find(x=>x.label==="Utilities")?.value||400)/2;
+    const halfFood=Number(INPUTS.find(x=>x.label==="Food")?.value||350)/2;
+    const halfFuel=Number(INPUTS.find(x=>x.label==="Fuel")?.value||100)/2;
+    const insurance=Number(INPUTS.find(x=>x.label==="Car insurance")?.value||300);
+    const vaIncome=Number(INPUTS.find(x=>x.label==="VA income")?.value||180);
+    const futureRent=Number(INPUTS.find(x=>x.label==="Future rent")?.value||4000);
+    for(let days=0;days<1460&&projectedMortgage>target;days++){
+      cursor.setUTCDate(cursor.getUTCDate()+1);
+      const day=cursor.getUTCDate();
+      if(day===1)projectedMortgage-=Math.max(0,principalAndInterest-projectedMortgage*rate/12)+vaIncome;
+      if(day===5)projectedMortgage-=futureRent;
+      if(cursor.getTime()===nextPayday.getTime()){
+        const month=cursor.toISOString().slice(0,7);if(month!==paydayMonth){paydayMonth=month;paydayOrdinal=0}paydayOrdinal++;
+        const extra=paydayOrdinal===1?typicalPaycheck-halfMortgage-insurance-halfUtilities-halfFood-halfFuel:paydayOrdinal===2?typicalPaycheck-halfMortgage-halfUtilities-halfFood-halfFuel:typicalPaycheck;
+        projectedMortgage-=Math.max(0,extra);nextPayday.setUTCDate(nextPayday.getUTCDate()+14);
+      }
+      if(projectedMortgage<=target)DATA.derived.pearlTargetDate=cursor.toISOString().slice(0,10);
+    }
+  }
 }
 function money(v){if(typeof v!=="number")return String(v??"");const d=Math.abs(v-Math.round(v))<.000001?0:2;return "$"+v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:2})}
 function pct(v){return(Number(v)*100).toFixed(2).replace(/\.00$/,"")+"%"}
@@ -165,6 +232,7 @@ function allocationsHTML(rows){const t={};rows.forEach(r=>allocationKeys.forEach
 function notesFor(rows){return rows.map(r=>r["What To Send"]).filter(Boolean).join(" • ")}
 function renderHeroCards(){const today=todayISO(),todays=rowsOnDate(today),h=document.getElementById("todayCard");h.innerHTML=todays.length?`<div class="hero current"><div class="hero-top"><div><div class="eyebrow">Today's current move</div><div class="hero-title">${friendly(today)}</div></div><div class="hero-money">${money(totalIncome(todays))}</div></div><div class="move-lines">${allocationsHTML(todays)}</div><div class="hero-sub">${notesFor(todays)} · This stays visible for the entire calendar day.</div></div>`:"";const g=nextCountdownGroup(),n=document.getElementById("nextCard");if(!g){n.innerHTML=`<div class="hero next"><div class="eyebrow">Next money move</div><div class="hero-title">Plan complete</div></div>`;return}const same=g.date===today;n.innerHTML=`<div class="hero next"><div class="hero-top"><div><div class="eyebrow">${same?"Today's 4 PM cutoff":"Next money move"}</div><div class="hero-title">${countdown(g.target)}</div></div><div class="hero-money">${money(totalIncome(g.rows))}</div></div><div class="hero-sub">${friendly(g.date)} · ${[...new Set(g.rows.map(r=>r.Source))].join(" + ")} · cutoff is 4:00 PM Eastern; after that this card advances to the next PAYDAY PLAN date.</div></div>`}
 function renderBalances(){const r=currentBalanceRow();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));equityNow.textContent=money(Number(r["Equity @ $400k"]));usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}.`}
+function renderCarProgress(){const r=currentBalanceRow(),start=Number(DATA.derived.carStart||29200),bal=Number(r["Car Balance"]),raw=start>0?(start-bal)/start*100:100,p=Math.max(0,Math.min(100,raw)),targetRow=PLAN.find(x=>Number(x["Car Balance"])<=0);carProgressBalance.textContent=money(bal);carProgressPct.textContent=p.toFixed(1).replace(/\.0$/,'')+"% complete";carProgressFill.style.width=p+"%";carProgressLeft.textContent=money(Math.max(0,bal));carProgressDate.textContent=targetRow?friendly(targetRow.Date):(DATA.derived.carTargetDate?friendly(DATA.derived.carTargetDate):"—")}
 function renderPearlProgress(){const r=currentBalanceRow(),start=Number(DATA.derived.pearlStart||385000),target=Number(DATA.derived.pearlTarget||260000),bal=Number(r["Mortgage Balance"]),den=start-target,raw=den>0?(start-bal)/den*100:0,p=Math.max(0,Math.min(100,raw)),targetRow=PLAN.find(x=>Number(x["Mortgage Balance"])<=target);pearlProgressBalance.textContent=money(bal);pearlProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";pearlProgressFill.style.width=p+"%";pearlProgressLeft.textContent=money(Math.max(0,bal-target));pearlProgressDate.textContent=targetRow?friendly(targetRow.Date):(DATA.derived.pearlTargetDate?friendly(DATA.derived.pearlTargetDate):"—")}
 
 function rowKey(r){return`sheet-row-${r._sheetRow}`}function isDone(r){try{return localStorage.getItem(rowKey(r))==="1"}catch(e){return false}}function toggleDone(r){try{localStorage.setItem(rowKey(r),isDone(r)?"0":"1")}catch(e){}renderDashboardMoves();renderPayday()}
@@ -175,14 +243,14 @@ let paydayFilter="upcoming";function renderPayday(){const h=document.getElementB
 function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
 function editableInputKey(label){if(label==="Next paycheck target")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";return null}
-function refreshCalculatedViews(){renderBalances();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
+function refreshCalculatedViews(){renderBalances();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
 function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}recalculatePlan();refreshCalculatedViews()}
 function bindEditableInputs(){document.querySelectorAll(".editable-input").forEach(el=>{let timer;el.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>saveEditableInput(el),250)});el.addEventListener("change",()=>saveEditableInput(el))})}
 function renderInputs(){inputList.innerHTML=INPUTS.map(x=>{const key=editableInputKey(x.label),value=key?`<div class="editable-money"><span>$</span><input class="editable-input" data-input-key="${key}" type="number" min="0" step="0.01" inputmode="decimal" value="${roundMoney(liveInputs[key])}" aria-label="${x.label}"></div>`:`<div class="input-value">${displayValue(x.label,x.value)}</div>`;return`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div>${value}</div><div class="input-note">${x.notes||""}</div></div>`}).join("");renderSummaryLists();bindEditableInputs()}
 function switchTab(id){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelector(`.nav-btn[data-tab="${id}"]`).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.querySelectorAll(".filter-btn").forEach(b=>b.onclick=()=>{paydayFilter=b.dataset.filter;document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderPayday()});
 function tick(){todayLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());renderHeroCards()}
-function init(){recalculatePlan();sourceNote.textContent=`Source snapshot: ${DATA.source.title} · paycheck and Credit Cards inputs update automatically`;renderBalances();renderPearlProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
+function init(){recalculatePlan();sourceNote.textContent=`Source snapshot: ${DATA.source.title} · paycheck and Credit Cards inputs update automatically`;renderBalances();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
 init();setInterval(tick,1000);
 </script>
 </body>
