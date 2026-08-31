@@ -54,12 +54,12 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
 <div class="shell">
   <div class="topdate mono" id="todayLine"></div>
   <h1>Wealth Command Center</h1>
-  <div class="subtitle">Every $3,000 biweekly check follows one fast, realistic order while keeping personal cash and property reserves protected.</div>
+  <div class="subtitle">Every $3,000 biweekly check follows one fast, realistic order while building your personal buffer and long-term property plan.</div>
   <div class="source-note" id="sourceNote"></div>
   <main id="dashboardTab" class="tab active">
     <div id="todayCard"></div><div id="nextCard"></div>
     <section><div class="section-head"><div class="section-title">Current plan balances</div><div class="section-sub" id="balanceAsOf"></div></div>
-      <div class="grid"><div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div id="equityNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Credit Cards</div><div id="usaaNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Personal buffer</div><div id="bufferNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Pearl maintenance</div><div id="maintenanceNow" class="stat-value">—</div></div></div>
+      <div class="grid"><div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div id="equityNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Credit Cards</div><div id="usaaNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Personal buffer</div><div id="bufferNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Pearl maintenance</div><div id="maintenanceNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Commercial fund</div><div id="commercialNow" class="stat-value gold">—</div></div></div>
     </section>
     <section><div class="section-head"><div class="section-title">$1,500 personal cash buffer</div><div class="section-sub">Built first so normal surprises do not go back onto the credit cards. Once full, it stays protected.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Personal buffer now</div><div id="bufferProgressBalance" class="progress-big">—</div></div><div id="bufferProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="bufferProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to $1,500</span><b id="bufferProgressLeft">—</b></div><div><span>Projected completion</span><b id="bufferProgressDate">—</b></div></div></div>
@@ -67,13 +67,10 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
     <section><div class="section-head"><div class="section-title">Car $29.2k → $0 progress</div><div class="section-sub">Car payoff is the first priority after Credit Cards and required bills. Pearl Principal resumes automatically after the car is paid.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Car balance now</div><div id="carProgressBalance" class="progress-big">—</div></div><div id="carProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="carProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to $0</span><b id="carProgressLeft">—</b></div><div><span>Plan payoff date</span><b id="carProgressDate">—</b></div></div></div>
     </section>
-    <section><div class="section-head"><div class="section-title" id="reserveSectionTitle">$15,000 property / VA reserve</div><div class="section-sub">Built after the car is paid. It remains available for inspections, closing, vacancies, repairs and lender reserve requirements.</div></div>
-      <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Property reserve now</div><div id="reserveProgressBalance" class="progress-big">—</div></div><div id="reserveProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="reserveProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to target</span><b id="reserveProgressLeft">—</b></div><div><span>Projected completion</span><b id="reserveProgressDate">—</b></div></div></div>
-    </section>
     <section><div class="section-head"><div class="section-title" id="pearlSectionTitle">Pearl refinance progress</div><div class="section-sub">The target balance is editable in Inputs. The default fast target is $320,000 rather than automatically waiting for $260,000.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Mortgage balance now</div><div id="pearlProgressBalance" class="progress-big">—</div></div><div id="pearlProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="pearlProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span id="pearlLeftLabel">Left to target</span><b id="pearlProgressLeft">—</b></div><div><span>Projected refinance</span><b id="pearlProgressDate">—</b></div></div></div>
     </section>
-    <section><div class="section-head"><div class="section-title">First commercial property fund</div><div class="section-sub">Begins after Pearl is refinanced and the second owner-occupied VA four-unit is acquired with $0 down. The $15,000 reserve remains protected.</div></div>
+    <section><div class="section-head"><div class="section-title">First commercial property fund</div><div class="section-sub">Begins after Pearl is refinanced and the second owner-occupied VA four-unit is acquired with $0 down.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Commercial fund now</div><div id="commercialProgressBalance" class="progress-big">—</div></div><div id="commercialProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="commercialProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to target</span><b id="commercialProgressLeft">—</b></div><div><span>Projected purchase date</span><b id="commercialProgressDate">—</b></div></div></div>
     </section>
     <section><div class="section-head"><div class="section-title">Next rows from PAYDAY PLAN</div><div class="section-sub">No recreated dates. These are the plan rows themselves.</div></div><div id="dashboardMoves"></div></section>
@@ -99,10 +96,8 @@ upsertInput("Fuel",250,"Realistic monthly budget");
 upsertInput("Student loan",243,"Monthly");
 upsertInput("Personal / miscellaneous",150,"Monthly protected spending");
 upsertInput("Pearl maintenance contribution",300,"Monthly sinking-fund contribution");
-upsertInput("Personal buffer current",1500,"Editable current balance; the protected buffer is already full");
+upsertInput("Personal buffer current",0,"Editable current balance; build this to $1,500 first");
 upsertInput("Personal buffer target",1500,"Prevents returning to credit cards");
-upsertInput("Property reserve current",0,"Editable current balance");
-upsertInput("Property reserve target",15000,"Protected for closing, vacancies, repairs and lender reserves");
 upsertInput("Refinance target balance",320000,"Editable; default is 80% of the $400,000 value assumption");
 upsertInput("Second VA four-unit price",400000,"Planning assumption; $0 down");
 upsertInput("Second VA down payment",0,"Assumed zero down as requested");
@@ -113,10 +108,9 @@ upsertInput("First commercial property price",750000,"Planning assumption");
 upsertInput("Commercial down payment",187500,"25% of $750,000");
 upsertInput("Commercial closing + reserve cushion",25000,"Added to the down-payment target");
 SUMMARY.push(
-  {label:"Fast priority order",value:"$1,500 buffer → cards → car → $15,000 reserve → Pearl refinance → second VA → commercial"},
+  {label:"Fast priority order",value:"$1,500 buffer → cards → car → Pearl refinance → second VA → commercial"},
   {label:"Personal buffer projected complete",value:"—"},
   {label:"Car projected payoff",value:"—"},
-  {label:"Property reserve projected complete",value:"—"},
   {label:"Pearl projected refinance",value:"—"},
   {label:"Second VA purchase assumption",value:"$400,000 four-unit · $0 down"},
   {label:"Second VA projected purchase",value:"—"},
@@ -125,9 +119,8 @@ SUMMARY.push(
 );
 PROPERTY.push(
   {label:"Personal buffer target",value:1500},
-  {label:"Property / VA reserve target",value:15000},
   {label:"Second VA assumed down payment",value:0},
-  {label:"Combined monthly property reserve",value:700}
+  {label:"Combined monthly property maintenance",value:700}
 );
 function upsertBill(name,timing,amount,funded,rule){const row=BILLS.find(x=>x["Bill / Budget"]===name);if(row){row["Date / Timing"]=timing;row.Amount=amount;row["Funded From"]=funded;row.Rule=rule}else BILLS.push({"Date / Timing":timing,"Bill / Budget":name,Amount:amount,"Funded From":funded,Rule:rule})}
 upsertBill("Mortgage PITI","1st of month",3700,"Rent first; normal paychecks cover any gap","Pearl rent increases from $2,850 to $4,000 starting July 2027");
@@ -142,15 +135,14 @@ upsertBill("Pearl maintenance","Monthly",300,"Two normal paychecks","Protected s
 upsertBill("Personal / miscellaneous","Flexible",150,"Two normal paychecks","$75 per normal paycheck");
 upsertBill("Rent income","5th",2850,"Tenant rent","Increases to $4,000 starting July 2027; property costs first, then the active priority");
 DATA.derived.commercialTarget=212500;
-const allocationKeys=["Personal Buffer","Credit Cards","Next Mortgage","Car","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Pearl Maintenance","Spending Money"];
-const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v2",propertyReserve:"wealth-plan-property-reserve"};
+const allocationKeys=["Personal Buffer","Credit Cards","Next Mortgage","Car","Pearl Principal","Commercial Fund","Insurance","Student Loan","Utilities","Food","Fuel","Pearl Maintenance","Spending Money"];
+const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3"};
 function storedNumber(key,fallback){try{const v=localStorage.getItem(editableStorageKeys[key]);if(v!==null&&v!==""&&Number.isFinite(Number(v)))return Math.max(0,Number(v))}catch(e){}return fallback}
 const liveInputs={
   nextPaycheck:storedNumber("nextPaycheck",3000),
   usaaBalance:storedNumber("usaaBalance",Number(INPUTS.find(x=>x.label==="Credit Cards balance")?.value||3395)),
   refinanceTarget:storedNumber("refinanceTarget",320000),
-  personalBuffer:storedNumber("personalBuffer",1500),
-  propertyReserve:storedNumber("propertyReserve",0)
+  personalBuffer:storedNumber("personalBuffer",0)
 };
 function roundMoney(v){return Math.round((Number(v)||0)*100)/100}
 function setInputValue(label,value,notes){const row=INPUTS.find(x=>x.label===label);if(row){row.value=roundMoney(value);if(notes)row.notes=notes}}
@@ -161,18 +153,18 @@ function addMonthsISO(dateString,months){const d=new Date(dateString+"T12:00:00Z
 function recalculatePlan(){
   PLAN.splice(0,PLAN.length);
   const paycheckDefault=inputNumber("Typical paycheck",3000),startingUsaa=roundMoney(liveInputs.usaaBalance),refinanceTarget=roundMoney(liveInputs.refinanceTarget);
-  const bufferTarget=inputNumber("Personal buffer target",1500),reserveTarget=inputNumber("Property reserve target",15000),commercialTarget=Number(DATA.derived.commercialTarget||212500);
+  const bufferTarget=inputNumber("Personal buffer target",1500),commercialTarget=Number(DATA.derived.commercialTarget||212500);
   const propertyValue=Number(PROPERTY.find(x=>x.label==="Property value assumption")?.value||400000);
   const mortgageRate=inputNumber("Mortgage rate",.0625),mortgagePi=inputNumber("P&I portion",2370),mortgagePiti=inputNumber("Mortgage payment (PITI)",3700);
   const currentRent=inputNumber("Current rent",2850),futureRent=inputNumber("Future rent",4000),vaIncome=inputNumber("VA income",180);
   const carRate=.079,carMinimum=inputNumber("Car payment",644),insurance=inputNumber("Car insurance",301),studentLoan=inputNumber("Student loan",243);
   const utilities=inputNumber("Utilities",400),food=inputNumber("Food",500),fuel=inputNumber("Fuel",250),personal=inputNumber("Personal / miscellaneous",150),pearlMaintenanceMonthly=inputNumber("Pearl maintenance contribution",300);
-  const pearlRefiPiti=inputNumber("Pearl refinanced PITI",2900),secondVaRent=inputNumber("Second VA occupied-unit rent",3000),secondVaPiti=inputNumber("Second VA estimated PITI",3400),combinedPropertyReserve=Number(PROPERTY.find(x=>x.label==="Combined monthly property reserve")?.value||700);
-  let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),buffer=roundMoney(liveInputs.personalBuffer),propertyReserve=roundMoney(liveInputs.propertyReserve),maintenance=0,commercial=0;
+  const pearlRefiPiti=inputNumber("Pearl refinanced PITI",2900),secondVaRent=inputNumber("Second VA occupied-unit rent",3000),secondVaPiti=inputNumber("Second VA estimated PITI",3400),combinedPropertyMaintenance=Number(PROPERTY.find(x=>x.label==="Combined monthly property maintenance")?.value||700);
+  let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),buffer=roundMoney(liveInputs.personalBuffer),maintenance=0,commercial=0;
   let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,commercialPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="";
   const milestoneRows=[];
-  const makeRow=(date,source,income,note)=>({Date:date,Income:roundMoney(income),Source:source,"Personal Buffer":0,"Credit Cards":0,"Next Mortgage":0,Car:0,"Property Reserve":0,"Pearl Principal":0,"Commercial Fund":0,Insurance:0,"Student Loan":0,Utilities:0,Food:0,Fuel:0,"Pearl Maintenance":0,"Spending Money":0,"Extra Income Needed":0,"What To Send":note,_sheetRow:rowNumber++});
-  const finishRow=r=>{r["Mortgage Balance"]=roundMoney(mortgage);r["Equity @ $400k"]=roundMoney(propertyValue-mortgage);r["Credit Cards Balance"]=roundMoney(usaa);r["Car Balance"]=roundMoney(car);r["Personal Buffer Balance"]=roundMoney(buffer);r["Property Reserve Balance"]=roundMoney(propertyReserve);r["Pearl Maintenance Balance"]=roundMoney(maintenance);r["Commercial Fund Balance"]=roundMoney(commercial);r["Refinance Target"]=refinanceTarget;return r};
+  const makeRow=(date,source,income,note)=>({Date:date,Income:roundMoney(income),Source:source,"Personal Buffer":0,"Credit Cards":0,"Next Mortgage":0,Car:0,"Pearl Principal":0,"Commercial Fund":0,Insurance:0,"Student Loan":0,Utilities:0,Food:0,Fuel:0,"Pearl Maintenance":0,"Spending Money":0,"Extra Income Needed":0,"What To Send":note,_sheetRow:rowNumber++});
+  const finishRow=r=>{r["Mortgage Balance"]=roundMoney(mortgage);r["Equity @ $400k"]=roundMoney(propertyValue-mortgage);r["Credit Cards Balance"]=roundMoney(usaa);r["Car Balance"]=roundMoney(car);r["Personal Buffer Balance"]=roundMoney(buffer);r["Pearl Maintenance Balance"]=roundMoney(maintenance);r["Commercial Fund Balance"]=roundMoney(commercial);r["Refinance Target"]=refinanceTarget;return r};
   const checkMilestones=date=>{
     if(!refinanceDate&&mortgage<=refinanceTarget){
       refinanceDate=date;secondVaPurchaseDate=addMonthsISO(date,3);DATA.derived.pearlTargetDate=date;DATA.derived.secondVaPurchaseDate=secondVaPurchaseDate;
@@ -185,14 +177,13 @@ function recalculatePlan(){
     move("Personal Buffer",bufferTarget-buffer,v=>buffer=roundMoney(buffer+v),"the $1,500 personal buffer");
     move("Credit Cards",usaa,v=>usaa=roundMoney(usaa-v),"Credit Cards");
     move("Car",car,v=>car=roundMoney(car-v),"the car payoff");
-    move("Property Reserve",reserveTarget-propertyReserve,v=>propertyReserve=roundMoney(propertyReserve+v),"the $15,000 property reserve");
     move("Pearl Principal",mortgage-refinanceTarget,v=>mortgage=roundMoney(mortgage-v),"Pearl principal");
     checkMilestones(date);
     move("Commercial Fund",commercialTarget-commercial,v=>commercial=roundMoney(commercial+v),"the commercial fund");
     return {left,parts};
   };
   const startDate="2026-08-31";
-  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Fast order: $1,500 buffer → Credit Cards → car → $15,000 reserve → Pearl refinance → second VA → commercial fund.")));
+  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Fast order: $1,500 buffer → Credit Cards → car → Pearl refinance → second VA → commercial fund.")));
   const start=new Date(startDate+"T12:00:00Z"),end=new Date(start);end.setUTCFullYear(end.getUTCFullYear()+9);
   let nextPayday=new Date("2026-09-01T12:00:00Z");
   const monthlyPaycheckCount={};
@@ -211,14 +202,14 @@ function recalculatePlan(){
     }
     if(secondVaPurchaseDate&&date===secondVaPurchaseDate&&!secondVaOwned){
       secondVaOwned=true;
-      PLAN.push(finishRow(makeRow(date,"Second VA four-unit purchase",0,"Purchase the modeled $400,000 owner-occupied four-unit with $0 down. Keep the $1,500 buffer and $15,000 property reserve intact.")));
+      PLAN.push(finishRow(makeRow(date,"Second VA four-unit purchase",0,"Purchase the modeled $400,000 owner-occupied four-unit with $0 down. Keep the $1,500 personal buffer intact.")));
     }
     if(day===5){
       const rentBeforeRefi=date<"2027-07-01"?currentRent:futureRent;
       const rent=secondVaOwned?futureRent+secondVaRent:rentBeforeRefi;
       const r=makeRow(date,secondVaOwned?"Pearl + second four-unit rent":"Pearl rent",rent,"Use rent for property payments and protected property maintenance first.");
       let fixed=0;
-      if(secondVaOwned){r["Next Mortgage"]=roundMoney(pearlRefiPiti+secondVaPiti);r["Pearl Maintenance"]=combinedPropertyReserve;maintenance=roundMoney(maintenance+combinedPropertyReserve);fixed=r["Next Mortgage"]+r["Pearl Maintenance"]}
+      if(secondVaOwned){r["Next Mortgage"]=roundMoney(pearlRefiPiti+secondVaPiti);r["Pearl Maintenance"]=combinedPropertyMaintenance;maintenance=roundMoney(maintenance+combinedPropertyMaintenance);fixed=r["Next Mortgage"]+r["Pearl Maintenance"]}
       else if(refinanceDate){r["Next Mortgage"]=pearlRefiPiti;r["Pearl Maintenance"]=pearlMaintenanceMonthly;maintenance=roundMoney(maintenance+pearlMaintenanceMonthly);fixed=pearlRefiPiti+pearlMaintenanceMonthly}
       else{r["Next Mortgage"]=Math.min(rent,mortgagePiti);fixed=r["Next Mortgage"]}
       const moved=sendToPriority(r,Math.max(0,rent-fixed),date);if(moved.parts.length)r["What To Send"]=`Fund the listed property costs, then send ${moved.parts.join(", then ")}.`;PLAN.push(finishRow(r));PLAN.push(...milestoneRows.splice(0));
@@ -243,7 +234,7 @@ function recalculatePlan(){
       }
       const moved=sendToPriority(r,Math.max(0,income-fixed),date);
       r["Extra Income Needed"]=roundMoney(Math.max(0,fixed-income));
-      if(date==="2026-09-01")r["What To Send"]=`Send ${money(r.Car)} to the car payment, then send ${money(r["Credit Cards"]||0)} to Credit Cards.`;
+      if(date==="2026-09-01")r["What To Send"]=`Send ${money(r.Car)} to the required car payment${moved.parts.length?`, then send ${moved.parts.join(", then ")}`:""}.`;
       else if(moved.parts.length)r["What To Send"]=`Fund the listed bills, then send ${moved.parts.join(", then ")}.`;
       PLAN.push(finishRow(r));PLAN.push(...milestoneRows.splice(0));
       nextPayday.setUTCDate(nextPayday.getUTCDate()+14);
@@ -253,23 +244,21 @@ function recalculatePlan(){
       PLAN.push(finishRow(makeRow(date,"First commercial property ready",0,`The commercial fund reaches ${money(commercialTarget)}: ${money(187500)} down plus a ${money(25000)} closing and reserve cushion.`)));
     }
   }
-  DATA.derived.pearlTarget=refinanceTarget;DATA.derived.carStart=inputNumber("Car balance",29200);DATA.derived.bufferTarget=bufferTarget;DATA.derived.reserveTarget=reserveTarget;DATA.derived.commercialTarget=commercialTarget;DATA.derived.commercialPurchaseDate=commercialPurchaseDate;
-  const bufferRow=PLAN.find(r=>Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find(r=>Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0),reserveRow=PLAN.find(r=>Number(r["Property Reserve Balance"])>=reserveTarget);
-  DATA.derived.bufferTargetDate=bufferRow?.Date||null;DATA.derived.cardTargetDate=cardRow?.Date||null;DATA.derived.carTargetDate=carRow?.Date||null;DATA.derived.reserveTargetDate=reserveRow?.Date||null;
+  DATA.derived.pearlTarget=refinanceTarget;DATA.derived.carStart=inputNumber("Car balance",29200);DATA.derived.bufferTarget=bufferTarget;DATA.derived.commercialTarget=commercialTarget;DATA.derived.commercialPurchaseDate=commercialPurchaseDate;
+  const bufferRow=PLAN.find(r=>Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find(r=>Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0);
+  DATA.derived.bufferTargetDate=bufferRow?.Date||null;DATA.derived.cardTargetDate=cardRow?.Date||null;DATA.derived.carTargetDate=carRow?.Date||null;
   setInputValue("Next paycheck target",liveInputs.nextPaycheck,"Editable; updates the next check and saves on this device.");
   setInputValue("Credit Cards balance",startingUsaa,"Editable current balance.");
   setInputValue("Personal buffer current",liveInputs.personalBuffer,"Editable current balance.");
-  setInputValue("Property reserve current",liveInputs.propertyReserve,"Editable current balance.");
   setInputValue("Refinance target balance",refinanceTarget,"Editable; changing it recalculates the refinance, second VA and commercial dates.");
   setSummaryValue("Next paycheck minimum",liveInputs.nextPaycheck);
   setSummaryValue("Credit Cards target payoff",cardRow?friendly(cardRow.Date):"—");
   setSummaryValue("Personal buffer projected complete",bufferRow?friendly(bufferRow.Date):"—");
   setSummaryValue("Car projected payoff",carRow?friendly(carRow.Date):"—");
-  setSummaryValue("Property reserve projected complete",reserveRow?friendly(reserveRow.Date):"—");
   setSummaryValue("Pearl projected refinance",refinanceDate?friendly(refinanceDate):"—");
   setSummaryValue("Second VA projected purchase",secondVaPurchaseDate?friendly(secondVaPurchaseDate):"—");
   setSummaryValue("First commercial projected purchase",commercialPurchaseDate?friendly(commercialPurchaseDate):"Beyond current projection");
-  setSummaryValue("Planning note","Fast realistic order: $1,500 personal buffer → Credit Cards → car → $15,000 reserve → Pearl to editable refinance target → second VA at $0 down → commercial fund.");
+  setSummaryValue("Planning note","Fast realistic order: $1,500 personal buffer → Credit Cards → car → Pearl to editable refinance target → second VA at $0 down → commercial fund.");
 }
 function money(v){if(typeof v!=="number")return String(v??"");const d=Math.abs(v-Math.round(v))<.000001?0:2;return "$"+v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:2})}
 function pct(v){return(Number(v)*100).toFixed(2).replace(/\.00$/,"")+"%"}
@@ -289,29 +278,28 @@ function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
 function allocationsHTML(rows){const t={};rows.forEach(r=>allocationKeys.forEach(k=>t[k]=(t[k]||0)+Number(r[k]||0)));return allocationKeys.filter(k=>Math.abs(t[k]||0)>.000001).map(k=>`<div class="move-line"><span>${k}</span><span>${money(t[k])}</span></div>`).join("")}
 function notesFor(rows){return rows.map(r=>r["What To Send"]).filter(Boolean).join(" • ")}
 function renderHeroCards(){const today=todayISO(),todays=rowsOnDate(today),h=document.getElementById("todayCard");h.innerHTML=todays.length?`<div class="hero current"><div class="hero-top"><div><div class="eyebrow">Today's current move</div><div class="hero-title">${friendly(today)}</div></div><div class="hero-money">${money(totalIncome(todays))}</div></div><div class="move-lines">${allocationsHTML(todays)}</div><div class="hero-sub">${notesFor(todays)} · This stays visible for the entire calendar day.</div></div>`:"";const g=nextCountdownGroup(),n=document.getElementById("nextCard");if(!g){n.innerHTML=`<div class="hero next"><div class="eyebrow">Next money move</div><div class="hero-title">Plan complete</div></div>`;return}const same=g.date===today;n.innerHTML=`<div class="hero next"><div class="hero-top"><div><div class="eyebrow">${same?"Today's 4 PM cutoff":"Next money move"}</div><div class="hero-title">${countdown(g.target)}</div></div><div class="hero-money">${money(totalIncome(g.rows))}</div></div><div class="hero-sub">${friendly(g.date)} · ${[...new Set(g.rows.map(r=>r.Source))].join(" + ")} · cutoff is 4:00 PM Eastern; after that this card advances to the next PAYDAY PLAN date.</div></div>`}
-function renderBalances(){const r=currentBalanceRow();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));equityNow.textContent=money(Number(r["Equity @ $400k"]));usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));maintenanceNow.textContent=money(Number(r["Pearl Maintenance Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}.`}
+function renderBalances(){const r=currentBalanceRow();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));equityNow.textContent=money(Number(r["Equity @ $400k"]));usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));maintenanceNow.textContent=money(Number(r["Pearl Maintenance Balance"]||0));commercialNow.textContent=money(Number(r["Commercial Fund Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}.`}
 function renderBufferProgress(){const r=currentBalanceRow(),target=Number(DATA.derived.bufferTarget||1500),bal=Number(r["Personal Buffer Balance"]||0),p=Math.max(0,Math.min(100,target?bal/target*100:100));bufferProgressBalance.textContent=money(bal);bufferProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";bufferProgressFill.style.width=p+"%";bufferProgressLeft.textContent=money(Math.max(0,target-bal));bufferProgressDate.textContent=DATA.derived.bufferTargetDate?friendly(DATA.derived.bufferTargetDate):"—"}
 function renderCarProgress(){const r=currentBalanceRow(),start=Number(DATA.derived.carStart||29200),bal=Number(r["Car Balance"]),raw=start>0?(start-bal)/start*100:100,p=Math.max(0,Math.min(100,raw)),targetRow=PLAN.find(x=>Number(x["Car Balance"])<=0);carProgressBalance.textContent=money(bal);carProgressPct.textContent=p.toFixed(1).replace(/\.0$/,'')+"% complete";carProgressFill.style.width=p+"%";carProgressLeft.textContent=money(Math.max(0,bal));carProgressDate.textContent=targetRow?friendly(targetRow.Date):(DATA.derived.carTargetDate?friendly(DATA.derived.carTargetDate):"—")}
-function renderReserveProgress(){const r=currentBalanceRow(),target=Number(DATA.derived.reserveTarget||15000),bal=Number(r["Property Reserve Balance"]||0),p=Math.max(0,Math.min(100,target?bal/target*100:100));reserveProgressBalance.textContent=money(bal);reserveProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";reserveProgressFill.style.width=p+"%";reserveProgressLeft.textContent=money(Math.max(0,target-bal));reserveProgressDate.textContent=DATA.derived.reserveTargetDate?friendly(DATA.derived.reserveTargetDate):"—"}
 function renderPearlProgress(){const r=currentBalanceRow(),start=Number(DATA.derived.pearlStart||385000),target=Number(DATA.derived.pearlTarget||320000),bal=Number(r["Mortgage Balance"]),den=start-target,raw=den>0?(start-bal)/den*100:0,p=Math.max(0,Math.min(100,raw)),targetRow=PLAN.find(x=>Number(x["Mortgage Balance"])<=target);pearlSectionTitle.textContent=`Pearl ${money(start)} → ${money(target)} refinance progress`;pearlLeftLabel.textContent=`Left to ${money(target)}`;pearlProgressBalance.textContent=money(bal);pearlProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";pearlProgressFill.style.width=p+"%";pearlProgressLeft.textContent=money(Math.max(0,bal-target));pearlProgressDate.textContent=targetRow?friendly(targetRow.Date):(DATA.derived.pearlTargetDate?friendly(DATA.derived.pearlTargetDate):"—")}
 function renderCommercialProgress(){const r=currentBalanceRow(),target=Number(DATA.derived.commercialTarget||212500),bal=Number(r["Commercial Fund Balance"]||0),p=Math.max(0,Math.min(100,target>0?bal/target*100:100));commercialProgressBalance.textContent=money(bal);commercialProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";commercialProgressFill.style.width=p+"%";commercialProgressLeft.textContent=money(Math.max(0,target-bal));commercialProgressDate.textContent=DATA.derived.commercialPurchaseDate?friendly(DATA.derived.commercialPurchaseDate):"—"}
 
 function rowKey(r){return`sheet-row-${r._sheetRow}`}function isDone(r){try{return localStorage.getItem(rowKey(r))==="1"}catch(e){return false}}function toggleDone(r){try{localStorage.setItem(rowKey(r),isDone(r)?"0":"1")}catch(e){}renderDashboardMoves();renderPayday()}
-function planCard(r){const today=todayISO(),next=nextFutureDate(),c=["plan-card"];if(r.Date===today)c.push("today");else if(r.Date===next)c.push("next");let badge=r.Date===today?'<div class="badge current">Today</div>':r.Date===next?'<div class="badge">Next date</div>':"";const a=allocationKeys.filter(k=>Math.abs(Number(r[k]||0))>.000001).map(k=>`<div class="alloc"><span class="alloc-name">${k}</span><span class="alloc-value">${money(Number(r[k]))}</span></div>`).join("");const done=isDone(r);return`<div class="${c.join(" ")}"><div class="plan-head"><div>${badge}<div class="plan-date">${friendly(r.Date)}</div><div class="plan-source">${r.Source} · Plan row ${r._sheetRow}</div></div><div class="plan-income">${money(Number(r.Income))} in</div></div><div class="allocs">${a||'<div class="alloc"><span class="alloc-name">No allocation</span><span class="alloc-value">$0</span></div>'}</div><div class="balance-strip"><div class="balance-pill"><span>Mortgage after</span><b>${money(Number(r["Mortgage Balance"]))}</b></div><div class="balance-pill"><span>Credit Cards after</span><b>${money(Number(r["Credit Cards Balance"]))}</b></div><div class="balance-pill"><span>Car after</span><b>${money(Number(r["Car Balance"]))}</b></div><div class="balance-pill"><span>Personal buffer</span><b>${money(Number(r["Personal Buffer Balance"]||0))}</b></div><div class="balance-pill"><span>Pearl maintenance</span><b>${money(Number(r["Pearl Maintenance Balance"]||0))}</b></div></div><div class="plan-note">${r["What To Send"]||""}</div><div class="check-row ${done?"done":""}" data-row="${r._sheetRow}"><span class="check">${done?"✓":""}</span><span>Mark this plan row completed (visual only)</span></div></div>`}
+function planCard(r){const today=todayISO(),next=nextFutureDate(),c=["plan-card"];if(r.Date===today)c.push("today");else if(r.Date===next)c.push("next");let badge=r.Date===today?'<div class="badge current">Today</div>':r.Date===next?'<div class="badge">Next date</div>':"";const a=allocationKeys.filter(k=>Math.abs(Number(r[k]||0))>.000001).map(k=>`<div class="alloc"><span class="alloc-name">${k}</span><span class="alloc-value">${money(Number(r[k]))}</span></div>`).join("");const done=isDone(r);return`<div class="${c.join(" ")}"><div class="plan-head"><div>${badge}<div class="plan-date">${friendly(r.Date)}</div><div class="plan-source">${r.Source} · Plan row ${r._sheetRow}</div></div><div class="plan-income">${money(Number(r.Income))} in</div></div><div class="allocs">${a||'<div class="alloc"><span class="alloc-name">No allocation</span><span class="alloc-value">$0</span></div>'}</div><div class="balance-strip"><div class="balance-pill"><span>Mortgage after</span><b>${money(Number(r["Mortgage Balance"]))}</b></div><div class="balance-pill"><span>Credit Cards after</span><b>${money(Number(r["Credit Cards Balance"]))}</b></div><div class="balance-pill"><span>Car after</span><b>${money(Number(r["Car Balance"]))}</b></div><div class="balance-pill"><span>Personal buffer</span><b>${money(Number(r["Personal Buffer Balance"]||0))}</b></div><div class="balance-pill"><span>Pearl maintenance</span><b>${money(Number(r["Pearl Maintenance Balance"]||0))}</b></div><div class="balance-pill"><span>Commercial fund</span><b>${money(Number(r["Commercial Fund Balance"]||0))}</b></div></div><div class="plan-note">${r["What To Send"]||""}</div><div class="check-row ${done?"done":""}" data-row="${r._sheetRow}"><span class="check">${done?"✓":""}</span><span>Mark this plan row completed (visual only)</span></div></div>`}
 function bindChecks(host){host.querySelectorAll(".check-row").forEach(el=>el.onclick=()=>{const r=PLAN.find(x=>String(x._sheetRow)===el.dataset.row);if(r)toggleDone(r)})}
 function renderDashboardMoves(){const h=document.getElementById("dashboardMoves"),t=todayISO(),u=PLAN.filter(r=>Number(r.Income)>0&&r.Date>=t).slice(0,7);h.innerHTML=u.map(planCard).join("");bindChecks(h)}
 let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN;if(paydayFilter==="upcoming")r=PLAN.filter(x=>x.Date>=t);if(paydayFilter==="2027")r=PLAN.filter(x=>x.Date.startsWith("2027-"));if(paydayFilter==="2028")r=PLAN.filter(x=>x.Date.startsWith("2028-"));if(paydayFilter==="commercial")r=PLAN.filter(x=>Number(x["Commercial Fund"]||0)>0||String(x.Source).includes("Second VA")||String(x.Source).includes("commercial"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
 function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
-function editableInputKey(label){if(label==="Next paycheck target")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";if(label==="Property reserve current")return"propertyReserve";return null}
-function refreshCalculatedViews(){renderBalances();renderBufferProgress();renderCarProgress();renderReserveProgress();renderPearlProgress();renderCommercialProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
+function editableInputKey(label){if(label==="Next paycheck target")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
+function refreshCalculatedViews(){renderBalances();renderBufferProgress();renderCarProgress();renderPearlProgress();renderCommercialProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
 function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}recalculatePlan();refreshCalculatedViews()}
 function bindEditableInputs(){document.querySelectorAll(".editable-input").forEach(el=>{let timer;el.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>saveEditableInput(el),250)});el.addEventListener("change",()=>saveEditableInput(el))})}
 function renderInputs(){inputList.innerHTML=INPUTS.map(x=>{const key=editableInputKey(x.label),value=key?`<div class="editable-money"><span>$</span><input class="editable-input" data-input-key="${key}" type="number" min="0" step="0.01" inputmode="decimal" value="${roundMoney(liveInputs[key])}" aria-label="${x.label}"></div>`:`<div class="input-value">${displayValue(x.label,x.value)}</div>`;return`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div>${value}</div><div class="input-note">${x.notes||""}</div></div>`}).join("");renderSummaryLists();bindEditableInputs()}
 function switchTab(id){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelector(`.nav-btn[data-tab="${id}"]`).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.querySelectorAll(".filter-btn").forEach(b=>b.onclick=()=>{paydayFilter=b.dataset.filter;document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderPayday()});
 function tick(){todayLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());renderHeroCards()}
-function init(){recalculatePlan();sourceNote.textContent="$3,000 biweekly · protected cash reserves · editable Pearl refinance target · second VA modeled at $0 down";renderBalances();renderBufferProgress();renderCarProgress();renderReserveProgress();renderPearlProgress();renderCommercialProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
+function init(){recalculatePlan();sourceNote.textContent="$3,000 biweekly · $1,500 personal buffer first · editable Pearl refinance target · second VA modeled at $0 down";renderBalances();renderBufferProgress();renderCarProgress();renderPearlProgress();renderCommercialProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
 init();setInterval(tick,1000);
 </script>
 </body>
