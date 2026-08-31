@@ -198,7 +198,12 @@ function recalculatePlan(){
       lastMortgageMonth=month;
       if(car>0&&month!==lastCarInterestMonth){car=roundMoney(car+car*carRate/12);lastCarInterestMonth=month}
       const r=makeRow(date,"VA",vaIncome,"Send the monthly VA income to the current highest priority.");
-      const moved=sendToPriority(r,vaIncome,date);r["What To Send"]=moved.parts.length?`Send ${moved.parts.join(", then ")}.`:r["What To Send"];PLAN.push(finishRow(r));PLAN.push(...milestoneRows.splice(0));
+      if(date==="2026-09-01"){
+        r["Pearl Principal"]=vaIncome;mortgage=roundMoney(Math.max(0,mortgage-vaIncome));r["What To Send"]="Already completed: the first $180 VA payment went to Pearl principal.";
+      }else{
+        const moved=sendToPriority(r,vaIncome,date);r["What To Send"]=moved.parts.length?`Send ${moved.parts.join(", then ")}.`:r["What To Send"];
+      }
+      PLAN.push(finishRow(r));PLAN.push(...milestoneRows.splice(0));
     }
     if(secondVaPurchaseDate&&date===secondVaPurchaseDate&&!secondVaOwned){
       secondVaOwned=true;
