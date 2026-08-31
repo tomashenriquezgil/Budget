@@ -226,6 +226,14 @@ function recalculatePlan(){
       let fixed=0;
       if(date==="2026-09-01"){
         const carPart=roundMoney(Math.min(car,carMinimum));r.Car=carPart;car=roundMoney(car-carPart);fixed=carPart;
+      }else if(date==="2026-09-15"||date==="2026-09-29"){
+        const rentForMonth=currentRent;
+        r["Next Mortgage"]=roundMoney(Math.max(0,mortgagePiti-rentForMonth)/2);
+        const carPart=roundMoney(Math.min(car,carMinimum/2));r.Car=carPart;car=roundMoney(car-carPart);
+        r["Pearl Maintenance"]=pearlMaintenanceMonthly/2;maintenance=roundMoney(maintenance+r["Pearl Maintenance"]);
+        if(date==="2026-09-15"){r.Insurance=insurance;r["Student Loan"]=studentLoan}
+        r.Utilities=utilities/2;r.Food=food/2;r.Fuel=fuel/2;r["Spending Money"]=personal/2;
+        fixed=allocationKeys.reduce((s,k)=>s+Number(r[k]||0),0);
       }else if(ordinal<2){
         if(!refinanceDate){
           const rentForMonth=date<"2027-07-01"?currentRent:futureRent;
