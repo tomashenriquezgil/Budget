@@ -89,7 +89,9 @@ DATA.derived.pearlStart=385000;
 function upsertInput(label,value,notes){const row=INPUTS.find(x=>x.label===label);if(row){row.value=value;row.notes=notes}else INPUTS.push({label,value,notes})}
 upsertInput("Mortgage payment (PITI)",3700,"Realistic monthly Pearl budget");
 upsertInput("Typical paycheck",3000,"Biweekly");
-upsertInput("Next paycheck target",3000,"Editable; $3,000 default");
+const existingNextPaycheckInput=INPUTS.find(x=>x.label==="Next paycheck target");
+if(existingNextPaycheckInput)existingNextPaycheckInput.label="Next paycheck income";
+upsertInput("Next paycheck income",3000,"Editable income for the next work paycheck; each payday locks after 4:00 PM Eastern");
 upsertInput("Car insurance",301,"Monthly");
 upsertInput("Food",500,"Realistic monthly budget");
 upsertInput("Fuel",250,"Realistic monthly budget");
@@ -136,9 +138,17 @@ upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 throug
 DATA.derived.commercialTarget=212500;
 const allocationKeys=["Personal Buffer","Credit Cards","Next Mortgage","Car","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
 const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3"};
+const paycheckIncomeStorageKey="wealth-plan-paycheck-income-by-date-v1";
 function storedNumber(key,fallback){try{const v=localStorage.getItem(editableStorageKeys[key]);if(v!==null&&v!==""&&Number.isFinite(Number(v)))return Math.max(0,Number(v))}catch(e){}return fallback}
+function storedPaycheckIncomes(){try{const parsed=JSON.parse(localStorage.getItem(paycheckIncomeStorageKey)||"{}");if(parsed&&typeof parsed==="object")return Object.fromEntries(Object.entries(parsed).filter(([date,value])=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Number(value))).map(([date,value])=>[date,Math.max(0,Number(value))]))}catch(e){}return{}}
+function savePaycheckIncomes(){try{localStorage.setItem(paycheckIncomeStorageKey,JSON.stringify(paycheckIncomes))}catch(e){}}
+const paycheckIncomes=storedPaycheckIncomes();
+const legacyNextPaycheck=storedNumber("nextPaycheck",3000);
+if(!Object.prototype.hasOwnProperty.call(paycheckIncomes,"2026-09-01")){paycheckIncomes["2026-09-01"]=legacyNextPaycheck;savePaycheckIncomes()}
+function paycheckIncomeForDate(date,fallback=3000){return date&&Object.prototype.hasOwnProperty.call(paycheckIncomes,date)?roundMoney(paycheckIncomes[date]):roundMoney(fallback)}
+let activePaycheckInputDate=nextEditablePaycheckDate();
 const liveInputs={
-  nextPaycheck:storedNumber("nextPaycheck",3000),
+  nextPaycheck:paycheckIncomeForDate(activePaycheckInputDate,3000),
   usaaBalance:storedNumber("usaaBalance",Number(INPUTS.find(x=>x.label==="Credit Cards balance")?.value||3395)),
   refinanceTarget:storedNumber("refinanceTarget",320000),
   personalBuffer:storedNumber("personalBuffer",0)
@@ -149,6 +159,8 @@ function setSummaryValue(label,value){const row=SUMMARY.find(x=>x.label===label)
 function inputNumber(label,fallback){return Number(INPUTS.find(x=>x.label===label)?.value??fallback)}
 function isoDate(d){return d.toISOString().slice(0,10)}
 function addMonthsISO(dateString,months){const d=new Date(dateString+"T12:00:00Z");d.setUTCMonth(d.getUTCMonth()+months);return isoDate(d)}
+function workPaycheckDates(){const dates=[],d=new Date("2026-09-01T12:00:00Z"),end=new Date("2027-06-30T12:00:00Z");while(d<=end){dates.push(isoDate(d));d.setUTCDate(d.getUTCDate()+14)}return dates}
+function nextEditablePaycheckDate(now=new Date()){return workPaycheckDates().find(date=>cutoff4PM(date)>now)||null}
 function recalculatePlan(){
   PLAN.splice(0,PLAN.length);
   DATA.derived.pearlTargetDate=null;DATA.derived.secondVaPurchaseDate=null;DATA.derived.commercialPurchaseDate=null;
@@ -215,7 +227,7 @@ function recalculatePlan(){
     }
     if(cursor.getTime()===nextPayday.getTime()){
       const ordinal=monthlyPaycheckCount[month]||0;monthlyPaycheckCount[month]=ordinal+1;
-      const income=date==="2026-09-01"?roundMoney(liveInputs.nextPaycheck):paycheckDefault;
+      const income=paycheckIncomeForDate(date,paycheckDefault);
       const r=makeRow(date,ordinal>=2?"Paycheck · 3rd check month":"Paycheck",income,"Fund the listed realistic bills, then send every remaining dollar to the current highest priority.");
       let fixed=0;
       if(date==="2026-09-01"){
@@ -249,7 +261,7 @@ function recalculatePlan(){
   DATA.derived.pearlTarget=refinanceTarget;DATA.derived.carStart=inputNumber("Car balance",29200);DATA.derived.cardStart=startingUsaa;DATA.derived.creditLimit=inputNumber("Total available credit",8150);DATA.derived.bufferTarget=bufferTarget;
   const bufferRow=PLAN.find(r=>Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find(r=>Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0);
   DATA.derived.bufferTargetDate=bufferRow?.Date||null;DATA.derived.cardTargetDate=cardRow?.Date||null;DATA.derived.carTargetDate=carRow?.Date||null;
-  setInputValue("Next paycheck target",liveInputs.nextPaycheck,"Editable; updates the next check and saves on this device.");
+  setInputValue("Next paycheck income",liveInputs.nextPaycheck,activePaycheckInputDate?`Editable income for ${friendly(activePaycheckInputDate)}. At 4:00 PM Eastern it locks and this box advances to the next work paycheck.`:"Detailed paycheck entry is complete through June 2027.");
   setInputValue("Credit Cards balance",startingUsaa,"Editable current balance.");
   setInputValue("Personal buffer current",liveInputs.personalBuffer,"Editable current balance.");
   setInputValue("Refinance target balance",refinanceTarget,"Editable planning target; confirm the real refinance decision at the July 2027 review.");
@@ -269,7 +281,7 @@ function easternParts(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"Ameri
 function todayISO(){const p=easternParts();return`${p.year}-${p.month}-${p.day}`}
 function parseISO(s){const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12)}
 function friendly(s){return parseISO(s).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})}
-function cutoff4PM(s){const[y,m,d]=s.split("-").map(Number);return new Date(`${s}T16:00:00-04:00`)}
+function cutoff4PM(s){const[y,m,d]=s.split("-").map(Number),target=Date.UTC(y,m-1,d,16),guess=new Date(target),parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(guess),o={};parts.forEach(p=>{if(p.type!=="literal")o[p.type]=Number(p.value)});const offset=Date.UTC(o.year,o.month-1,o.day,o.hour,o.minute,o.second)-target;return new Date(target-offset)}
 function countdown(target){let ms=target-new Date();if(ms<=0)return"0m 00s";let s=Math.floor(ms/1000),days=Math.floor(s/86400);s%=86400;let h=Math.floor(s/3600);s%=3600;let min=Math.floor(s/60),sec=s%60,p=n=>String(n).padStart(2,"0");return days>0?`${days}d ${p(h)}h ${p(min)}m ${p(sec)}s`:`${h}h ${p(min)}m ${p(sec)}s`}
 function rowsOnDate(d){return PLAN.filter(r=>r.Date===d&&Number(r.Income)>0)}
 function uniquePlanDates(){return[...new Set(PLAN.filter(r=>Number(r.Income)>0).map(r=>r.Date))].sort()}
@@ -294,15 +306,16 @@ function renderDashboardMoves(){const h=document.getElementById("dashboardMoves"
 let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN;if(paydayFilter==="upcoming")r=PLAN.filter(x=>x.Date>=t);if(paydayFilter==="2027")r=PLAN.filter(x=>x.Date.startsWith("2027-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
 function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
-function editableInputKey(label){if(label==="Next paycheck target")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
+function editableInputKey(label){if(label==="Next paycheck income")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
 function refreshCalculatedViews(){renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
-function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}recalculatePlan();refreshCalculatedViews()}
+function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);if(key==="nextPaycheck"){const date=activePaycheckInputDate||nextEditablePaycheckDate();if(!date)return;paycheckIncomes[date]=liveInputs[key];savePaycheckIncomes()}else{try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}}recalculatePlan();refreshCalculatedViews()}
 function bindEditableInputs(){document.querySelectorAll(".editable-input").forEach(el=>{let timer;el.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>saveEditableInput(el),250)});el.addEventListener("change",()=>saveEditableInput(el))})}
 function renderInputs(){inputList.innerHTML=INPUTS.map(x=>{const key=editableInputKey(x.label),value=key?`<div class="editable-money"><span>$</span><input class="editable-input" data-input-key="${key}" type="number" min="0" step="0.01" inputmode="decimal" value="${roundMoney(liveInputs[key])}" aria-label="${x.label}"></div>`:`<div class="input-value">${displayValue(x.label,x.value)}</div>`;return`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div>${value}</div><div class="input-note">${x.notes||""}</div></div>`}).join("");renderSummaryLists();bindEditableInputs()}
 function switchTab(id){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelector(`.nav-btn[data-tab="${id}"]`).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));document.querySelectorAll(".filter-btn").forEach(b=>b.onclick=()=>{paydayFilter=b.dataset.filter;document.querySelectorAll(".filter-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderPayday()});
 let lastDashboardTimeState="";
-function tick(){todayLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());renderHeroCards();const state=`${todayISO()}-${todaysGoalsAreActive()?"before":"after"}`;if(state!==lastDashboardTimeState){lastDashboardTimeState=state;renderDashboardMoves()}}
+function syncNextPaycheckEditor(){const nextDate=nextEditablePaycheckDate();if(nextDate===activePaycheckInputDate)return false;if(activePaycheckInputDate&&!Object.prototype.hasOwnProperty.call(paycheckIncomes,activePaycheckInputDate)){paycheckIncomes[activePaycheckInputDate]=roundMoney(liveInputs.nextPaycheck);savePaycheckIncomes()}activePaycheckInputDate=nextDate;liveInputs.nextPaycheck=paycheckIncomeForDate(nextDate,inputNumber("Typical paycheck",3000));recalculatePlan();renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderInputs();return true}
+function tick(){syncNextPaycheckEditor();todayLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());renderHeroCards();const state=`${todayISO()}-${todaysGoalsAreActive()?"before":"after"}`;if(state!==lastDashboardTimeState){lastDashboardTimeState=state;renderDashboardMoves()}}
 function init(){recalculatePlan();sourceNote.textContent="$3,000 biweekly · exact plan through June 2027 · July 2027 reset checkpoint";renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
 init();setInterval(tick,1000);
 </script>
