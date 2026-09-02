@@ -141,9 +141,12 @@ const allocationKeys=["Personal Buffer","Credit Cards","Next Mortgage","Car","Pe
 const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3"};
 const paycheckIncomeStorageKey="wealth-plan-paycheck-income-by-date-v1";
 const creditCardSnapshotStorageKey="wealth-plan-credit-card-snapshot-v1";
+const personalBufferSnapshotStorageKey="wealth-plan-personal-buffer-snapshot-v1";
 function storedNumber(key,fallback){try{const v=localStorage.getItem(editableStorageKeys[key]);if(v!==null&&v!==""&&Number.isFinite(Number(v)))return Math.max(0,Number(v))}catch(e){}return fallback}
 function storedCreditCardSnapshot(){try{const parsed=JSON.parse(localStorage.getItem(creditCardSnapshotStorageKey)||"null");if(parsed&&Number.isFinite(Number(parsed.balance))&&/^\d{4}-\d{2}-\d{2}$/.test(parsed.date)&&(parsed.phase==="before"||parsed.phase==="after"))return{balance:Math.max(0,Number(parsed.balance)),date:parsed.date,phase:parsed.phase}}catch(e){}return null}
 function saveCreditCardSnapshot(){try{localStorage.setItem(creditCardSnapshotStorageKey,JSON.stringify(creditCardSnapshot));localStorage.setItem(editableStorageKeys.usaaBalance,String(creditCardSnapshot.balance))}catch(e){}}
+function storedPersonalBufferSnapshot(){try{const parsed=JSON.parse(localStorage.getItem(personalBufferSnapshotStorageKey)||"null");if(parsed&&Number.isFinite(Number(parsed.balance))&&/^\d{4}-\d{2}-\d{2}$/.test(parsed.date)&&(parsed.phase==="before"||parsed.phase==="after"))return{balance:Math.max(0,Number(parsed.balance)),date:parsed.date,phase:parsed.phase}}catch(e){}return null}
+function savePersonalBufferSnapshot(){try{localStorage.setItem(personalBufferSnapshotStorageKey,JSON.stringify(personalBufferSnapshot));localStorage.setItem(editableStorageKeys.personalBuffer,String(personalBufferSnapshot.balance))}catch(e){}}
 function storedPaycheckIncomes(){try{const parsed=JSON.parse(localStorage.getItem(paycheckIncomeStorageKey)||"{}");if(parsed&&typeof parsed==="object")return Object.fromEntries(Object.entries(parsed).filter(([date,value])=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Number(value))).map(([date,value])=>[date,Math.max(0,Number(value))]))}catch(e){}return{}}
 function savePaycheckIncomes(){try{localStorage.setItem(paycheckIncomeStorageKey,JSON.stringify(paycheckIncomes))}catch(e){}}
 const paycheckIncomes=storedPaycheckIncomes();
@@ -153,11 +156,13 @@ function paycheckIncomeForDate(date,fallback=3000){return date&&Object.prototype
 let activePaycheckInputDate=nextEditablePaycheckDate();
 let creditCardSnapshot=storedCreditCardSnapshot();
 if(!creditCardSnapshot){creditCardSnapshot={balance:storedNumber("usaaBalance",originalCreditCardsBalance),date:todayISO(),phase:todaysGoalsAreActive()?"before":"after"};saveCreditCardSnapshot()}
+let personalBufferSnapshot=storedPersonalBufferSnapshot();
+if(!personalBufferSnapshot){personalBufferSnapshot={balance:storedNumber("personalBuffer",0),date:todayISO(),phase:todaysGoalsAreActive()?"before":"after"};savePersonalBufferSnapshot()}
 const liveInputs={
   nextPaycheck:paycheckIncomeForDate(activePaycheckInputDate,3000),
   usaaBalance:roundMoney(creditCardSnapshot.balance),
   refinanceTarget:storedNumber("refinanceTarget",320000),
-  personalBuffer:storedNumber("personalBuffer",0)
+  personalBuffer:roundMoney(personalBufferSnapshot.balance)
 };
 function roundMoney(v){return Math.round((Number(v)||0)*100)/100}
 function setInputValue(label,value,notes){const row=INPUTS.find(x=>x.label===label);if(row){row.value=roundMoney(value);if(notes)row.notes=notes}}
@@ -178,12 +183,13 @@ function recalculatePlan(){
   const carRate=.079,carMinimum=inputNumber("Car payment",644),insurance=inputNumber("Car insurance",301),studentLoan=inputNumber("Student loan",243);
   const utilities=inputNumber("Utilities",400),food=inputNumber("Food",500),fuel=inputNumber("Fuel",250),personal=inputNumber("Personal / miscellaneous",150);
   const pearlRefiPiti=inputNumber("Pearl refinanced PITI",2900),secondVaRent=inputNumber("Second VA occupied-unit rent",3000),secondVaPiti=inputNumber("Second VA estimated PITI",3400);
-  let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),buffer=roundMoney(liveInputs.personalBuffer);
-  let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",cardSnapshotApplied=false;
+  let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),buffer=0;
+  let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",cardSnapshotApplied=false,bufferSnapshotApplied=false;
   const milestoneRows=[];
   const makeRow=(date,source,income,note)=>({Date:date,Income:roundMoney(income),Source:source,"Personal Buffer":0,"Credit Cards":0,"Next Mortgage":0,Car:0,"Pearl Principal":0,Insurance:0,"Student Loan":0,Utilities:0,Food:0,Fuel:0,"Spending Money":0,"Extra Income Needed":0,"What To Send":note,_sheetRow:rowNumber++});
   const finishRow=r=>{r["Mortgage Balance"]=roundMoney(mortgage);r["Equity @ $400k"]=roundMoney(propertyValue-mortgage);r["Credit Cards Balance"]=roundMoney(usaa);r["Car Balance"]=roundMoney(car);r["Personal Buffer Balance"]=roundMoney(buffer);r["Refinance Target"]=refinanceTarget;return r};
-  const applyCreditCardSnapshot=date=>{usaa=roundMoney(creditCardSnapshot.balance);const timing=creditCardSnapshot.phase==="after"?"after the 4:00 PM cutoff":"before the 4:00 PM cutoff";const r=makeRow(date,"Actual Credit Cards balance",0,`Actual Credit Cards balance updated to ${money(usaa)} ${timing}. Only later plan moves are calculated from this balance.`);r._isActualSnapshot=true;PLAN.push(finishRow(r));cardSnapshotApplied=true};
+  const applyCreditCardSnapshot=date=>{usaa=roundMoney(creditCardSnapshot.balance);const timing=creditCardSnapshot.phase==="after"?"after the 4:00 PM cutoff":"before the 4:00 PM cutoff";const r=makeRow(date,"Actual Credit Cards balance",0,`Actual Credit Cards balance updated to ${money(usaa)} ${timing}. Only later plan moves are calculated from this balance.`);r._isActualSnapshot=true;r._isActualCardSnapshot=true;PLAN.push(finishRow(r));cardSnapshotApplied=true};
+  const applyPersonalBufferSnapshot=date=>{buffer=roundMoney(personalBufferSnapshot.balance);const timing=personalBufferSnapshot.phase==="after"?"after the 4:00 PM cutoff":"before the 4:00 PM cutoff";const r=makeRow(date,"Actual Personal Buffer balance",0,`Actual Personal Buffer available balance updated to ${money(buffer)} ${timing}. Spending and completed deposits are not counted again; only later plan moves refill it.`);r._isActualSnapshot=true;r._isActualBufferSnapshot=true;PLAN.push(finishRow(r));bufferSnapshotApplied=true};
   const checkMilestones=date=>{
     if(!refinanceDate&&mortgage<=refinanceTarget){
       refinanceDate=date;secondVaPurchaseDate=addMonthsISO(date,3);DATA.derived.pearlTargetDate=date;DATA.derived.secondVaPurchaseDate=secondVaPurchaseDate;
@@ -202,6 +208,7 @@ function recalculatePlan(){
   const startDate="2026-08-31";
   PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Exact order: required bills → $1,500 buffer → Credit Cards → car → Pearl principal through June 2027.")));
   if(creditCardSnapshot.date<=startDate)applyCreditCardSnapshot(startDate);
+  if(personalBufferSnapshot.date<=startDate)applyPersonalBufferSnapshot(startDate);
   const start=new Date(startDate+"T12:00:00Z"),end=new Date("2027-06-30T12:00:00Z");
   let nextPayday=new Date("2026-09-01T12:00:00Z");
   const monthlyPaycheckCount={};
@@ -209,6 +216,7 @@ function recalculatePlan(){
     if(cursor.getTime()===start.getTime())continue;
     const date=isoDate(cursor),month=date.slice(0,7),day=cursor.getUTCDate();
     if(!cardSnapshotApplied&&(creditCardSnapshot.date<date||(creditCardSnapshot.date===date&&creditCardSnapshot.phase==="before")))applyCreditCardSnapshot(date);
+    if(!bufferSnapshotApplied&&(personalBufferSnapshot.date<date||(personalBufferSnapshot.date===date&&personalBufferSnapshot.phase==="before")))applyPersonalBufferSnapshot(date);
     if(day===1&&month!==lastMortgageMonth){
       if(date>="2026-10-01"){
         const activePiti=refinanceDate?pearlRefiPiti:mortgagePiti,estimatedPi=refinanceDate?Math.max(0,activePiti-1300):mortgagePi;
@@ -266,14 +274,15 @@ function recalculatePlan(){
       nextPayday.setUTCDate(nextPayday.getUTCDate()+14);
     }
     if(!cardSnapshotApplied&&creditCardSnapshot.date===date&&creditCardSnapshot.phase==="after")applyCreditCardSnapshot(date);
+    if(!bufferSnapshotApplied&&personalBufferSnapshot.date===date&&personalBufferSnapshot.phase==="after")applyPersonalBufferSnapshot(date);
   }
   PLAN.push(finishRow(makeRow("2027-07-01","July 2027 plan reset",0,"Stop the detailed projection here. Enter the actual owner-unit rent, mortgage balance, car balance, property value, refinance quote and lender information before building the next phase.")));
   DATA.derived.pearlTarget=refinanceTarget;DATA.derived.carStart=inputNumber("Car balance",29200);DATA.derived.cardStart=roundMoney(creditCardSnapshot.balance);DATA.derived.creditLimit=inputNumber("Total available credit",8150);DATA.derived.bufferTarget=bufferTarget;
-  const snapshotIndex=PLAN.findIndex(r=>r._isActualSnapshot),bufferRow=PLAN.find(r=>Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find((r,i)=>i>snapshotIndex&&Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0);
+  const cardSnapshotIndex=PLAN.findIndex(r=>r._isActualCardSnapshot),bufferSnapshotIndex=PLAN.findIndex(r=>r._isActualBufferSnapshot),bufferRow=PLAN.find((r,i)=>i>=Math.max(0,bufferSnapshotIndex)&&Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find((r,i)=>i>cardSnapshotIndex&&Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0);
   DATA.derived.bufferTargetDate=bufferRow?.Date||null;DATA.derived.cardTargetDate=cardRow?.Date||null;DATA.derived.carTargetDate=carRow?.Date||null;
   setInputValue("Next paycheck income",liveInputs.nextPaycheck,activePaycheckInputDate?`Editable income for ${friendly(activePaycheckInputDate)}. At 4:00 PM Eastern it locks and this box advances to the next work paycheck.`:"Detailed paycheck entry is complete through June 2027.");
   setInputValue("Credit Cards balance",liveInputs.usaaBalance,`Actual balance snapshot for ${friendly(creditCardSnapshot.date)} ${creditCardSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. Completed payments are not subtracted again.`);
-  setInputValue("Personal buffer current",liveInputs.personalBuffer,"Editable current balance.");
+  setInputValue("Personal buffer current",liveInputs.personalBuffer,`Actual available balance snapshot for ${friendly(personalBufferSnapshot.date)} ${personalBufferSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. If you spend from it, enter what remains; completed deposits are not added again.`);
   setInputValue("Refinance target balance",refinanceTarget,"Editable planning target; confirm the real refinance decision at the July 2027 review.");
   setSummaryValue("Next paycheck minimum",liveInputs.nextPaycheck);
   setSummaryValue("Credit Cards target payoff",cardRow?friendly(cardRow.Date):"—");
@@ -318,7 +327,7 @@ function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
 function editableInputKey(label){if(label==="Next paycheck income")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
 function refreshCalculatedViews(){renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
-function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);if(key==="nextPaycheck"){const date=activePaycheckInputDate||nextEditablePaycheckDate();if(!date)return;paycheckIncomes[date]=liveInputs[key];savePaycheckIncomes()}else if(key==="usaaBalance"){creditCardSnapshot={balance:liveInputs[key],date:todayISO(),phase:todaysGoalsAreActive()?"before":"after"};saveCreditCardSnapshot()}else{try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}}recalculatePlan();refreshCalculatedViews()}
+function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);if(key==="nextPaycheck"){const date=activePaycheckInputDate||nextEditablePaycheckDate();if(!date)return;paycheckIncomes[date]=liveInputs[key];savePaycheckIncomes()}else if(key==="usaaBalance"){creditCardSnapshot={balance:liveInputs[key],date:todayISO(),phase:todaysGoalsAreActive()?"before":"after"};saveCreditCardSnapshot()}else if(key==="personalBuffer"){personalBufferSnapshot={balance:liveInputs[key],date:todayISO(),phase:todaysGoalsAreActive()?"before":"after"};savePersonalBufferSnapshot()}else{try{localStorage.setItem(editableStorageKeys[key],String(liveInputs[key]))}catch(e){}}recalculatePlan();refreshCalculatedViews()}
 function bindEditableInputs(){document.querySelectorAll(".editable-input").forEach(el=>{let timer;el.addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(()=>saveEditableInput(el),250)});el.addEventListener("change",()=>saveEditableInput(el))})}
 function renderInputs(){inputList.innerHTML=INPUTS.map(x=>{const key=editableInputKey(x.label),value=key?`<div class="editable-money"><span>$</span><input class="editable-input" data-input-key="${key}" type="number" min="0" step="0.01" inputmode="decimal" value="${roundMoney(liveInputs[key])}" aria-label="${x.label}"></div>`:`<div class="input-value">${displayValue(x.label,x.value)}</div>`;return`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div>${value}</div><div class="input-note">${x.notes||""}</div></div>`}).join("");renderSummaryLists();bindEditableInputs()}
 function switchTab(id){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelector(`.nav-btn[data-tab="${id}"]`).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
