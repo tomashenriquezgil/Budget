@@ -54,7 +54,7 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
 <div class="shell">
   <div class="topdate mono" id="todayLine"></div>
   <h1>Wealth Command Center</h1>
-  <div class="subtitle">Detailed payday steps run through June 2027. In July 2027, rebuild the next phase from your actual balances, rent, property value and loan options.</div>
+  <div class="subtitle">Detailed payday steps run through December 2029 using the current assumptions, including $4,000 rent beginning July 2027.</div>
   <div class="source-note" id="sourceNote"></div>
   <main id="dashboardTab" class="tab active">
     <div id="todayCard"></div><div id="nextCard"></div>
@@ -76,10 +76,10 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
     <section><div class="section-head"><div class="section-title">July 2027 plan reset</div><div class="section-sub">The detailed plan stops after June funds the July mortgage. In July, enter the actual rent, mortgage and car balances, property value, refinance quote and lender information before extending the plan.</div></div></section>
     <section><div class="section-head"><div class="section-title">Next rows from PAYDAY PLAN</div><div class="section-sub">No recreated dates. These are the plan rows themselves.</div></div><div id="dashboardMoves"></div></section>
   </main>
-  <main id="paydayTab" class="tab"><section style="margin-top:8px"><div class="section-head"><div class="section-title">PAYDAY PLAN</div><div class="section-sub">Exact main columns through the July 2027 reset, including after-move balances and “What To Send.”</div></div><div class="toolbar"><button class="filter-btn active" data-filter="upcoming">Upcoming</button><button class="filter-btn" data-filter="all">All rows</button><button class="filter-btn" data-filter="2027">2027</button></div><div id="paydayList"></div></section></main>
+  <main id="paydayTab" class="tab"><section style="margin-top:8px"><div class="section-head"><div class="section-title">PAYDAY PLAN</div><div class="section-sub">Exact main columns through December 2029, including after-move balances and “What To Send.”</div></div><div class="toolbar"><button class="filter-btn active" data-filter="upcoming">Upcoming</button><button class="filter-btn" data-filter="all">All rows</button><button class="filter-btn" data-filter="2027">2027</button><button class="filter-btn" data-filter="2028">2028</button><button class="filter-btn" data-filter="2029">2029</button></div><div id="paydayList"></div></section></main>
   <main id="billsTab" class="tab"><section style="margin-top:8px"><div class="section-head"><div class="section-title">BILL SCHEDULE</div><div class="section-sub">This tab mirrors the bill schedule in the same format as before.</div></div><div id="billList"></div></section></main>
   <main id="inputsTab" class="tab"><section style="margin-top:8px"><div class="section-head"><div class="section-title">Debts & Property — Plan Inputs</div><div class="section-sub">Current values and notes.</div></div><div id="inputList"></div></section><section><div class="section-head"><div class="section-title">Plan summary</div></div><div id="summaryList"></div></section><section><div class="section-head"><div class="section-title">Property / utility summary</div></div><div id="propertyList"></div></section></main>
-  <div class="footer">Detailed rows stop at the July 2027 reset. Editable current balances still save on this device and recalculate the plan through that checkpoint.</div>
+  <div class="footer">Detailed rows stop after December 2029. Editable current balances still save on this device and recalculate the plan through that checkpoint.</div>
 </div>
 <nav class="bottom-nav"><div class="nav-inner"><button class="nav-btn active" data-tab="dashboardTab">Dashboard</button><button class="nav-btn" data-tab="paydayTab">Payday Plan</button><button class="nav-btn" data-tab="billsTab">Bills</button><button class="nav-btn" data-tab="inputsTab">Inputs</button></div></nav>
 <script>
@@ -112,7 +112,7 @@ upsertInput("Commercial down payment",187500,"25% of $750,000");
 upsertInput("Commercial closing + reserve cushion",25000,"Added to the down-payment target");
 SUMMARY.push(
   {label:"Fast priority order",value:"Required bills → $1,500 buffer → cards → car → continued Personal Buffer savings"},
-  {label:"Detailed plan cutoff",value:"July 1, 2027 reset"},
+  {label:"Detailed plan cutoff",value:"December 31, 2029"},
   {label:"Personal buffer projected complete",value:"—"},
   {label:"Car projected payoff",value:"—"},
   {label:"Pearl projected refinance",value:"Reassess July 2027"},
@@ -135,7 +135,7 @@ upsertBill("Food","Flexible",500,"Two normal paychecks","$250 per normal paychec
 upsertBill("Fuel","Flexible",250,"Two normal paychecks","$125 per normal paycheck");
 upsertBill("Student loan","Monthly",243,"First normal paycheck","Keep current while attacking higher-priority targets");
 upsertBill("Personal / miscellaneous","Flexible",150,"Two normal paychecks","$75 per normal paycheck");
-upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 through June 2027; replace it with the actual July rent before extending the plan");
+upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 through June 2027 and the $4,000 assumption beginning July 2027");
 DATA.derived.commercialTarget=212500;
 const allocationKeys=["Personal Buffer","Credit Cards","Next Mortgage","Car","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
 const editableStorageKeys={nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3"};
@@ -170,7 +170,7 @@ function setSummaryValue(label,value){const row=SUMMARY.find(x=>x.label===label)
 function inputNumber(label,fallback){return Number(INPUTS.find(x=>x.label===label)?.value??fallback)}
 function isoDate(d){return d.toISOString().slice(0,10)}
 function addMonthsISO(dateString,months){const d=new Date(dateString+"T12:00:00Z");d.setUTCMonth(d.getUTCMonth()+months);return isoDate(d)}
-function workPaycheckDates(){const dates=[],d=new Date("2026-09-01T12:00:00Z"),end=new Date("2027-06-30T12:00:00Z");while(d<=end){dates.push(isoDate(d));d.setUTCDate(d.getUTCDate()+14)}return dates}
+function workPaycheckDates(){const dates=[],d=new Date("2026-09-01T12:00:00Z"),end=new Date("2029-12-31T12:00:00Z");while(d<=end){dates.push(isoDate(d));d.setUTCDate(d.getUTCDate()+14)}return dates}
 function nextEditablePaycheckDate(now=new Date()){return workPaycheckDates().find(date=>cutoff4PM(date)>now)||null}
 function recalculatePlan(){
   PLAN.splice(0,PLAN.length);
@@ -206,10 +206,10 @@ function recalculatePlan(){
     return {left,parts};
   };
   const startDate="2026-08-31";
-  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Exact order: required bills → $1,500 buffer → Credit Cards → car → continued Personal Buffer savings through June 2027.")));
+  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Exact order: required bills → $1,500 buffer → Credit Cards → car → continued Personal Buffer savings through December 2029.")));
   if(creditCardSnapshot.date<=startDate)applyCreditCardSnapshot(startDate);
   if(personalBufferSnapshot.date<=startDate)applyPersonalBufferSnapshot(startDate);
-  const start=new Date(startDate+"T12:00:00Z"),end=new Date("2027-06-30T12:00:00Z");
+  const start=new Date(startDate+"T12:00:00Z"),end=new Date("2029-12-31T12:00:00Z");
   let nextPayday=new Date("2026-09-01T12:00:00Z");
   const monthlyPaycheckCount={};
   for(let cursor=new Date(start);cursor<=end;cursor.setUTCDate(cursor.getUTCDate()+1)){
@@ -276,11 +276,11 @@ function recalculatePlan(){
     if(!cardSnapshotApplied&&creditCardSnapshot.date===date&&creditCardSnapshot.phase==="after")applyCreditCardSnapshot(date);
     if(!bufferSnapshotApplied&&personalBufferSnapshot.date===date&&personalBufferSnapshot.phase==="after")applyPersonalBufferSnapshot(date);
   }
-  PLAN.push(finishRow(makeRow("2027-07-01","July 2027 plan reset",0,"Stop the detailed projection here. Enter the actual owner-unit rent, mortgage balance, car balance, property value, refinance quote and lender information before building the next phase.")));
+  PLAN.push(finishRow(makeRow("2030-01-01","January 2030 plan reset",0,"Stop the detailed projection here. Enter the actual rent, mortgage balance, car balance, property value, refinance quote and lender information before building the next phase.")));
   DATA.derived.pearlTarget=refinanceTarget;DATA.derived.carStart=inputNumber("Car balance",29200);DATA.derived.cardStart=roundMoney(creditCardSnapshot.balance);DATA.derived.creditLimit=inputNumber("Total available credit",8150);DATA.derived.bufferTarget=bufferTarget;
   const cardSnapshotIndex=PLAN.findIndex(r=>r._isActualCardSnapshot),bufferSnapshotIndex=PLAN.findIndex(r=>r._isActualBufferSnapshot),bufferRow=PLAN.find((r,i)=>i>=Math.max(0,bufferSnapshotIndex)&&Number(r["Personal Buffer Balance"])>=bufferTarget),cardRow=PLAN.find((r,i)=>i>cardSnapshotIndex&&Number(r["Credit Cards Balance"])<=0),carRow=PLAN.find(r=>Number(r["Car Balance"])<=0);
   DATA.derived.bufferTargetDate=bufferRow?.Date||null;DATA.derived.cardTargetDate=cardRow?.Date||null;DATA.derived.carTargetDate=carRow?.Date||null;
-  setInputValue("Next paycheck income",liveInputs.nextPaycheck,activePaycheckInputDate?`Editable income for ${friendly(activePaycheckInputDate)}. At 4:00 PM Eastern it locks and this box advances to the next work paycheck.`:"Detailed paycheck entry is complete through June 2027.");
+  setInputValue("Next paycheck income",liveInputs.nextPaycheck,activePaycheckInputDate?`Editable income for ${friendly(activePaycheckInputDate)}. At 4:00 PM Eastern it locks and this box advances to the next work paycheck.`:"Detailed paycheck entry is complete through December 2029.");
   setInputValue("Credit Cards balance",liveInputs.usaaBalance,`Actual balance snapshot for ${friendly(creditCardSnapshot.date)} ${creditCardSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. Completed payments are not subtracted again.`);
   setInputValue("Personal buffer current",liveInputs.personalBuffer,`Actual available balance snapshot for ${friendly(personalBufferSnapshot.date)} ${personalBufferSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. If you spend from it, enter what remains; completed deposits are not added again.`);
   setInputValue("Refinance target balance",refinanceTarget,"Editable planning target; confirm the real refinance decision at the July 2027 review.");
@@ -291,7 +291,7 @@ function recalculatePlan(){
   setSummaryValue("Pearl projected refinance","Reassess July 2027");
   setSummaryValue("Second VA projected purchase","Reassess July 2027");
   setSummaryValue("First commercial projected purchase","Reassess July 2027");
-  setSummaryValue("Planning note","Exact plan: required bills → $1,500 buffer → Credit Cards → car → Pearl principal through June 2027. Reassess the refinance, second VA and commercial plan in July 2027.");
+  setSummaryValue("Planning note","Exact plan: required bills → $1,500 buffer → Credit Cards → car → continued Personal Buffer savings through December 2029. Reassess the refinance, second VA and commercial plan in July 2027.");
 }
 function money(v){if(typeof v!=="number")return String(v??"");const d=Math.abs(v-Math.round(v))<.000001?0:2;return "$"+v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:2})}
 function pct(v){return(Number(v)*100).toFixed(2).replace(/\.00$/,"")+"%"}
@@ -322,7 +322,7 @@ function rowKey(r){return`sheet-row-${r._sheetRow}`}function isDone(r){try{retur
 function planCard(r){const today=todayISO(),next=nextFutureDate(),c=["plan-card"];if(r.Date===today)c.push("today");else if(r.Date===next)c.push("next");let badge=r.Date===today?'<div class="badge current">Today</div>':r.Date===next?'<div class="badge">Next date</div>':"";const a=allocationKeys.filter(k=>Math.abs(Number(r[k]||0))>.000001).map(k=>`<div class="alloc"><span class="alloc-name">${k}</span><span class="alloc-value">${money(Number(r[k]))}</span></div>`).join("");const done=isDone(r);return`<div class="${c.join(" ")}"><div class="plan-head"><div>${badge}<div class="plan-date">${friendly(r.Date)}</div><div class="plan-source">${r.Source} · Plan row ${r._sheetRow}</div></div><div class="plan-income">${money(Number(r.Income))} in</div></div><div class="allocs">${a||'<div class="alloc"><span class="alloc-name">No allocation</span><span class="alloc-value">$0</span></div>'}</div><div class="balance-strip"><div class="balance-pill"><span>Mortgage after</span><b>${money(Number(r["Mortgage Balance"]))}</b></div><div class="balance-pill"><span>Credit Cards after</span><b>${money(Number(r["Credit Cards Balance"]))}</b></div><div class="balance-pill"><span>Car after</span><b>${money(Number(r["Car Balance"]))}</b></div><div class="balance-pill"><span>Personal buffer</span><b>${money(Number(r["Personal Buffer Balance"]||0))}</b></div></div><div class="plan-note">${r["What To Send"]||""}</div><div class="check-row ${done?"done":""}" data-row="${r._sheetRow}"><span class="check">${done?"✓":""}</span><span>Mark this plan row completed (visual only)</span></div></div>`}
 function bindChecks(host){host.querySelectorAll(".check-row").forEach(el=>el.onclick=()=>{const r=PLAN.find(x=>String(x._sheetRow)===el.dataset.row);if(r)toggleDone(r)})}
 function renderDashboardMoves(){const h=document.getElementById("dashboardMoves"),t=todayISO(),keepToday=todaysGoalsAreActive(),u=PLAN.filter(r=>Number(r.Income)>0&&(r.Date>t||(keepToday&&r.Date===t))).slice(0,7);h.innerHTML=u.map(planCard).join("");bindChecks(h)}
-let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN;if(paydayFilter==="upcoming")r=PLAN.filter(x=>x.Date>=t);if(paydayFilter==="2027")r=PLAN.filter(x=>x.Date.startsWith("2027-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
+let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN;if(paydayFilter==="upcoming")r=PLAN.filter(x=>x.Date>=t);if(/^20\d{2}$/.test(paydayFilter))r=PLAN.filter(x=>x.Date.startsWith(paydayFilter+"-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
 function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
 function editableInputKey(label){if(label==="Next paycheck income")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
@@ -335,7 +335,7 @@ document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>switchTab(b.datas
 let lastDashboardTimeState="";
 function syncNextPaycheckEditor(){const nextDate=nextEditablePaycheckDate();if(nextDate===activePaycheckInputDate)return false;if(activePaycheckInputDate&&!Object.prototype.hasOwnProperty.call(paycheckIncomes,activePaycheckInputDate)){paycheckIncomes[activePaycheckInputDate]=roundMoney(liveInputs.nextPaycheck);savePaycheckIncomes()}activePaycheckInputDate=nextDate;liveInputs.nextPaycheck=paycheckIncomeForDate(nextDate,inputNumber("Typical paycheck",3000));recalculatePlan();renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderInputs();return true}
 function tick(){syncNextPaycheckEditor();todayLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"long",month:"long",day:"numeric",year:"numeric"}).format(new Date());renderHeroCards();const state=`${todayISO()}-${todaysGoalsAreActive()?"before":"after"}`;if(state!==lastDashboardTimeState){lastDashboardTimeState=state;renderDashboardMoves()}}
-function init(){recalculatePlan();sourceNote.textContent="$3,000 biweekly · exact plan through June 2027 · July 2027 reset checkpoint";renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
+function init(){recalculatePlan();sourceNote.textContent="$3,000 biweekly · exact plan through December 2029 · January 2030 reset checkpoint";renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderBills();renderInputs();tick()}
 init();setInterval(tick,1000);
 </script>
 </body>
