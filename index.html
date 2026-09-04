@@ -111,7 +111,7 @@ upsertInput("First commercial property price",750000,"Planning assumption");
 upsertInput("Commercial down payment",187500,"25% of $750,000");
 upsertInput("Commercial closing + reserve cushion",25000,"Added to the down-payment target");
 SUMMARY.push(
-  {label:"Fast priority order",value:"Required bills → $1,500 buffer → cards → car → Pearl principal"},
+  {label:"Fast priority order",value:"Required bills → $1,500 buffer → cards → car → continued Personal Buffer savings"},
   {label:"Detailed plan cutoff",value:"July 1, 2027 reset"},
   {label:"Personal buffer projected complete",value:"—"},
   {label:"Car projected payoff",value:"—"},
@@ -202,11 +202,11 @@ function recalculatePlan(){
     move("Personal Buffer",bufferTarget-buffer,v=>buffer=roundMoney(buffer+v),"the $1,500 personal buffer");
     move("Credit Cards",usaa,v=>usaa=roundMoney(usaa-v),"Credit Cards");
     move("Car",car,v=>car=roundMoney(car-v),"the car payoff");
-    move("Pearl Principal",mortgage,v=>mortgage=roundMoney(mortgage-v),"Pearl principal");
+    move("Personal Buffer",Number.MAX_SAFE_INTEGER,v=>buffer=roundMoney(buffer+v),"continued Personal Buffer savings");
     return {left,parts};
   };
   const startDate="2026-08-31";
-  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Exact order: required bills → $1,500 buffer → Credit Cards → car → Pearl principal through June 2027.")));
+  PLAN.push(finishRow(makeRow(startDate,"Starting balances",0,"Starting point. Exact order: required bills → $1,500 buffer → Credit Cards → car → continued Personal Buffer savings through June 2027.")));
   if(creditCardSnapshot.date<=startDate)applyCreditCardSnapshot(startDate);
   if(personalBufferSnapshot.date<=startDate)applyPersonalBufferSnapshot(startDate);
   const start=new Date(startDate+"T12:00:00Z"),end=new Date("2027-06-30T12:00:00Z");
