@@ -126,7 +126,7 @@ PROPERTY.push(
   {label:"Second VA assumed down payment",value:0}
 );
 function upsertBill(name,timing,amount,funded,rule){const row=BILLS.find(x=>x["Bill / Budget"]===name);if(row){row["Date / Timing"]=timing;row.Amount=amount;row["Funded From"]=funded;row.Rule=rule}else BILLS.push({"Date / Timing":timing,"Bill / Budget":name,Amount:amount,"Funded From":funded,Rule:rule})}
-upsertBill("Mortgage PITI","1st of month",3700,"Rent first; normal paychecks cover any gap","Use the current $2,850 rent through June; confirm the real July rent before extending the plan");
+upsertBill("Mortgage PITI","1st of month",3700,"Rent first; first normal paycheck covers any gap","Use the current $2,850 rent through June; confirm the real July rent before extending the plan");
 upsertBill("Car payment","1st of month",644,"Two normal paychecks","Minimum is funded before extra car-payoff money");
 upsertBill("Utilities","Early month",400,"Two normal paychecks","$200 per normal paycheck");
 upsertBill("Credit Cards","10th","Pay off as fast as possible","After the $1,500 buffer and required bills","After payoff, surplus redirects to the car");
@@ -251,7 +251,7 @@ function recalculatePlan(){
         const carPart=roundMoney(Math.min(car,carMinimum));r.Car=carPart;car=roundMoney(car-carPart);fixed=carPart;
       }else if(date==="2026-09-15"||date==="2026-09-29"){
         const rentForMonth=currentRent;
-        r["Next Mortgage"]=roundMoney(Math.max(0,mortgagePiti-rentForMonth)/2);
+        r["Next Mortgage"]=date==="2026-09-15"?roundMoney(Math.max(0,mortgagePiti-rentForMonth)):0;
         const carPart=roundMoney(Math.min(car,carMinimum/2));r.Car=carPart;car=roundMoney(car-carPart);
         if(date==="2026-09-15"){r.Insurance=insurance;r["Student Loan"]=studentLoan}
         r.Utilities=utilities/2;r.Food=food/2;r.Fuel=fuel/2;r["Spending Money"]=personal/2;
@@ -259,7 +259,7 @@ function recalculatePlan(){
       }else if(ordinal<2){
         if(!refinanceDate){
           const rentForMonth=date<"2027-07-01"?currentRent:futureRent;
-          r["Next Mortgage"]=roundMoney(Math.max(0,mortgagePiti-rentForMonth)/2);
+          r["Next Mortgage"]=ordinal===0?roundMoney(Math.max(0,mortgagePiti-rentForMonth)):0;
           const carPart=roundMoney(Math.min(car,carMinimum/2));r.Car=carPart;car=roundMoney(car-carPart);
         }
         if(ordinal===0){r.Insurance=insurance;r["Student Loan"]=studentLoan}
