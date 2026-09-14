@@ -59,7 +59,7 @@ section{margin:23px 0}.section-head{margin-bottom:9px}.section-sub{font-size:11p
   <main id="dashboardTab" class="tab active">
     <div id="todayCard"></div><div id="nextCard"></div>
     <section><div class="section-head"><div class="section-title">Current plan balances</div><div class="section-sub" id="balanceAsOf"></div></div>
-      <div class="grid"><div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Equity @ $400k</div><div id="equityNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Credit Cards</div><div id="usaaNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Personal buffer</div><div id="bufferNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Pearl reserve</div><div id="pearlReserveNow" class="stat-value green">—</div></div></div>
+      <div class="grid"><div class="stat"><div class="stat-label">Mortgage</div><div id="mortgageNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Spendable cash</div><div id="spendableCashNow" class="stat-value gold">—</div><div class="stat-note">Food + fuel + personal budget left this pay period after cash/debit spending.</div></div><div class="stat"><div class="stat-label">Credit Cards</div><div id="usaaNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Car balance</div><div id="carNow" class="stat-value">—</div></div><div class="stat"><div class="stat-label">Personal buffer</div><div id="bufferNow" class="stat-value green">—</div></div><div class="stat"><div class="stat-label">Pearl reserve</div><div id="pearlReserveNow" class="stat-value green">—</div></div></div>
     </section>
     <section><div class="section-head"><div class="section-title">$1,500 personal cash buffer</div><div class="section-sub">Built first so normal surprises do not go back onto the credit cards. Once full, it stays protected.</div></div>
       <div class="progress-card"><div class="progress-top"><div><div class="eyebrow">Personal buffer now</div><div id="bufferProgressBalance" class="progress-big">—</div></div><div id="bufferProgressPct" class="progress-pct">—</div></div><div class="progress-track"><div id="bufferProgressFill" class="progress-fill"></div></div><div class="progress-meta"><div><span>Left to $1,500</span><b id="bufferProgressLeft">—</b></div><div><span>Projected completion</span><b id="bufferProgressDate">—</b></div></div></div>
@@ -105,10 +105,10 @@ function paycheckEditorDate(key){
   return index<0?null:dates[index+paycheckEditorOffsets[key]]||null;
 }
 upsertInput("Car insurance",301,"Monthly");
-upsertInput("Food",500,"Realistic monthly budget");
+upsertInput("Food",600,"Realistic monthly budget");
 upsertInput("Fuel",250,"Realistic monthly budget");
 upsertInput("Student loan",243,"Monthly");
-upsertInput("Personal / miscellaneous",150,"Monthly protected spending");
+upsertInput("Personal / miscellaneous",200,"Monthly protected spending");
 upsertInput("Personal buffer current",0,"Editable current balance; build this to $1,500 first");
 upsertInput("Personal buffer target",1500,"Prevents returning to credit cards");
 upsertInput("Total available credit",8150,"Total credit limit used for the dashboard progress bar");
@@ -125,6 +125,7 @@ upsertInput("Pearl reserve current",0,"Actual cash set aside for Pearl; separate
 upsertInput("Commercial fund current",0,"Actual commercial savings; do not include Pearl or personal reserves");
 upsertInput("Pearl reserve target",6000,"Initial cushion, not a guarantee of covering repairs or your insurance deductible");
 upsertInput("Commercial savings target",170000,"Editable cash goal; reaching it does not guarantee a loan or purchase");
+upsertInput("Cash spent this pay period",0,"Editable total spent from your normal food + fuel + personal allowance since the last paycheck. Reset to $0 on payday.");
 SUMMARY.push(
   {label:"Pearl reserve projected complete",value:"—"},
   {label:"Commercial cash goal projected",value:"—"},
@@ -148,17 +149,17 @@ upsertBill("Car payment","1st of month",644,"Two normal paychecks","Minimum is f
 upsertBill("Utilities","Early month",400,"Two normal paychecks","$200 per normal paycheck");
 upsertBill("Credit Cards","10th","Pay off as fast as possible","After the $1,500 buffer and required bills","After payoff, surplus builds the Pearl reserve, then pays off the car");
 upsertBill("Car insurance","18th",301,"First normal paycheck","Fund the full $301");
-upsertBill("Food","Flexible",500,"Two normal paychecks","$250 per normal paycheck");
+upsertBill("Food","Flexible",600,"Two normal paychecks","$300 per normal paycheck");
 upsertBill("Fuel","Flexible",250,"Two normal paychecks","$125 per normal paycheck");
 upsertBill("Student loan","Monthly",243,"First normal paycheck","Keep current while attacking higher-priority targets");
-upsertBill("Personal / miscellaneous","Flexible",150,"Two normal paychecks","$75 per normal paycheck");
+upsertBill("Personal / miscellaneous","Flexible",200,"Two normal paychecks","$100 per normal paycheck");
 upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 through June 2027 and the $4,000 assumption beginning July 2027");
 for(const label of ["Sep 15 mortgage catch-up","Extra-principal target"]){
   const index=SUMMARY.findIndex(r=>r.label===label);if(index>=0)SUMMARY.splice(index,1);
 }
 DATA.derived.commercialTarget=170000;
 const allocationKeys=["Personal Buffer","Credit Cards","Pearl Reserve","Commercial Fund","Next Mortgage","Car","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
-const editableStorageKeys={pearlReserveTarget:"wealth-plan-pearl-reserve-target-v1",commercialTarget:"wealth-plan-commercial-target-v1",nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3"};
+const editableStorageKeys={pearlReserveTarget:"wealth-plan-pearl-reserve-target-v1",commercialTarget:"wealth-plan-commercial-target-v1",nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3",cashSpent:"wealth-plan-cash-spent-pay-period-v1"};
 const paycheckIncomeStorageKey="wealth-plan-paycheck-income-by-date-v1";
 const creditCardSnapshotStorageKey="wealth-plan-credit-card-snapshot-v1";
 const personalBufferSnapshotStorageKey="wealth-plan-personal-buffer-snapshot-v1";
@@ -198,7 +199,8 @@ const liveInputs={
   thirdPaycheck:paycheckIncomeForDate(paycheckEditorDate("thirdPaycheck"),3000),
   usaaBalance:roundMoney(creditCardSnapshot.balance),
   refinanceTarget:storedNumber("refinanceTarget",320000),
-  personalBuffer:roundMoney(personalBufferSnapshot.balance)
+  personalBuffer:roundMoney(personalBufferSnapshot.balance),
+  cashSpent:storedNumber("cashSpent",0)
 };
 function roundMoney(v){return Math.round((Number(v)||0)*100)/100}
 function setInputValue(label,value,notes){const row=INPUTS.find(x=>x.label===label);if(row){row.value=roundMoney(value);if(notes)row.notes=notes}}
@@ -344,6 +346,7 @@ function recalculatePlan(){
   setInputValue("Credit Cards balance",liveInputs.usaaBalance,`Actual balance snapshot for ${friendly(creditCardSnapshot.date)} ${creditCardSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. Completed payments are not subtracted again.`);
   setInputValue("Personal buffer current",liveInputs.personalBuffer,`Actual available balance snapshot for ${friendly(personalBufferSnapshot.date)} ${personalBufferSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. If you spend from it, enter what remains; completed deposits are not added again.`);
   setInputValue("Refinance target balance",refinanceTarget,"Editable planning target; confirm the real refinance decision at the July 2027 review.");
+  setInputValue("Cash spent this pay period",liveInputs.cashSpent,"Subtracts from the $525 normal per-paycheck food + fuel + personal allowance. Reset to $0 on payday.");
   setSummaryValue("Next paycheck minimum",liveInputs.nextPaycheck);
   setSummaryValue("Credit Cards target payoff",cardRow?friendly(cardRow.Date):"—");
   setSummaryValue("Personal buffer projected complete",bufferRow?friendly(bufferRow.Date):"—");
@@ -387,7 +390,8 @@ function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
 function allocationsHTML(rows){const t={};rows.forEach(r=>allocationKeys.forEach(k=>t[k]=(t[k]||0)+Number(r[k]||0)));return allocationKeys.filter(k=>Math.abs(t[k]||0)>.000001).map(k=>`<div class="move-line"><span>${k}</span><span>${money(t[k])}</span></div>`).join("")}
 function notesFor(rows){return rows.map(r=>r["What To Send"]).filter(Boolean).join(" • ")}
 function renderHeroCards(){const today=todayISO(),todays=todaysGoalsAreActive()?rowsOnDate(today):[],h=document.getElementById("todayCard");h.innerHTML=todays.length?`<div class="hero current"><div class="hero-top"><div><div class="eyebrow">Today's current move</div><div class="hero-title">${friendly(today)}</div></div><div class="hero-money">${money(totalIncome(todays))}</div></div><div class="move-lines">${allocationsHTML(todays)}</div><div class="hero-sub">${notesFor(todays)} · This stays visible until 4:00 PM Eastern.</div></div>`:"";const g=nextCountdownGroup(),n=document.getElementById("nextCard");if(!g){n.innerHTML=`<div class="hero next"><div class="eyebrow">Next money move</div><div class="hero-title">Plan complete</div></div>`;return}const same=g.date===today;n.innerHTML=`<div class="hero next"><div class="hero-top"><div><div class="eyebrow">${same?"Today's 4 PM cutoff":"Next money move"}</div><div class="hero-title">${countdown(g.target)}</div></div><div class="hero-money">${money(totalIncome(g.rows))}</div></div><div class="hero-sub">${friendly(g.date)} · ${[...new Set(g.rows.map(r=>r.Source))].join(" + ")} · cutoff is 4:00 PM Eastern; after that this card advances to the next PAYDAY PLAN date.</div></div>`}
-function renderBalances(){const r=currentBalanceRow();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));equityNow.textContent=money(Number(r["Equity @ $400k"]));usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));pearlReserveNow.textContent=money(Number(r["Pearl Reserve Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}.`}
+function spendableCashRemaining(){const perPaycheck=(inputNumber("Food",600)+inputNumber("Fuel",250)+inputNumber("Personal / miscellaneous",200))/2;return roundMoney(Math.max(0,perPaycheck-liveInputs.cashSpent))}
+function renderBalances(){const r=currentBalanceRow();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));spendableCashNow.textContent=money(spendableCashRemaining());usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));pearlReserveNow.textContent=money(Number(r["Pearl Reserve Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}. Spendable cash is separate from the protected $1,500 buffer.`}
 function renderBufferProgress(){renderFundProgress();const r=currentBalanceRow(),target=Number(DATA.derived.bufferTarget||1500),bal=Number(r["Personal Buffer Balance"]||0),p=Math.max(0,Math.min(100,target?bal/target*100:100));bufferProgressBalance.textContent=money(bal);bufferProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";bufferProgressFill.style.width=p+"%";bufferProgressLeft.textContent=money(Math.max(0,target-bal));bufferProgressDate.textContent=DATA.derived.bufferTargetDate?friendly(DATA.derived.bufferTargetDate):"—"}
 function renderFundProgress(){
   const r=currentBalanceRow();
@@ -410,7 +414,7 @@ function renderDashboardMoves(){const h=document.getElementById("dashboardMoves"
 let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN;if(paydayFilter==="upcoming")r=PLAN.filter(x=>x.Date>=t);if(/^20\d{2}$/.test(paydayFilter))r=PLAN.filter(x=>x.Date.startsWith(paydayFilter+"-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
 function renderBills(){billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
-function editableInputKey(label){if(label==="Paycheck after next")return "paycheckAfterNext";if(label==="Third upcoming paycheck")return "thirdPaycheck";if(label==="Pearl reserve current")return "pearlReserve";if(label==="Commercial fund current")return "commercialFund";if(label==="Pearl reserve target")return "pearlReserveTarget";if(label==="Commercial savings target")return "commercialTarget";if(label==="Next paycheck income")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";return null}
+function editableInputKey(label){if(label==="Paycheck after next")return "paycheckAfterNext";if(label==="Third upcoming paycheck")return "thirdPaycheck";if(label==="Pearl reserve current")return "pearlReserve";if(label==="Commercial fund current")return "commercialFund";if(label==="Pearl reserve target")return "pearlReserveTarget";if(label==="Commercial savings target")return "commercialTarget";if(label==="Next paycheck income")return"nextPaycheck";if(label==="Credit Cards balance")return"usaaBalance";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";if(label==="Cash spent this pay period")return"cashSpent";return null}
 function refreshCalculatedViews(){renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
 function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;liveInputs[key]=roundMoney(n);if(Object.prototype.hasOwnProperty.call(paycheckEditorOffsets,key)){
 const date=el.dataset.paycheckDate||paycheckEditorDate(key);
