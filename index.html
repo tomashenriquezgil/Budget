@@ -94,7 +94,7 @@ upsertInput("Mortgage payment (PITI)",3700,"Realistic monthly Pearl budget");
 upsertInput("Typical paycheck",3000,"Biweekly");
 const existingNextPaycheckInput=INPUTS.find(x=>x.label==="Next paycheck target");
 if(existingNextPaycheckInput)existingNextPaycheckInput.label="Next paycheck income";
-upsertInput("Next paycheck income",3000,"Editable income for the next work paycheck; each payday locks after 4:00 PM Eastern");
+upsertInput("Next paycheck income",2000,"Editable income for the next work paycheck; October 13, 2026 is set to $2,000; each payday locks after 4:00 PM Eastern");
 INPUTS.splice(INPUTS.findIndex(x=>x.label==="Next paycheck income")+1,0,
   {label:"Paycheck after next",value:3000,notes:""},
   {label:"Third upcoming paycheck",value:3000,notes:""});
@@ -105,10 +105,10 @@ function paycheckEditorDate(key){
   const dates=workPaycheckDates(),index=dates.indexOf(activePaycheckInputDate);
   return index<0?null:dates[index+paycheckEditorOffsets[key]]||null;
 }
-upsertInput("Car insurance",301,"Monthly");
+upsertInput("Car insurance",301,"Monthly; October 2026 is not due, resume in November");
 upsertInput("Food",600,"Realistic monthly budget");
 upsertInput("Fuel",250,"Realistic monthly budget");
-upsertInput("Student loan",243,"Monthly");
+upsertInput("Student loan",142,"$142 monthly; first payment in this plan is due in November 2026");
 upsertInput("Personal / miscellaneous",200,"Monthly protected spending");
 upsertInput("Personal buffer current",0,"Editable current balance; build this to $1,500 first");
 upsertInput("Personal buffer target",1500,"Prevents returning to credit cards");
@@ -149,10 +149,10 @@ upsertBill("Mortgage PITI","1st of month",3700,"Rent first; first normal paychec
 upsertBill("Car payment","1st of month",644,"Two normal paychecks","Minimum is funded before extra car-payoff money");
 upsertBill("Utilities","Early month",400,"Two normal paychecks","$200 per normal paycheck");
 upsertBill("Credit Cards","10th","Pay off as fast as possible","After the $1,500 buffer and required bills","After payoff, surplus builds the Pearl reserve, then pays off the car");
-upsertBill("Car insurance","18th",301,"First normal paycheck","Fund the full $301");
+upsertBill("Car insurance","18th",301,"First normal paycheck","No October 2026 payment; resume with the November 2026 cycle");
 upsertBill("Food","Flexible",600,"Two normal paychecks","$300 per normal paycheck");
 upsertBill("Fuel","Flexible",250,"Two normal paychecks","$125 per normal paycheck");
-upsertBill("Student loan","Monthly",243,"First normal paycheck","Keep current while attacking higher-priority targets");
+upsertBill("Student loan","Monthly",142,"First normal paycheck","$142; no October 2026 payment, first payment in this plan is November 2026");
 upsertBill("Personal / miscellaneous","Flexible",200,"Two normal paychecks","$100 per normal paycheck");
 upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 through June 2027 and the $4,000 assumption beginning July 2027");
 for(const label of ["Sep 15 mortgage catch-up","Extra-principal target"]){
@@ -172,6 +172,14 @@ function savePersonalBufferSnapshot(){try{localStorage.setItem(personalBufferSna
 function storedPaycheckIncomes(){try{const parsed=JSON.parse(localStorage.getItem(paycheckIncomeStorageKey)||"{}");if(parsed&&typeof parsed==="object")return Object.fromEntries(Object.entries(parsed).filter(([date,value])=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&Number.isFinite(Number(value))).map(([date,value])=>[date,Math.max(0,Number(value))]))}catch(e){}return{}}
 function savePaycheckIncomes(){try{localStorage.setItem(paycheckIncomeStorageKey,JSON.stringify(paycheckIncomes))}catch(e){}}
 const paycheckIncomes=storedPaycheckIncomes();
+const october2026PaycheckMigrationKey="wealth-plan-oct-13-2026-paycheck-2000-v1";
+try{
+  if(localStorage.getItem(october2026PaycheckMigrationKey)!=="done"){
+    paycheckIncomes["2026-10-13"]=2000;
+    savePaycheckIncomes();
+    localStorage.setItem(october2026PaycheckMigrationKey,"done");
+  }
+}catch(e){}
 const legacyNextPaycheck=storedNumber("nextPaycheck",3000);
 if(!Object.prototype.hasOwnProperty.call(paycheckIncomes,"2026-09-01")){paycheckIncomes["2026-09-01"]=legacyNextPaycheck;savePaycheckIncomes()}
 function paycheckIncomeForDate(date,fallback=3000){return date&&Object.prototype.hasOwnProperty.call(paycheckIncomes,date)?roundMoney(paycheckIncomes[date]):roundMoney(fallback)}
@@ -221,7 +229,7 @@ function recalculatePlan(){
   const propertyValue=Number(PROPERTY.find(x=>x.label==="Property value assumption")?.value||400000);
   const mortgageRate=inputNumber("Mortgage rate",.0625),mortgagePi=inputNumber("P&I portion",2370),mortgagePiti=inputNumber("Mortgage payment (PITI)",3700);
   const currentRent=inputNumber("Current rent",2850),futureRent=inputNumber("Future rent",4000),vaIncome=inputNumber("VA income",180);
-  const carRate=.079,carMinimum=inputNumber("Car payment",644),insurance=inputNumber("Car insurance",301),studentLoan=inputNumber("Student loan",243);
+  const carRate=.079,carMinimum=inputNumber("Car payment",644),insurance=inputNumber("Car insurance",301),studentLoan=inputNumber("Student loan",142);
   const utilities=inputNumber("Utilities",400),food=inputNumber("Food",500),fuel=inputNumber("Fuel",250),personal=inputNumber("Personal / miscellaneous",150);
   const pearlRefiPiti=inputNumber("Pearl refinanced PITI",2900),secondVaRent=inputNumber("Second VA occupied-unit rent",3000),secondVaPiti=inputNumber("Second VA estimated PITI",3400);
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),buffer=0;
@@ -321,7 +329,7 @@ function recalculatePlan(){
           r["Next Mortgage"]=ordinal===0?roundMoney(Math.max(0,mortgagePiti-rentForMonth)):0;
           const carPart=roundMoney(Math.min(car,carMinimum/2));r.Car=carPart;car=roundMoney(car-carPart);
         }
-        if(ordinal===0){r.Insurance=insurance;r["Student Loan"]=studentLoan}
+        if(ordinal===0&&month!=="2026-10"){r.Insurance=insurance;r["Student Loan"]=studentLoan}
         r.Utilities=utilities/2;r.Food=food/2;r.Fuel=fuel/2;r["Spending Money"]=personal/2;
         fixed=allocationKeys.reduce((s,k)=>s+Number(r[k]||0),0);
       }
