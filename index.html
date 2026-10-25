@@ -301,7 +301,7 @@ function recalculatePlan(){
   const propertyValue=Number(PROPERTY.find(x=>x.label==="Property value assumption")?.value||400000);
   const mortgageRate=inputNumber("Mortgage rate",.0625),mortgagePi=inputNumber("P&I portion",2370),mortgagePiti=inputNumber("Mortgage payment (PITI)",3700);
   const currentRent=inputNumber("Current rent",2850),futureRent=inputNumber("Future rent",4000),vaIncome=inputNumber("VA income",180);
-  const carRate=.079,carMinimum=inputNumber("Car payment",644),evRate=.0919,evMinimum=324.56,studentLoan=inputNumber("Student loan",142);
+  const carRate=.079,carMinimum=inputNumber("Car payment",644),evRate=.0966,evMinimum=324.56,studentLoan=inputNumber("Student loan",142);
   const utilities=inputNumber("Utilities",400),food=inputNumber("Food",500),fuel=inputNumber("Fuel",250),personal=inputNumber("Personal / miscellaneous",150);
   const pearlRefiPiti=inputNumber("Pearl refinanced PITI",2900),secondVaRent=inputNumber("Second VA occupied-unit rent",3000),secondVaPiti=inputNumber("Second VA estimated PITI",3400);
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),ev=0,evReserved=0,buffer=0;
@@ -392,7 +392,7 @@ function recalculatePlan(){
     if(day===4&&date>="2026-12-04"&&ev>0){
       const payment=roundMoney(Math.min(ev,evReserved));
       ev=roundMoney(Math.max(0,ev-payment));evReserved=roundMoney(Math.max(0,evReserved-payment));
-      const marker=makeRow(date,"EV payment posted",0,`EV loan payment of ${money(payment)} drawn from money reserved in previous paychecks.`);
+      const marker=makeRow(date,"EV payment posted",0,`EV loan payment of ${money(payment)} from prior paycheck reserves${payment<evMinimum?`; ${money(roundMoney(evMinimum-payment))} short of scheduled minimum` : ""}.`);
       marker._isNonIncomeMarker=true;PLAN.push(finishRow(marker));
     }
     if(cursor.getTime()===nextPayday.getTime()){
@@ -425,10 +425,38 @@ function recalculatePlan(){
         r.Utilities=utilities/2;r.Food=food/2;r.Fuel=fuel/2;r["Spending Money"]=personal/2;
         fixed=allocationKeys.reduce((s,k)=>s+Number(r[k]||0),0);
       }
-      const moved=sendToPriority(r,Math.max(0,income-fixed),date);
-      r["Extra Income Needed"]=roundMoney(Math.max(0,fixed-income));
-      if(date==="2026-09-01")r["What To Send"]=`Send ${money(r.Car)} to the required car payment${moved.parts.length?`, then send ${moved.parts.join(", then ")}`:""}.`;
-      else if(moved.parts.length)r["What To Send"]=`Fund the listed bills, then send ${moved.parts.join(", then ")}.`;
+      // Cash-safe allocation: reserve essential obligations first, then discretionary
+      // spending. Never assign more dollars than this row actually received.
+      const requested={};
+      allocationKeys.forEach(k=>requested[k]=roundMoney(Math.max(0,Number(r[k]||0))));
+      const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
+      let unassigned=roundMoney(Math.max(0,income));
+      const missing=[];
+      for(const key of essentialOrder){
+        const wanted=requested[key]||0;
+        const covered=roundMoney(Math.min(unassigned,wanted));
+        r[key]=covered;
+        unassigned=roundMoney(unassigned-covered);
+        if(wanted>covered)missing.push(`${key}: ${money(roundMoney(wanted-covered))}`);
+      }
+      // Car/EV loan state was provisionally adjusted while calculating the bill.
+      // Undo the portion that the paycheck could not actually cover.
+      car=roundMoney(car+Math.max(0,(requested.Car||0)-(r.Car||0)));
+      evReserved=roundMoney(Math.max(0,evReserved-Math.max(0,(requested.EV||0)-(r.EV||0))));
+      const moved=sendToPriority(r,unassigned,date);
+      // Both essential and discretionary allocations are now limited by income.
+      const allocated=roundMoney(allocationKeys.reduce((sum,key)=>sum+Math.max(0,Number(r[key]||0)),0));
+      const unfunded=roundMoney(essentialOrder.reduce((sum,key)=>sum+Math.max(0,(requested[key]||0)-(r[key]||0)),0));
+      r["Extra Income Needed"]=unfunded;
+      if(unfunded>0){
+        r["What To Send"]=`Allocate only ${money(allocated)} of the ${money(income)} received. UNFUNDED planned bills: ${missing.join('; ')}. Arrange additional funds or change payment dates; these bills are not paid by this plan.`;
+      }else if(date==="2026-09-01"){
+        r["What To Send"]=`Fund ${money(r.Car)} for the required car payment${moved.parts.length?`, then ${moved.parts.join(', then ')}`:''}.`;
+      }else{
+        r["What To Send"]=`Fund the listed bills${moved.parts.length?`, then ${moved.parts.join(', then ')}`:''}.`;
+      }
+      // Guard against future modifications that would over-allocate a paycheck.
+      if(allocated>roundMoney(income)+0.001)throw new Error('Paycheck allocation exceeded income on '+date);
       PLAN.push(finishRow(r));PLAN.push(...milestoneRows.splice(0));
       nextPayday.setUTCDate(nextPayday.getUTCDate()+14);
     }
