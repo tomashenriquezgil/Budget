@@ -99,9 +99,11 @@ if(existingNextPaycheckInput)existingNextPaycheckInput.label="Next paycheck inco
 upsertInput("Next paycheck income",2000,"Editable upcoming paycheck income; the October 27, 2026 check starts at $2,000 unless you previously entered a different amount. Later checks keep their existing values.");
 INPUTS.splice(INPUTS.findIndex(x=>x.label==="Next paycheck income")+1,0,
   {label:"Paycheck after next",value:3000,notes:""},
-  {label:"Third upcoming paycheck",value:3000,notes:""});
-const paycheckEditorOffsets={nextPaycheck:0,paycheckAfterNext:1,thirdPaycheck:2};
-const paycheckEditorLabels={nextPaycheck:"Next paycheck income",paycheckAfterNext:"Paycheck after next",thirdPaycheck:"Third upcoming paycheck"};
+  {label:"Third upcoming paycheck",value:3000,notes:""},
+  {label:"Fourth upcoming paycheck",value:3000,notes:""},
+  {label:"Fifth upcoming paycheck",value:3000,notes:""});
+const paycheckEditorOffsets={nextPaycheck:0,paycheckAfterNext:1,thirdPaycheck:2,fourthPaycheck:3,fifthPaycheck:4};
+const paycheckEditorLabels={nextPaycheck:"Next paycheck income",paycheckAfterNext:"Paycheck after next",thirdPaycheck:"Third upcoming paycheck",fourthPaycheck:"Fourth upcoming paycheck",fifthPaycheck:"Fifth upcoming paycheck"};
 function paycheckEditorDate(key){
   if(!activePaycheckInputDate)return null;
   const dates=workPaycheckDates(),index=dates.indexOf(activePaycheckInputDate);
@@ -184,6 +186,8 @@ upsertBill("Fuel","Flexible",250,"Two normal paychecks","$125 per normal paychec
 upsertBill("Student loan","Monthly",142,"First normal paycheck","$142; no October 2026 payment, first payment in this plan is November 2026");
 upsertBill("Personal / miscellaneous","Flexible",200,"Two normal paychecks","$100 per normal paycheck");
 upsertBill("Rent income","5th",2850,"Tenant rent","Use the current $2,850 through June 2027 and the $4,000 assumption beginning July 2027");
+upsertInput("Girlfriend rent",700,"Monthly housing expense, due on the 1st; fund from the previous payday(s).");
+upsertBill("Girlfriend rent","1st",700,"Prior paychecks in the preceding month","November 2026: set aside $700 on October 27; afterward, reserve $350 from each of the first two regular paychecks in the prior month.");
 upsertBill("EV payment","4th",324.56,"Two preceding normal paychecks","New electric-vehicle loan; first due December 4, 2026. Budget $162.28 from each of two normal paychecks starting November 2026.");
 upsertInput("Current Pearl mortgage balance",383716.50,"Actual principal as of October 23, 2026; editable; historical starting balance remains unchanged");
 upsertInput("Current BMW loan balance",28025.78,"Actual as of October 23, 2026; separate from the original historical plan start");
@@ -192,7 +196,7 @@ for(const label of ["Sep 15 mortgage catch-up","Extra-principal target"]){
   const index=SUMMARY.findIndex(r=>r.label===label);if(index>=0)SUMMARY.splice(index,1);
 }
 DATA.derived.commercialTarget=170000;
-const allocationKeys=["Personal Buffer","Credit Cards","Pearl Reserve","Commercial Fund","Next Mortgage","Car","EV","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
+const allocationKeys=["Personal Buffer","Credit Cards","Pearl Reserve","Commercial Fund","Next Mortgage","Girlfriend Rent","Car","EV","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
 const editableStorageKeys={insuranceRenewal:"wealth-plan-insurance-renewal-estimate-v1",pearlReserveTarget:"wealth-plan-pearl-reserve-target-v1",commercialTarget:"wealth-plan-commercial-target-v1",nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3",cashSpent:"wealth-plan-cash-spent-pay-period-v1",spendableCash:"wealth-plan-spendable-cash-v1"};
 const paycheckIncomeStorageKey="wealth-plan-paycheck-income-by-date-v1";
 const creditCardSnapshotStorageKey="wealth-plan-credit-card-snapshot-v1";
@@ -272,6 +276,8 @@ const liveInputs={
   nextPaycheck:paycheckIncomeForDate(activePaycheckInputDate,3000),
   paycheckAfterNext:paycheckIncomeForDate(paycheckEditorDate("paycheckAfterNext"),3000),
   thirdPaycheck:paycheckIncomeForDate(paycheckEditorDate("thirdPaycheck"),3000),
+  fourthPaycheck:paycheckIncomeForDate(paycheckEditorDate("fourthPaycheck"),3000),
+  fifthPaycheck:paycheckIncomeForDate(paycheckEditorDate("fifthPaycheck"),3000),
   usaaBalance:roundMoney(creditCardSnapshot.balance),
   refinanceTarget:storedNumber("refinanceTarget",320000),
   personalBuffer:roundMoney(personalBufferSnapshot.balance),
@@ -301,7 +307,7 @@ function recalculatePlan(){
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),ev=0,evReserved=0,buffer=0;
   let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",lastEvInterestMonth="",loanSnapshotApplied=false,cardSnapshotApplied=false,bufferSnapshotApplied=false;
   const milestoneRows=[];
-  const makeRow=(date,source,income,note)=>({Date:date,Income:roundMoney(income),Source:source,"Personal Buffer":0,"Credit Cards":0,"Next Mortgage":0,Car:0,EV:0,"Pearl Principal":0,Insurance:0,"Student Loan":0,Utilities:0,Food:0,Fuel:0,"Spending Money":0,"Extra Income Needed":0,"What To Send":note,_sheetRow:rowNumber++});
+  const makeRow=(date,source,income,note)=>({Date:date,Income:roundMoney(income),Source:source,"Personal Buffer":0,"Credit Cards":0,"Next Mortgage":0,"Girlfriend Rent":0,Car:0,EV:0,"Pearl Principal":0,Insurance:0,"Student Loan":0,Utilities:0,Food:0,Fuel:0,"Spending Money":0,"Extra Income Needed":0,"What To Send":note,_sheetRow:rowNumber++});
   const finishRow=r=>{r["Mortgage Balance"]=roundMoney(mortgage);r["Equity @ $400k"]=roundMoney(propertyValue-mortgage);r["Credit Cards Balance"]=roundMoney(usaa);r["Car Balance"]=roundMoney(car);r["EV Balance"]=roundMoney(ev);r["Personal Buffer Balance"]=roundMoney(buffer);r["Pearl Reserve Balance"]=roundMoney(funds.pearlReserve);r["Commercial Fund Balance"]=roundMoney(funds.commercialFund);r["Refinance Target"]=refinanceTarget;return r};
   const applyLoanSnapshot=date=>{
     mortgage=roundMoney(loanSnapshot.mortgage);car=roundMoney(loanSnapshot.bmw);ev=roundMoney(loanSnapshot.ev);
@@ -389,17 +395,6 @@ function recalculatePlan(){
       const marker=makeRow(date,"EV payment posted",0,`EV loan payment of ${money(payment)} drawn from money reserved in previous paychecks.`);
       marker._isNonIncomeMarker=true;PLAN.push(finishRow(marker));
     }
-    // Due-date markers show the real payment schedule. Insurance cash was reserved from
-    // the first regular paycheck of the month, so these rows do NOT deduct money again.
-    if(day===17&&date>="2026-10-17"&&date<="2027-03-17"){
-      const installment=insuranceSchedule.find(item=>item.date===date);
-      if(installment){
-        const note=installment.status==="Paid"?`Already paid ${money(installment.amount)} on October 17; no new funding needed.`:
-          `${money(installment.amount)} due today (car insurance). This amount was allocated from the first paycheck of the month; verify payment in your insurer app.`;
-        const r=makeRow(date,"Car insurance  |  "+installment.status,0,note);
-        r._isInsuranceDue=true;PLAN.push(finishRow(r));
-      }
-    }
     if(cursor.getTime()===nextPayday.getTime()){
       const ordinal=monthlyPaycheckCount[month]||0;monthlyPaycheckCount[month]=ordinal+1;
       const income=paycheckIncomeForDate(date,paycheckDefault);
@@ -420,6 +415,10 @@ function recalculatePlan(){
           r["Next Mortgage"]=ordinal===0?roundMoney(Math.max(0,mortgagePiti-rentForMonth)):0;
           const carPart=roundMoney(Math.min(car,carMinimum/2));r.Car=carPart;car=roundMoney(car-carPart);
          }
+         // Housing rent is due on the 1st; pre-fund it from earlier paychecks.
+         // The first new allocation covers Nov 1 from the Oct 27 check.
+         if(date==="2026-10-27")r["Girlfriend Rent"]=700;
+         else if(date>="2026-11-01")r["Girlfriend Rent"]=350;
          // New EV payment begins in December. Pre-fund half from each of the two November paychecks.
          if(date>="2026-11-01"&&ev>0){const evPart=roundMoney(Math.min(Math.max(0,ev-evReserved),evMinimum/2));r.EV=evPart;evReserved=roundMoney(evReserved+evPart)}
          if(ordinal===0&&month!=="2026-10"){r.Insurance=insuranceAmountForMonth(month);r["Student Loan"]=studentLoan}
@@ -496,7 +495,7 @@ function todaysGoalsAreActive(){return new Date()<cutoff4PM(todayISO())}
 function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
 // Display grouping only: allocation calculations and saved inputs stay unchanged.
 const accountAllocationGroups=[
-  {label:"Huntington  |  bills",keys:["Credit Cards","Car","Insurance","Student Loan","EV"]},
+  {label:"Huntington  |  bills",keys:["Credit Cards","Girlfriend Rent","Car","Insurance","Student Loan","EV"]},
   {label:"Huntington  |  Pearl",keys:["Next Mortgage","Utilities","Pearl Reserve","Pearl Principal"]},
   {label:"Chase  |  spending",keys:["Food","Fuel","Spending Money"]},
   {label:"USAA  |  savings",keys:["Personal Buffer","Commercial Fund"]}
@@ -540,7 +539,7 @@ function rowKey(r){return`sheet-row-${r._sheetRow}`}function isDone(r){try{retur
 function planCard(r){const today=todayISO(),next=nextFutureDate(),c=["plan-card"];if(r.Date===today)c.push("today");else if(r.Date===next)c.push("next");let badge=r.Date===today?'<div class="badge current">Today</div>':r.Date===next?'<div class="badge">Next date</div>':"";const a=accountAllocationsHTML([r]);const done=isDone(r);return`<div class="${c.join(" ")}"><div class="plan-head"><div>${badge}<div class="plan-date">${friendly(r.Date)}</div><div class="plan-source">${r.Source}  |  Plan row ${r._sheetRow}</div></div><div class="plan-income">${Number(r.Income)>0?money(Number(r.Income))+" in":r._isInsuranceDue?"Payment reminder":r.Source.includes("refinance target")?"Milestone":"Balance update"}</div></div>${a?'<div class="allocs">'+a+'</div>':Number(r.Income)>0?'<div class="plan-note">No money available to allocate; edit this paycheck amount in Inputs.</div>':''}<div class="balance-strip"><div class="balance-pill"><span>Mortgage after</span><b>${money(Number(r["Mortgage Balance"]))}</b></div><div class="balance-pill"><span>Credit Cards after</span><b>${money(Number(r["Credit Cards Balance"]))}</b></div><div class="balance-pill"><span>BMW after</span><b>${money(Number(r["Car Balance"]))}</b></div><div class="balance-pill"><span>EV after</span><b>${money(Number(r["EV Balance"]||0))}</b></div><div class="balance-pill"><span>Personal buffer</span><b>${money(Number(r["Personal Buffer Balance"]||0))}</b></div><div class="balance-pill"><span>Pearl reserve</span><b>${money(Number(r["Pearl Reserve Balance"]||0))}</b></div><div class="balance-pill"><span>Commercial fund</span><b>${money(Number(r["Commercial Fund Balance"]||0))}</b></div></div>${Number(r["Extra Income Needed"])>0?`<div class="plan-note red">Shortfall: ${money(Number(r["Extra Income Needed"]))}. Listed bills exceed this income; do not treat this row as fully funded.</div>`:""}<div class="plan-note">${r["What To Send"]||""}</div><div class="check-row ${done?"done":""}" data-row="${r._sheetRow}"><span class="check"></span><span>Mark this plan row completed (visual only)</span></div></div>`}
 function bindChecks(host){host.querySelectorAll(".check-row").forEach(el=>el.onclick=()=>{const r=PLAN.find(x=>String(x._sheetRow)===el.dataset.row);if(r)toggleDone(r)})}
 function renderDashboardMoves(){const h=document.getElementById("dashboardMoves"),t=todayISO(),keepToday=todaysGoalsAreActive(),u=PLAN.filter(r=>Number(r.Income)>0&&(r.Date>t||(keepToday&&r.Date===t))).slice(0,7);h.innerHTML=u.map(planCard).join("");bindChecks(h)}
-let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN.filter(x=>!x._isActualSnapshot&&!x._isNonIncomeMarker&&x.Source!=="Starting balances");if(paydayFilter==="upcoming")r=r.filter(x=>x.Date>=t);if(/^20\d{2}$/.test(paydayFilter))r=r.filter(x=>x.Date.startsWith(paydayFilter+"-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
+let paydayFilter="upcoming";function renderPayday(){const h=document.getElementById("paydayList"),t=todayISO();let r=PLAN.filter(x=>!x._isActualSnapshot&&!x._isNonIncomeMarker&&!x._isInsuranceDue&&x.Source!=="Starting balances");if(paydayFilter==="upcoming")r=r.filter(x=>x.Date>=t);if(/^20\d{2}$/.test(paydayFilter))r=r.filter(x=>x.Date.startsWith(paydayFilter+"-"));h.innerHTML=r.map(planCard).join("");bindChecks(h)}
 function renderBills(){const estimate=BILLS.find(b=>b["Bill / Budget"]==="Car insurance  |  renewal estimate");if(estimate)estimate.Amount=liveInputs.insuranceRenewal;billList.innerHTML=BILLS.map(b=>`<div class="bill-card"><div class="bill-top"><div><div class="bill-timing">${b["Date / Timing"]}</div><div class="bill-name">${b["Bill / Budget"]}</div></div><div class="bill-amount">${typeof b.Amount==="number"?money(b.Amount):b.Amount}</div></div><div class="bill-meta"><div><b>Funded from:</b> ${b["Funded From"]}</div><div><b>Rule:</b> ${b.Rule}</div></div></div>`).join("")}
 function renderSummaryLists(){summaryList.innerHTML=SUMMARY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("");propertyList.innerHTML=PROPERTY.map(x=>`<div class="input-card"><div class="input-top"><div class="input-label">${x.label}</div><div class="input-value">${typeof x.value==="number"?money(x.value):x.value}</div></div></div>`).join("")}
 function renderAccountEditor(){
@@ -560,7 +559,7 @@ function renderAccountEditor(){
   }else{refreshCalculatedViews();}
  }));
 }
-function editableInputKey(label){if(label==="Paycheck after next")return "paycheckAfterNext";if(label==="Third upcoming paycheck")return "thirdPaycheck";if(label==="Pearl reserve current")return "pearlReserve";if(label==="Commercial fund current")return "commercialFund";if(label==="Pearl reserve target")return "pearlReserveTarget";if(label==="Commercial savings target")return "commercialTarget";if(label==="Next paycheck income")return"nextPaycheck";if(label==="Car insurance")return"insuranceRenewal";if(label==="Credit Cards balance")return null;if(label==="Current Pearl mortgage balance")return"mortgageActual";if(label==="Current BMW loan balance")return"bmwActual";if(label==="Current EV loan balance")return"evActual";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";if(label==="Spendable cash now")return"spendableCash";return null}
+function editableInputKey(label){if(label==="Fourth upcoming paycheck")return "fourthPaycheck";if(label==="Fifth upcoming paycheck")return "fifthPaycheck";if(label==="Paycheck after next")return "paycheckAfterNext";if(label==="Third upcoming paycheck")return "thirdPaycheck";if(label==="Pearl reserve current")return "pearlReserve";if(label==="Commercial fund current")return "commercialFund";if(label==="Pearl reserve target")return "pearlReserveTarget";if(label==="Commercial savings target")return "commercialTarget";if(label==="Next paycheck income")return"nextPaycheck";if(label==="Car insurance")return"insuranceRenewal";if(label==="Credit Cards balance")return null;if(label==="Current Pearl mortgage balance")return"mortgageActual";if(label==="Current BMW loan balance")return"bmwActual";if(label==="Current EV loan balance")return"evActual";if(label==="Refinance target balance")return"refinanceTarget";if(label==="Personal buffer current")return"personalBuffer";if(label==="Spendable cash now")return"spendableCash";return null}
 function refreshCalculatedViews(){renderBills();renderBalances();renderBufferProgress();renderCardsProgress();renderCarProgress();renderPearlProgress();renderDashboardMoves();renderPayday();renderSummaryLists();tick()}
 function saveEditableInput(el){const key=el.dataset.inputKey,n=Number(String(el.value).replace(/,/g,""));if(!key||!Number.isFinite(n)||n<0)return;
 if(["mortgageActual","bmwActual","evActual"].includes(key)){
