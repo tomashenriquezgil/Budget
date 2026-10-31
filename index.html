@@ -200,7 +200,7 @@ for(const label of ["Sep 15 mortgage catch-up","Extra-principal target"]){
 }
 DATA.derived.commercialTarget=170000;
 const allocationKeys=["Personal Buffer","Credit Cards","Pearl Reserve","Commercial Fund","Next Mortgage","Girlfriend Rent","Car","EV","Pearl Principal","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
-const editableStorageKeys={insuranceRenewal:"wealth-plan-insurance-renewal-estimate-v1",pearlReserveTarget:"wealth-plan-pearl-reserve-target-v1",commercialTarget:"wealth-plan-commercial-target-v1",nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3",cashSpent:"wealth-plan-cash-spent-pay-period-v1",spendableCash:"wealth-plan-spendable-cash-v1"};
+const editableStorageKeys={insuranceRenewal:"wealth-plan-insurance-renewal-estimate-v1",pearlReserveTarget:"wealth-plan-pearl-reserve-target-v1",commercialTarget:"wealth-plan-commercial-target-v1",nextPaycheck:"wealth-plan-next-paycheck-realistic-v3",usaaBalance:"wealth-plan-credit-cards-balance-v2",refinanceTarget:"wealth-plan-refinance-target",personalBuffer:"wealth-plan-personal-buffer-v3",cashSpent:"wealth-plan-cash-spent-pay-period-v1",spendableCash:"wealth-plan-spendable-cash-manual-v2"};
 const paycheckIncomeStorageKey="wealth-plan-paycheck-income-by-date-v1";
 const creditCardSnapshotStorageKey="wealth-plan-credit-card-snapshot-v1";
 const personalBufferSnapshotStorageKey="wealth-plan-personal-buffer-snapshot-v1";
@@ -219,7 +219,7 @@ try{if(localStorage.getItem(resetKey)!=="done"){
   localStorage.setItem(personalBufferSnapshotStorageKey,JSON.stringify({balance:0,date:balanceResetDate,phase:"after"}));
   localStorage.setItem(editableStorageKeys.usaaBalance,"2479.93");
   localStorage.setItem(editableStorageKeys.personalBuffer,"0");
-  localStorage.setItem(editableStorageKeys.spendableCash,"0");
+  // Spendable cash is managed manually and is not reset from old bank snapshots.
   localStorage.setItem(editableStorageKeys.cashSpent,"0");
   for(const key of ["pearlReserve","commercialFund"])localStorage.setItem("wealth-plan-"+key+"-snapshot-v1",JSON.stringify({balance:0,date:balanceResetDate,phase:"after"}));
   localStorage.setItem(resetKey,"done");
@@ -326,7 +326,7 @@ function recalculatePlan(){
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),ev=0,evReserved=0,buffer=0;
   let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",lastEvInterestMonth="",loanSnapshotApplied=false,cardSnapshotApplied=false,bufferSnapshotApplied=false;
   const insuranceFunding=buildInsuranceFunding(),pendingBills={};
-  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities","Food","Fuel"]; // Discretionary Spending Money never carries forward.
+  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities"]; // Food, fuel and personal spending are discretionary; no carry-forward.
   const pendingTotal=()=>roundMoney(Object.values(pendingBills).reduce((a,b)=>a+b,0));
   const creditInsurance=(amount,date)=>{
     for(const item of insuranceFunding){
@@ -499,12 +499,15 @@ function recalculatePlan(){
       // Undo the portion that the paycheck could not actually cover.
       car=roundMoney(car+Math.max(0,(requested.Car||0)-((r.Car||0)-(catchup.Car||0))));
       evReserved=roundMoney(Math.max(0,evReserved-Math.max(0,(requested.EV||0)-((r.EV||0)-(catchup.EV||0)))));
-      // Spending Money is optional: allocate only what remains on this payday.
-      // Any unfunded portion expires here, without catch-up or a funding-gap alert.
-      const spendingWanted=requested["Spending Money"]||0;
-      const spendingCovered=roundMoney(Math.min(unassigned,spendingWanted));
-      r["Spending Money"]=spendingCovered;
-      unassigned=roundMoney(unassigned-spendingCovered);
+      // Food, fuel and spending cash are optional paycheck budgets, not debt.
+      // Allocate only what is available and discard any shortfall at this payday.
+      // Do not carry these amounts into future paychecks or funding-gap alerts.
+      for(const key of ["Food","Fuel","Spending Money"]){
+        const desired=requested[key]||0;
+        const covered=roundMoney(Math.min(unassigned,desired));
+        r[key]=covered;
+        unassigned=roundMoney(unassigned-covered);
+      }
       const moved=sendToPriority(r,unassigned,date);
       moved.parts.unshift(...recovered.parts);
       // Both essential and discretionary allocations are now limited by income.
@@ -551,7 +554,7 @@ function recalculatePlan(){
   setInputValue("Car insurance",liveInputs.insuranceRenewal,"Only used as a planning estimate from April 2027 onward. The real insurer schedule for Oct 2026-Mar 2027 is separately recorded in Bills.");
   setInputValue("Personal buffer current",liveInputs.personalBuffer,`Actual available balance snapshot for ${friendly(personalBufferSnapshot.date)} ${personalBufferSnapshot.phase==="after"?"after":"before"} the 4:00 PM cutoff. If you spend from it, enter what remains; completed deposits are not added again.`);
   setInputValue("Refinance target balance",refinanceTarget,"Editable planning target; confirm the real refinance decision at the July 2027 review.");
-  setInputValue("Spendable cash now",liveInputs.spendableCash,activePaycheckInputDate?`Actual spendable cash. Next paycheck: ${friendly(activePaycheckInputDate)}. This spending window stays active through the 4:00 PM Eastern cutoff on payday.`:"Actual spendable cash. No further payday is scheduled inside this projection.");
+  setInputValue("Spendable cash now",liveInputs.spendableCash,activePaycheckInputDate?`Manually entered cash, never adjusted by the plan. Next paycheck: ${friendly(activePaycheckInputDate)}. This spending window stays active through the 4:00 PM Eastern cutoff on payday.`:"Manually entered cash, never adjusted by the plan. No further payday is scheduled inside this projection.");
   setSummaryValue("Next paycheck minimum",liveInputs.nextPaycheck);
   setSummaryValue("Credit Cards target payoff",cardRow?friendly(cardRow.Date):" - ");
   setSummaryValue("Personal buffer projected complete",bufferRow?friendly(bufferRow.Date):" - ");
@@ -596,7 +599,7 @@ function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
 const accountAllocationGroups=[
   {label:"Huntington  |  bills",keys:["Credit Cards","Girlfriend Rent","Car","Insurance","Student Loan","EV"]},
   {label:"Huntington  |  Pearl",keys:["Next Mortgage","Utilities","Pearl Reserve","Pearl Principal"]},
-  {label:"Chase  |  spending",keys:["Food","Fuel","Spending Money"]},
+  {label:"Food, fuel & personal spending budgets (not actual spendable cash)",keys:["Food","Fuel","Spending Money"]},
   {label:"USAA  |  savings",keys:["Personal Buffer","Commercial Fund"]}
 ];
 function accountAllocationsHTML(rows,compact=false){
@@ -625,7 +628,7 @@ function renderCashSafety(){
  if(first){const gap=Math.max(Number(first["Extra Income Needed"]||0),Number(first["Insurance Due Shortfall"]||0));lines.push(`Funding gap on ${friendly(first.Date)}: ${money(gap)}. Check that payday plan row before making extra payments or transfers.`);}
  document.getElementById("cashSafety").innerHTML=lines.length?`<div class="card"><div class="section-title">Budget Funding Gap</div><div class="section-sub red">${lines.join("<br>")}</div></div>`:"";
 }
-function renderBalances(){renderCashSafety();const r=currentBalanceRow(),spending=spendablePaydayInfo();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));spendableCashNow.textContent=money(spendableCashRemaining());spendableDailyNow.textContent=spending.payday?`${money(spending.daily)} / day`:" - ";spendablePaydayNow.textContent=spending.payday?`${spending.days} day${spending.days===1?"":"s"} remaining  |  next check ${friendly(spending.payday)}  |  rolls after 4 PM ET`:"No further paycheck in this projection";usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));pearlReserveNow.textContent=money(Number(r["Pearl Reserve Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}. Spendable cash is separate from the protected $1,500 buffer.`}
+function renderBalances(){renderCashSafety();const r=currentBalanceRow(),spending=spendablePaydayInfo();mortgageNow.textContent=money(Number(r["Mortgage Balance"]));spendableCashNow.textContent=money(spendableCashRemaining());spendableDailyNow.textContent=spending.payday?`${money(spending.daily)} / day`:" - ";spendablePaydayNow.textContent=spending.payday?`${spending.days} day${spending.days===1?"":"s"} remaining  |  next check ${friendly(spending.payday)}  |  rolls after 4 PM ET`:"No further paycheck in this projection";usaaNow.textContent=money(Number(r["Credit Cards Balance"]));carNow.textContent=money(Number(r["Car Balance"]));bufferNow.textContent=money(Number(r["Personal Buffer Balance"]||0));pearlReserveNow.textContent=money(Number(r["Pearl Reserve Balance"]||0));balanceAsOf.textContent=`Plan-projected balances after the latest PAYDAY PLAN row on or before ${friendly(r.Date)}. Spendable cash is a manual balance and is never automatically changed by paycheck allocations or catch-up amounts. It is separate from the protected $1,500 buffer.`}
 function renderBufferProgress(){renderFundProgress();const r=currentBalanceRow(),target=Number(DATA.derived.bufferTarget||1500),bal=Number(r["Personal Buffer Balance"]||0),p=Math.max(0,Math.min(100,target?bal/target*100:100));bufferProgressBalance.textContent=money(bal);bufferProgressPct.textContent=p.toFixed(1).replace(/\.0$/,"")+"% complete";bufferProgressFill.style.width=p+"%";bufferProgressLeft.textContent=money(Math.max(0,target-bal));bufferProgressDate.textContent=DATA.derived.bufferTargetDate?friendly(DATA.derived.bufferTargetDate):" - "}
 function renderFundProgress(){
   const r=currentBalanceRow();
