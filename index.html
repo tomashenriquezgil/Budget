@@ -132,7 +132,7 @@ upsertInput("Pearl reserve current",0,"Actual cash set aside for Pearl; separate
 upsertInput("Commercial fund current",0,"Actual commercial savings; do not include Pearl or personal reserves");
 upsertInput("Pearl reserve target",6000,"Initial cushion, not a guarantee of covering repairs or your insurance deductible");
 upsertInput("Commercial savings target",170000,"Editable cash goal; reaching it does not guarantee a loan or purchase");
-upsertInput("Spendable cash now",525,"Enter cash available for personal spending, regardless of account. The dashboard shows this amount and divides it by days through the next paycheck cutoff.");
+upsertInput("Spendable cash now",525,"Enter available personal spending cash. It is not carried forward as a debt or funding gap if you run short; update this amount whenever your cash changes.");
 SUMMARY.push(
   {label:"Pearl reserve projected complete",value:" - "},
   {label:"Commercial cash goal projected",value:" - "},
@@ -326,7 +326,7 @@ function recalculatePlan(){
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),ev=0,evReserved=0,buffer=0;
   let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",lastEvInterestMonth="",loanSnapshotApplied=false,cardSnapshotApplied=false,bufferSnapshotApplied=false;
   const insuranceFunding=buildInsuranceFunding(),pendingBills={};
-  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities","Food","Fuel","Spending Money"];
+  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities","Food","Fuel"]; // Discretionary Spending Money never carries forward.
   const pendingTotal=()=>roundMoney(Object.values(pendingBills).reduce((a,b)=>a+b,0));
   const creditInsurance=(amount,date)=>{
     for(const item of insuranceFunding){
@@ -499,6 +499,12 @@ function recalculatePlan(){
       // Undo the portion that the paycheck could not actually cover.
       car=roundMoney(car+Math.max(0,(requested.Car||0)-((r.Car||0)-(catchup.Car||0))));
       evReserved=roundMoney(Math.max(0,evReserved-Math.max(0,(requested.EV||0)-((r.EV||0)-(catchup.EV||0)))));
+      // Spending Money is optional: allocate only what remains on this payday.
+      // Any unfunded portion expires here, without catch-up or a funding-gap alert.
+      const spendingWanted=requested["Spending Money"]||0;
+      const spendingCovered=roundMoney(Math.min(unassigned,spendingWanted));
+      r["Spending Money"]=spendingCovered;
+      unassigned=roundMoney(unassigned-spendingCovered);
       const moved=sendToPriority(r,unassigned,date);
       moved.parts.unshift(...recovered.parts);
       // Both essential and discretionary allocations are now limited by income.
