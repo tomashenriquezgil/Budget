@@ -326,7 +326,8 @@ function recalculatePlan(){
   let mortgage=inputNumber("Starting mortgage balance",384684),usaa=startingUsaa,car=inputNumber("Car balance",29200),ev=0,evReserved=0,buffer=0;
   let rowNumber=1,refinanceDate=null,secondVaPurchaseDate=null,secondVaOwned=false,lastMortgageMonth="",lastCarInterestMonth="",lastEvInterestMonth="",loanSnapshotApplied=false,cardSnapshotApplied=false,bufferSnapshotApplied=false;
   const insuranceFunding=buildInsuranceFunding(),pendingBills={};
-  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities"]; // Food, fuel and personal spending are discretionary; no carry-forward.
+  const discretionaryOrder=["Food","Fuel","Spending Money"]; // Entire spendable category: no carry-forward or catch-up.
+  const essentialOrder=["Next Mortgage","Girlfriend Rent","Car","EV","Insurance","Student Loan","Utilities"];
   const pendingTotal=()=>roundMoney(Object.values(pendingBills).reduce((a,b)=>a+b,0));
   const creditInsurance=(amount,date)=>{
     for(const item of insuranceFunding){
@@ -475,7 +476,9 @@ function recalculatePlan(){
         },0));
       }
       // Catch up earlier unfunded bills before new allocations or savings.
-      const freshRequested=Object.fromEntries(essentialOrder.map(k=>[k,Number(r[k]||0)]));
+      const freshRequested=Object.fromEntries([...essentialOrder,...discretionaryOrder].map(k=>[k,Number(r[k]||0)]));
+      // Drop any stale discretionary shortfalls from earlier versions.
+      for(const key of discretionaryOrder)delete pendingBills[key];
       const recovered=recoverBills(r,income,date);
       const catchup={};
       // Separate recovered amounts from this payday's new scheduled needs.
@@ -502,7 +505,7 @@ function recalculatePlan(){
       // Food, fuel and spending cash are optional paycheck budgets, not debt.
       // Allocate only what is available and discard any shortfall at this payday.
       // Do not carry these amounts into future paychecks or funding-gap alerts.
-      for(const key of ["Food","Fuel","Spending Money"]){
+      for(const key of discretionaryOrder){
         const desired=requested[key]||0;
         const covered=roundMoney(Math.min(unassigned,desired));
         r[key]=covered;
@@ -599,7 +602,7 @@ function totalIncome(rows){return rows.reduce((s,r)=>s+Number(r.Income||0),0)}
 const accountAllocationGroups=[
   {label:"Huntington  |  bills",keys:["Credit Cards","Girlfriend Rent","Car","Insurance","Student Loan","EV"]},
   {label:"Huntington  |  Pearl",keys:["Next Mortgage","Utilities","Pearl Reserve","Pearl Principal"]},
-  {label:"Food, fuel & personal spending budgets (not actual spendable cash)",keys:["Food","Fuel","Spending Money"]},
+  {label:"Spendable budgets  |  no carry-forward",keys:["Food","Fuel","Spending Money"]},
   {label:"USAA  |  savings",keys:["Personal Buffer","Commercial Fund"]}
 ];
 function accountAllocationsHTML(rows,compact=false){
